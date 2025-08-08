@@ -7,12 +7,12 @@ If not → graceful static fallback.
 
 ```markdown
 Choose an option:
-  ```ui
+  \`\`\`ui
   {
     "type": "button-group",
     "id": "q1",
     "choices": ["A", "B"],
     "label": "Pick one"
   }
-  ```
+  \`\`\`
 ```
