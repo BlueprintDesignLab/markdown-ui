@@ -1,6 +1,8 @@
 # Markdown UI
 **Micro-spec for interactive widgets inside Markdown.**  
 
+See the [live demo here](https://markdown-ui.yaoke.pro).
+
 If your renderer supports it → live UI. If not → graceful fallback.
 
 ````markdown
@@ -51,14 +53,17 @@ This separation lets you mix any parser with any renderer.
 
 ## Implementations
 
+# Implementations
+
 | Package | Status |
 |---------|---------|
-| `@markdown-ui/marked-ext` (Parser) | ✅ |
-| `@markdown-ui/svelte` (Renderer) | ✅ |
+| `@markdown-ui/marked-ext` (Parser) | ✅ Complete |
+| `@markdown-ui/svelte` (Renderer) | ✅ Complete |
 
-Located here:
-https://www.npmjs.com/package/@markdown-ui/svelte
-https://www.npmjs.com/package/@markdown-ui/marked-ext
+## Package Links
+
+- **Parser**: [@markdown-ui/marked-ext](https://www.npmjs.com/package/@markdown-ui/marked-ext)
+- **Renderer**: [@markdown-ui/svelte](https://www.npmjs.com/package/@markdown-ui/svelte)
 
 React renderer implementation is coming soon.
 
