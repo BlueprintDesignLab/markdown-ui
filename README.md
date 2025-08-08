@@ -56,6 +56,10 @@ This separation lets you mix any parser with any renderer.
 | `@markdown-ui/marked-ext` (Parser) | ✅ |
 | `@markdown-ui/svelte` (Renderer) | ✅ |
 
+Located here:
+https://www.npmjs.com/package/@markdown-ui/svelte
+https://www.npmjs.com/package/@markdown-ui/marked-ext
+
 React renderer implementation is coming soon.
 
 ## Contributing

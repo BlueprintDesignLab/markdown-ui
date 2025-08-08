@@ -67,6 +67,8 @@
 		"@codemirror/view": "^6.38.1",
 		"@humanspeak/svelte-markdown": "^0.8.9",
 		"@markdown-ui/marked-ext": "1.0.8",
+		"commit": "^0.0.4",
+		"git": "^0.1.5",
 		"marked": "^16.1.2",
 		"nanoid": "^5.1.5",
 		"svelte-codemirror-editor": "^1.4.1"

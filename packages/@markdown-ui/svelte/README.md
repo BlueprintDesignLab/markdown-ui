@@ -13,6 +13,7 @@ npm install @markdown-ui/svelte
 ```svelte
 <script>
   import { MarkdownUI } from '@markdown-ui/svelte';
+  import '@markdown-ui/svelte/widgets.css';
   
   const markdown = `
 # Hello World
