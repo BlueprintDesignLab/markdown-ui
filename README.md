@@ -24,7 +24,6 @@ Choose an option:
 - Declarative & safe – JSON-only, no code execution, CSP-friendly.
 - Tiny footprint – spec < 1 kB, parser < 200 LOC.
 - Extensible – community widgets use the x- prefix; core spec never breaks.
-- i18n / a11y ready – built-in label and ariaLabel fields.
 - Single-file schema – one canonical JSON Schema file for validation.
 
 ## Spec snapshot (v0.1)
