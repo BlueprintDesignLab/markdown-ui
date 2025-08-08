@@ -18,7 +18,7 @@ The system consists of two main components that work together to transform markd
 ## Workflow
 
 ### 1. Parser
-**Responsibility**: Convert \`\`\`markdown-ui-widget\` code blocks into standardized XML tags
+**Responsibility**: Convert \`\`\`markdown-ui-widget code blocks into standardized XML tags
 
 The parser transforms this:
 \`\`\`
@@ -41,22 +41,6 @@ The renderer:
 - Creates interactive UI components based on the widget specification
 - Emits standardized events when users interact with widgets
 
-## Implementation Details
-
-### Parser Process
-1. **Detection**: Find \`\`\`markdown-ui-widget code blocks in markdown
-2. **Validation**: Parse and validate JSON widget specifications
-3. **ID Generation**: Generate unique IDs for each widget instance
-4. **Encoding**: Base64 encode the widget configuration
-5. **Transformation**: Replace code blocks with standardized XML tags
-
-### Renderer Process  
-1. **XML Parsing**: Find and parse \`<markdown-ui-widget>\` tags
-2. **Payload Decoding**: Decode base64 content back to widget config
-3. **Component Creation**: Instantiate appropriate UI components
-4. **Event Binding**: Set up event handlers for user interactions
-5. **Event Emission**: Emit standardized \`{id, value}\` events
-
 Note: the renderer can store internal states and emit events however it likes.
 
 ## Implementation Examples
@@ -65,6 +49,8 @@ Note: the renderer can store internal states and emit events however it likes.
 
 - **Parser**: \`@markdown-ui/marked-ext\` (marked.js extension)
 - **Renderer**: \`@markdown-ui/svelte\` (Svelte components)
+
+See our [Github](https://github.com/BlueprintDesignLab/markdown-ui/).
 
 ### Alternative Implementations
 
