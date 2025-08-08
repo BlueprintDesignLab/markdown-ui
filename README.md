@@ -17,6 +17,16 @@ Choose an option:
   ```
 ````
 
+## Features
+- Markdown-native – embed widgets inside standard fenced code blocks (```ui).
+- Zero-friction adoption – renderers ignore unknown blocks, so your malformatted content is handled gracefully.
+- Framework-agnostic – works with React, Vue, Svelte, CLI, e-mail, or static-site generators.
+- Declarative & safe – JSON-only, no code execution, CSP-friendly.
+- Tiny footprint – spec < 1 kB, parser < 200 LOC.
+- Extensible – community widgets use the x- prefix; core spec never breaks.
+- i18n / a11y ready – built-in label and ariaLabel fields.
+- Single-file schema – one canonical JSON Schema file for validation.
+
 ## Spec snapshot (v0.1)
 
 - **Syntax**: fenced code block with info string `ui`  
@@ -28,16 +38,13 @@ Full schema: [markdown-ui.dev/schema/v0.json](https://markdown-ui.dev/schema/v0.
 
 ---
 
-## Supported widgets
-
-| `type` | minimal props | returns |
-|--------|---------------|---------|
-| `button-group` | `choices` | string |
-| `toggle` | `choices` (length 2) | boolean |
-| `slider` | `min`, `max`, `step` | number |
-| `select` | `choices` | string |
-| `text-input` | `placeholder` | string |
-| `form` | array of above | object |
+| Type             | Required props                   | Optional props                          | Emitted value          | Typical use                                 |
+| ---------------- | -------------------------------- | --------------------------------------- | ---------------------- | ------------------------------------------- |
+| **button-group** | `choices: string[]`              | `label`, `default`                      | single `string`        | Yes / No, A / B / C                         |
+| **select**       | `choices: string[]`              | `label`, `default`, `multiple: boolean` | `string` or `string[]` | Drop-down or multi-select                   |
+| **slider**       | `min`, `max`                     | `step`, `default`, `label`              | `number`               | 0 – 100 %                                   |
+| **text-input**   | —                                | `placeholder`, `default`, `label`       | `string`               | Free-form text                              |
+| **form**         | `fields: array` of widgets above | `submitLabel` (default `"Submit"`)      | `{ [id]: value, ... }` | Group several inputs with one submit button |
 
 ---
 
