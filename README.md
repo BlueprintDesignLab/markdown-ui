@@ -51,9 +51,8 @@ Full schema: [markdown-ui.dev/schema/v0.json](https://markdown-ui.dev/schema/v0.
 ## Security
 
 - **Declarative JSON only** – no code execution  
-- **Renderer allow-list** – unknown widgets ignored  
-- **CSP-friendly** – uses native DOM elements
-
+- **Renderer allow-list** – unknown widgets ignored
+  
 ---
 
 ## Implementations
@@ -62,7 +61,6 @@ Full schema: [markdown-ui.dev/schema/v0.json](https://markdown-ui.dev/schema/v0.
 |----------|---------|--------|
 | React | `@markdown-ui/react` | ✅ |
 | Svelte | `@markdown-ui/svelte` | ✅ |
-| CLI (Node/Ink) | `@markdown-ui/cli` | ✅ |
 | VS Code ext | `markdown-ui-vscode` | 🚧 |
 
 ---
