@@ -18,7 +18,7 @@
 />
 
 <script lang="ts">
-  import * as widgets from '$lib/widgets';
+  import * as widgets from './index.js';
 
   let { id, content } = $props();
 

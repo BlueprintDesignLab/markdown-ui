@@ -1,15 +1,10 @@
 <script lang="ts">
-    import { Marked } from 'marked';
-    import { markedUiExtension } from "@markdown-ui/marked-ext";
-    
     import { onMount, tick } from 'svelte';
+    
+    // Import Widget to register the custom element
+    import './widgets/Widget.svelte';
 
-    let { md, onwidgetevent } = $props();
-
-    const marked = new Marked();
-    marked.use(markedUiExtension); 
-
-    let compiledMD = $derived(marked.parse(md));
+    let { onwidgetevent, html } = $props();
 
     let container: HTMLElement | undefined = $state();
 
@@ -30,5 +25,5 @@
 </script>
 
 <div bind:this={container} class="widget-container">
-    {@html compiledMD}
+    {@html html}
 </div>

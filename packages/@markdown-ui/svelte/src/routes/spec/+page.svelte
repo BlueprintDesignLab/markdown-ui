@@ -1,6 +1,12 @@
 <script>
   import { MarkdownUI } from '$lib';
   import "$lib/widgets.css";
+
+  import { Marked } from 'marked';
+  import { markedUiExtension } from "@markdown-ui/marked-ext";
+  
+  const marked = new Marked();
+  marked.use(markedUiExtension); 
   
   const specContent = `# Markdown UI Specification
 
@@ -168,7 +174,7 @@ interface WidgetEvent {
 
 <div class="spec-container">
   <div class="spec-content">
-    <MarkdownUI md={specContent} />
+    <MarkdownUI html={marked.parse(specContent)} />
   </div>
 </div>
 

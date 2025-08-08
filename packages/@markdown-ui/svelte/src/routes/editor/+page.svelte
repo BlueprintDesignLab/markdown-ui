@@ -1,5 +1,11 @@
 <script>
   import { MarkdownUI } from '$lib';
+
+  import { Marked } from 'marked';
+  import { markedUiExtension } from "@markdown-ui/marked-ext";
+  
+  const marked = new Marked();
+  marked.use(markedUiExtension); 
   
   import "$lib/widgets.css";
   import CodeMirror from 'svelte-codemirror-editor';
@@ -234,7 +240,7 @@ This configuration system allows you to:
         </div>
       </div>
       <div class="preview-content">
-        <MarkdownUI md={markdownContent} onwidgetevent={handleWidgetEvent} />
+        <MarkdownUI html={marked.parse(markdownContent)} onwidgetevent={handleWidgetEvent} />
       </div>
     </div>
 

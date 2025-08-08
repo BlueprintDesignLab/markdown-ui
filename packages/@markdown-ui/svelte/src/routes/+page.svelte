@@ -1,6 +1,12 @@
 <script>
   import { MarkdownUI } from '$lib';
 
+  import { Marked } from 'marked';
+  import { markedUiExtension } from "@markdown-ui/marked-ext";
+  
+  const marked = new Marked();
+  marked.use(markedUiExtension); 
+
   import "$lib/widgets.css";
   import { onMount } from 'svelte';
   
@@ -14,15 +20,19 @@ Welcome to the streaming demonstration! This page simulates how markdown content
 
 Watch as interactive widgets are rendered as soon as their complete markup arrives:
 
+### Selectors
+
 \`\`\`markdown-ui-widget
 { "type": "select", "id": "streaming-env", "label": "Environment", "choices": ["development", "staging", "production"], "default": "development" }
 \`\`\`
 
-### Real-time Form Building
+### Buttons
 
 \`\`\`markdown-ui-widget
 { "type": "buttonGroup", "id": "mode", "label": "Test Mode", "choices": ["Quick", "Full", "Stress"], "default": "Quick" }
 \`\`\`
+
+### And more...
 
 ### Normal Code Blocks with Syntax Highlighting
 
@@ -118,7 +128,7 @@ function simulateStreaming(content, delay = 50) {
   <div class="demo-container">
     <main class="demo-content">
       {#if streamedContent}
-        <MarkdownUI md={streamedContent} onwidgetevent={handleWidgetEvent} />
+        <MarkdownUI html={marked.parse(streamedContent)} onwidgetevent={handleWidgetEvent} />
       {:else}
         <div class="empty-state">
           <p>Click "Start Stream" to begin the streaming demo...</p>
