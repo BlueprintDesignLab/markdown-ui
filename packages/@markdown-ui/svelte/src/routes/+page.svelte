@@ -32,6 +32,12 @@ Watch as interactive widgets are rendered as soon as their complete markup arriv
 { "type": "buttonGroup", "id": "mode", "label": "Test Mode", "choices": ["Quick", "Full", "Stress"], "default": "Quick" }
 \`\`\`
 
+### Slider
+
+\`\`\`markdown-ui-widget
+{ "type": "slider", "id": "timeout", "label": "Timeout (seconds)", "min": 5, "max": 300, "step": 5, "default": 30 }
+\`\`\`
+
 ### And more...
 
 ### Normal Code Blocks with Syntax Highlighting
