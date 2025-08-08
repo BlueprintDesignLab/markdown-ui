@@ -5,14 +5,14 @@ markdown-ui is a micro-spec that lets Large Language Models embed buttons, slide
 If the renderer understands the spec → live UI.
 If not → graceful static fallback.
 
-```markdown
+````markdown
 Choose an option:
-  \`\`\`ui
+  ```ui
   {
     "type": "button-group",
     "id": "q1",
     "choices": ["A", "B"],
     "label": "Pick one"
   }
-  \`\`\`
-```
+  ```
+````
