@@ -15,5 +15,5 @@ Choose an option:
   "choices": ["A", "B"],
   "label": "Pick one"
 }
-```
+\`\`\`
 ```
