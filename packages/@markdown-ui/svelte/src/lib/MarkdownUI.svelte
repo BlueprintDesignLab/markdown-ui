@@ -1,8 +1,7 @@
 <script lang="ts">
     import { Marked } from 'marked';
     import { markedUiExtension } from "@markdown-ui/marked-ext";
-    import Widget from './widgets/Widget.svelte';
-
+    
     import { onMount, tick } from 'svelte';
 
     let { md, onwidgetevent } = $props();

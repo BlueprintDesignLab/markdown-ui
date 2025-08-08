@@ -1,10 +1,21 @@
-<script>
-  import Navbar from '$lib/Navbar.svelte';
+<script lang="ts">
+	import favicon from '$lib/assets/favicon.svg';
+  	import Navbar from '$lib/Navbar.svelte';
+
+	import '../lib/MyCustomElement.svelte';
+	import '../lib/widgets/Widget.svelte';
+	import '../lib/widgets.css';
+
+	let { children } = $props();
 </script>
+
+<svelte:head>
+	<link rel="icon" href={favicon} />
+</svelte:head>
 
 <Navbar />
 <main>
-  <slot />
+  {@render children?.()}
 </main>
 
 <style>
@@ -18,3 +29,4 @@
     }
   }
 </style>
+

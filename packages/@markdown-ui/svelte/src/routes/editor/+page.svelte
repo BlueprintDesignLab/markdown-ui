@@ -1,5 +1,6 @@
 <script>
   import { MarkdownUI } from '$lib';
+  
   import "$lib/widgets.css";
   import CodeMirror from 'svelte-codemirror-editor';
   import { markdown } from '@codemirror/lang-markdown';
