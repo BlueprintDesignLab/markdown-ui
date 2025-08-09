@@ -74,20 +74,69 @@ You can embed interactive UI widgets in Markdown using fenced code blocks with l
 
 Supported widgets and their schemas:
 
-1. textInput { "type": "textInput", "label": string?, // optional "placeholder": string?, // optional "default": string? // optional }
+1. textInput 
+```markdown-ui-widget
+{ 
+  "type": "textInput", 
+  "label": string?, // optional 
+  "placeholder": string?, // optional 
+  "default": string? // optional 
+}
+```
 
-2. buttonGroup { "type": "buttonGroup", "label": string?, // optional "choices": string[], // required "default": string? // optional, must be one of choices }
+2. buttonGroup 
+```markdown-ui-widget
+{
+  "type": "buttonGroup",
+  "label": string?, // optional
+  "choices": string[], // required
+  "default": string? // optional, must be one of choices
+}
+```
 
-3. select { "type": "select", "label": string?, // optional "choices": string[], // required "default": string? // optional, must be one of choices }
+3. select 
+```markdown-ui-widget
+{
+  "type": "select",
+  "choices": string[], // required
+  "label": string?, // optional
+  "default": string? // optional, must be one of choices
+}
+```
 
-4. selectMulti { "type": "selectMulti", "label": string?, // optional "choices": string[], // required "default": string | string[]? // optional, must be subset of choices }
+4. selectMulti 
+```markdown-ui-widget
+{
+  "type": "selectMulti",
+  "label": string?, // optional
+  "choices": string[], // required
+  "default": string | string[]? // optional, must be subset of choices
+}
+```
 
-5. slider { "type": "slider", "label": string?, // optional "min": number, // required "max": number, // required "step": number?, // optional (default 1) "default": number? // optional, within [min, max] }
+5. slider 
+```markdown-ui-widget
+{
+  "type": "slider",
+  "label": string?, // optional
+  "min": number, // required
+  "max": number, // required
+  "step": number?, // optional (default 1)
+  "default": number? // optional, within [min, max]
+}
+```
 
-6. form { "type": "form", "submitLabel": string?, // optional "fields": Field[] // required } Where Field is any of: textInput | buttonGroup | select | selectMulti | slider, and each field object MUST include: { "type": "...", // one of the above "id": string, // required, unique within the form ...other props per the chosen field type (see schemas above) }
+6. form 
+```markdown-ui-widget
+{
+  "type": "form",
+  "submitLabel": string?, // optional
+  "fields": Field[] // required
+}
+```
+
 
 Output rules:
-
 - Use one widget per fenced code block. Use multiple blocks if you need multiple widgets.
 - Keep all surrounding content as normal Markdown prose outside the widget code fences.
 - Only use the widget types and properties listed above; do not invent new types or props.
