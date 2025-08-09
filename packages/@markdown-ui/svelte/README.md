@@ -31,8 +31,8 @@ Choose your deployment settings:
 \`\`\`
 `;
 
-function handleWidgetEvent(event) {
-  console.log('User selected:', event.detail); 
+function handleWidgetEvent(detail) {
+  console.log('User selected:', detail); 
   // Output: {id: "env", value: "prod"}
 }
 ```

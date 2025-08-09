@@ -1,9 +1,13 @@
 {
-  "version": "1.0.8",
+  "version": "1.0.13",
   "description": "Marked extension for markdown-ui widgets",
   "name": "@markdown-ui/marked-ext",
   "type": "module",
+  "main": "./dist/ext.js",
   "types": "./dist/ext.d.ts",
+  "files": [
+    "dist/"
+  ],
   "exports": {
     ".": {
       "import": "./dist/ext.js",

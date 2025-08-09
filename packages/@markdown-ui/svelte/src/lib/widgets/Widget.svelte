@@ -22,7 +22,14 @@
 
   let { id, content } = $props();
 
-  const parsed = JSON.parse(atob(content));
+  let parsed = { type: "incomplete" };
+
+  try {
+    parsed = JSON.parse(atob(content));
+  } catch (e) {
+    // suppress intermediate states
+  }
+
   const Cmp    = widgets[parsed.type as keyof typeof widgets];
 
   function dispatch(detail: any) {

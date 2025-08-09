@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown-UI React Demo - Simple</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .demo-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .event-log {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.875rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        /* Widget Styles - Inline version of widgets.css */
+        .widget {
+            margin: 1rem 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+        }
+
+        .widget-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .widget-button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .widget-button-group label {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        .widget-button-group div[role="group"] {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .widget-button-group button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            background-color: #ffffff;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .widget-button-group button:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .widget-button-group button[aria-pressed="true"] {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border-color: #3b82f6;
+        }
+
+        .widget-button {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .widget-button label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .widget-button input[type="text"] {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            background-color: #ffffff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .widget-button input[type="text"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .selector {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .selector label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .selector select {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            background-color: #ffffff;
+            cursor: pointer;
+        }
+
+        .widget-form > button[type="button"]:last-child {
+            align-self: flex-start;
+            margin-top: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .widget-form > button[type="button"]:last-child:hover {
+            background-color: #2563eb;
+        }
+    </style>
+    
+    <!-- Include React, ReactDOM from CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+    <h1>🎯 Markdown-UI React Demo</h1>
+    <p>This demo shows React components rendering interactive widgets.</p>
+    
+    <div class="demo-section">
+        <h2>📝 Text Input Widget</h2>
+        <div id="demo-text-input"></div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🔘 Button Group Widget</h2>
+        <div id="demo-button-group"></div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📋 Select Widget</h2>
+        <div id="demo-select"></div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📊 Complete Form Widget</h2>
+        <div id="demo-form"></div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📡 Event Log</h2>
+        <p>Widget events will appear here in real-time:</p>
+        <div id="event-log" class="event-log">Waiting for widget events...</div>
+    </div>
+
+    <script>
+        // Use React and ReactDOM from global scope
+        const { createElement: h, useState, useRef, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        
+        // Event logging
+        const eventLog = document.getElementById('event-log');
+        function logEvent(data) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] Widget "${data.id}" changed: ${JSON.stringify(data.value)}\n`;
+            eventLog.textContent = logEntry + eventLog.textContent;
+        }
+        
+        // TextInput Component
+        const TextInput = ({ label = '', placeholder = '', default: initial = '', onchange }) => {
+            const [value, setValue] = useState(initial);
+            
+            return h('div', { className: 'widget-button' },
+                label && h('label', null, label),
+                h('input', {
+                    type: 'text',
+                    value: value,
+                    placeholder: placeholder,
+                    onChange: (e) => setValue(e.target.value),
+                    onBlur: () => onchange(value)
+                })
+            );
+        };
+        
+        // ButtonGroup Component
+        const ButtonGroup = ({ choices, label = '', default: initial, onchange }) => {
+            const [selected, setSelected] = useState(initial ?? choices[0]);
+            
+            const handleClick = (choice) => {
+                setSelected(choice);
+                onchange(choice);
+            };
+            
+            return h('div', { className: 'widget-button-group' },
+                label && h('label', null, label),
+                h('div', { role: 'group' },
+                    choices.map(choice => 
+                        h('button', {
+                            key: choice,
+                            type: 'button',
+                            'aria-pressed': selected === choice,
+                            onClick: () => handleClick(choice)
+                        }, choice)
+                    )
+                )
+            );
+        };
+        
+        // Select Component
+        const Select = ({ choices, label = '', default: initial, onchange }) => {
+            const [value, setValue] = useState(initial ?? choices[0]);
+            
+            const handleChange = (e) => {
+                const newValue = e.target.value;
+                setValue(newValue);
+                onchange(newValue);
+            };
+            
+            return h('div', { className: 'selector' },
+                label && h('label', null, label),
+                h('select', { value: value, onChange: handleChange },
+                    choices.map(choice => 
+                        h('option', { key: choice, value: choice }, choice)
+                    )
+                )
+            );
+        };
+        
+        // Form Component
+        const Form = ({ fields, submitLabel = 'Submit', onchange }) => {
+            const [data, setData] = useState({});
+            
+            const setValue = (id, value) => {
+                setData(prev => ({ ...prev, [id]: value }));
+            };
+            
+            const handleSubmit = () => {
+                onchange({ ...data });
+            };
+            
+            const renderField = (field) => {
+                const commonProps = {
+                    ...field,
+                    onchange: (value) => setValue(field.id, value)
+                };
+                
+                switch (field.type) {
+                    case 'textInput':
+                        return h(TextInput, commonProps);
+                    case 'buttonGroup':
+                        return h(ButtonGroup, { ...commonProps, choices: field.choices ?? [] });
+                    case 'select':
+                        return h(Select, { ...commonProps, choices: field.choices ?? [] });
+                    default:
+                        return null;
+                }
+            };
+            
+            return h('div', { className: 'widget-form' },
+                ...fields.map(field => h('div', { key: field.id }, renderField(field))),
+                h('button', { type: 'button', onClick: handleSubmit }, submitLabel)
+            );
+        };
+        
+        // Widget factory component
+        const Widget = ({ id, content }) => {
+            const parsed = JSON.parse(atob(content));
+            
+            const dispatch = (detail) => {
+                const event = new CustomEvent('widget-event', {
+                    detail: detail,
+                    bubbles: true,
+                    composed: true
+                });
+                document.dispatchEvent(event);
+            };
+            
+            const commonProps = {
+                ...parsed,
+                onchange: (value) => dispatch({ id, value })
+            };
+            
+            switch (parsed.type) {
+                case 'textInput':
+                    return h('div', { className: 'widget' }, h(TextInput, commonProps));
+                case 'buttonGroup':
+                    return h('div', { className: 'widget' }, h(ButtonGroup, commonProps));
+                case 'select':
+                    return h('div', { className: 'widget' }, h(Select, commonProps));
+                case 'form':
+                    return h('div', { className: 'widget' }, h(Form, commonProps));
+                default:
+                    return h('div', { className: 'widget' }, 
+                        h('span', { style: { color: 'red' } }, `Unknown widget "${parsed.type}"`)
+                    );
+            }
+        };
+        
+        // Custom element for widgets
+        class MarkdownUIWidgetElement extends HTMLElement {
+            connectedCallback() {
+                const id = this.getAttribute('id') || '';
+                const content = this.getAttribute('content') || '';
+                
+                this.innerHTML = '';
+                const div = document.createElement('div');
+                this.appendChild(div);
+                
+                const root = createRoot(div);
+                root.render(h(Widget, { id, content }));
+            }
+        }
+        
+        // Register custom element
+        if (!customElements.get('markdown-ui-widget')) {
+            customElements.define('markdown-ui-widget', MarkdownUIWidgetElement);
+        }
+        
+        // Listen for widget events
+        document.addEventListener('widget-event', (e) => {
+            logEvent(e.detail);
+        });
+        
+        // Render demos directly
+        function renderWidget(containerId, config) {
+            const container = document.getElementById(containerId);
+            const widgetId = 'widget-' + Math.random().toString(36).substr(2, 9);
+            const content = btoa(JSON.stringify(config));
+            
+            container.innerHTML = `<markdown-ui-widget id="${widgetId}" content="${content}"></markdown-ui-widget>`;
+        }
+        
+        // Render all demos
+        renderWidget('demo-text-input', {
+            type: 'textInput',
+            label: 'Your Name',
+            placeholder: 'Enter your full name',
+            default: 'John Doe'
+        });
+        
+        renderWidget('demo-button-group', {
+            type: 'buttonGroup',
+            label: 'Choose your favorite framework',
+            choices: ['React', 'Vue', 'Svelte', 'Angular'],
+            default: 'React'
+        });
+        
+        renderWidget('demo-select', {
+            type: 'select',
+            label: 'Select your country',
+            choices: ['United States', 'Canada', 'United Kingdom', 'Germany', 'Japan'],
+            default: 'United States'
+        });
+        
+        renderWidget('demo-form', {
+            type: 'form',
+            submitLabel: 'Submit Survey',
+            fields: [
+                {
+                    type: 'textInput',
+                    id: 'name',
+                    label: 'Full Name',
+                    placeholder: 'Enter your name'
+                },
+                {
+                    type: 'select',
+                    id: 'experience',
+                    label: 'Years of Experience',
+                    choices: ['0-1 years', '2-5 years', '6-10 years', '10+ years']
+                },
+                {
+                    type: 'buttonGroup',
+                    id: 'satisfaction',
+                    label: 'Satisfaction Level',
+                    choices: ['Poor', 'Fair', 'Good', 'Great', 'Excellent'],
+                    default: 'Good'
+                }
+            ]
+        });
+        
+        console.log('Demo loaded successfully!');
+    </script>
+</body>
+</html>
