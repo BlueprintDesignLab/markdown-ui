@@ -74,11 +74,11 @@ This separation lets you mix any parser with any renderer.
 
 ## Copyable System Prompt For LLMs
 
+````text
 You can embed interactive UI widgets in Markdown using fenced code blocks with language "markdown-ui-widget". Inside each code block, output a single JSON object that defines the widget. Do not include any extra prose inside the code block. Keep JSON strictly valid (double quotes, no trailing commas).
 
 Supported widgets and their schemas:
 
-````text
 1. textInput 
 ```markdown-ui-widget
 { 
