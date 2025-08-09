@@ -1,5 +1,5 @@
 {
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"description": "svelte renderer for markdown-ui",
 	"name": "@markdown-ui/svelte",
 	"type": "module",
@@ -30,6 +30,5 @@
 		"typescript": "^5.0.0",
 		"vite": "^7.0.4"
 	},
-	"dependencies": {
-	}
+	"dependencies": {}
 }
