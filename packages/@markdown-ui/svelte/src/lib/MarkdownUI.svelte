@@ -19,7 +19,6 @@
     });
 
     function handleChange(e: CustomEvent<string>) {
-        console.log(e.detail);
         onwidgetevent(e.detail);
     }
 </script>

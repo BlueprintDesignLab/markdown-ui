@@ -146,18 +146,10 @@ Combine multiple widgets into a single form:
 All widgets emit standardized events when users interact with them:
 
 ```javascript
-function handleWidgetEvent(event) {
-  const { id, value } = event.detail;
+function handleWidgetEvent(detail) {
+  const { id, value } = detail;
   
-  switch(id) {
-    case 'env':
-      console.log(`Environment changed to: ${value}`);
-      break;
-    case 'deployment-config':
-      console.log('Form submitted:', value); 
-      // value = { name: "myapp", env: "prod", replicas: 3 }
-      break;
-  }
+  // do work
 }
 ```
 
@@ -207,41 +199,6 @@ interface WidgetEvent {
 
 function handleWidgetEvent(event: CustomEvent<WidgetEvent>) {
   const { id, value } = event.detail; // Fully typed
-}
-```
-
-## Advanced Usage
-
-### Custom Event Handling per Widget Type
-
-```javascript
-function handleWidgetEvent(event) {
-  const { id, value } = event.detail;
-  
-  // Handle different widget types
-  if (id.startsWith('form-')) {
-    // Handle form submissions
-    submitToAPI(value);
-  } else if (id.includes('config')) {
-    // Handle configuration changes
-    updateConfig(id, value);
-  }
-}
-```
-
-### Integration with State Management
-
-```javascript
-import { writable } from 'svelte/store';
-
-const appConfig = writable({});
-
-function handleWidgetEvent(event) {
-  const { id, value } = event.detail;
-  appConfig.update(config => ({
-    ...config,
-    [id]: value
-  }));
 }
 ```
 

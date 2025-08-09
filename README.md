@@ -48,6 +48,7 @@ import { MarkdownUI } from '@markdown-ui/svelte';
 
 **Parser** (`marked-ext`) → Converts `markdown-ui-widget` blocks to standardized XML  
 **Renderer** (`svelte`) → XML becomes interactive components + events
+**Events** When users interact with the UI components, it emits `{id, value}` objects which your application can handle.
 
 This separation lets you mix any parser with any renderer.
 
