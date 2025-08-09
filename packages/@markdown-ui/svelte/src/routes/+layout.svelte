@@ -25,8 +25,25 @@
   
   @media (max-width: 768px) {
     main {
-      min-height: calc(100vh - 6rem);
+      min-height: calc(100vh - 7rem);
     }
+  }
+  
+  @media (max-width: 480px) {
+    main {
+      min-height: calc(100vh - 6.5rem);
+    }
+  }
+  
+  /* Add some global mobile-friendly base styles */
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  :global(*, *::before, *::after) {
+    box-sizing: border-box;
   }
 </style>
 

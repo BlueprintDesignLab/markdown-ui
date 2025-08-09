@@ -310,6 +310,8 @@ This configuration system allows you to:
     display: grid;
     grid-template-columns: 1fr 1fr 300px;
     min-height: 0;
+    gap: 0;
+    overflow: hidden;
   }
   
   .editor-panel, .preview-panel {
@@ -317,6 +319,8 @@ This configuration system allows you to:
     flex-direction: column;
     border-right: 1px solid #e2e8f0;
     min-height: 0;
+    min-width: 0;
+    overflow: hidden;
   }
   
   .panel-header {
@@ -356,28 +360,103 @@ This configuration system allows you to:
   @media (max-width: 1024px) {
     .editor-layout {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr 300px;
+      grid-template-rows: 400px 1fr 300px;
+      gap: 0;
+      height: 100%;
     }
     
     .editor-panel, .preview-panel {
       border-right: none;
       border-bottom: 1px solid #e2e8f0;
+      min-height: 250px;
+      overflow: auto;
     }
   }
   
   @media (max-width: 768px) {
     .editor-container {
-      height: calc(100vh - 6rem);
+      height: calc(100vh - 2rem);
     }
     
     .editor-controls {
-      padding: 1rem;
+      padding: 0.75rem;
       flex-direction: column;
       align-items: stretch;
+      gap: 0.75rem;
     }
     
     .control-group {
       justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .example-btn, .clear-btn {
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      min-width: 120px;
+    }
+    
+    .editor-layout {
+      grid-template-rows: 300px 350px 200px;
+      height: calc(100vh - 10rem);
+    }
+    
+    .panel-header {
+      padding: 0.75rem;
+    }
+    
+    .panel-header h3 {
+      font-size: 0.9rem;
+    }
+    
+    .editor-info, .preview-info {
+      font-size: 0.7rem;
+    }
+    
+    .preview-content {
+      padding: 0.75rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .editor-container {
+      height: calc(100vh - 1rem);
+    }
+    
+    .editor-controls {
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+    
+    .control-group {
+      gap: 0.5rem;
+    }
+    
+    .example-btn, .clear-btn {
+      padding: 0.625rem 0.75rem;
+      font-size: 0.75rem;
+      min-width: 100px;
+    }
+    
+    .editor-layout {
+      grid-template-rows: 250px 300px 180px;
+      height: calc(100vh - 8rem);
+    }
+    
+    .panel-header {
+      padding: 0.5rem;
+    }
+    
+    .panel-header h3 {
+      font-size: 0.85rem;
+    }
+    
+    .editor-info, .preview-info {
+      font-size: 0.65rem;
+    }
+    
+    .preview-content {
+      padding: 0.5rem;
     }
   }
 </style>

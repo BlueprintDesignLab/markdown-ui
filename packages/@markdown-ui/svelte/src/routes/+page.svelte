@@ -26,6 +26,12 @@ I need to help you set up a new production server. Instead of asking you dozens 
 
 Please fill out the following configuration form:
 
+## Security Configuration
+
+\`\`\`markdown-ui-widget
+{ "type": "selectMulti", "id": "security", "label": "Security Features", "choices": ["WAF", "DDoS Protection", "VPC", "Private Subnets", "Bastian Host", "Multi-Factor Auth"], "default": ["WAF", "VPC"] }
+\`\`\`
+
 \`\`\`markdown-ui-widget
 {
   "type": "form",
@@ -41,12 +47,6 @@ Please fill out the following configuration form:
     { "type": "select", "id": "region", "label": "AWS Region", "choices": ["us-east-1", "us-west-2", "eu-west-1", "ap-southeast-1"], "default": "us-east-1" }
   ]
 }
-\`\`\`
-
-## Security Configuration
-
-\`\`\`markdown-ui-widget
-{ "type": "selectMulti", "id": "security", "label": "Security Features", "choices": ["WAF", "DDoS Protection", "VPC", "Private Subnets", "Bastian Host", "Multi-Factor Auth"], "default": ["WAF", "VPC"] }
 \`\`\`
 
 ## Backup & Monitoring
@@ -359,6 +359,8 @@ This demonstrates how LLMs can generate complex, interactive forms that would be
     display: grid;
     grid-template-columns: 1fr 1fr 320px;
     min-height: 0;
+    gap: 0;
+    overflow: hidden;
   }
   
   .markdown-panel, .preview-panel, .events-panel {
@@ -366,6 +368,8 @@ This demonstrates how LLMs can generate complex, interactive forms that would be
     flex-direction: column;
     border-right: 1px solid #e2e8f0;
     min-height: 0;
+    min-width: 0;
+    overflow: hidden;
   }
   
   .events-panel {
@@ -530,36 +534,123 @@ This demonstrates how LLMs can generate complex, interactive forms that would be
   @media (max-width: 1200px) {
     .demo-layout {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr 300px;
+      grid-template-rows: 400px 1fr 300px;
+      gap: 0;
+      height: 100%;
     }
     
     .markdown-panel, .preview-panel, .events-panel {
       border-right: none;
       border-bottom: 1px solid #e2e8f0;
+      min-height: 250px;
+      overflow: auto;
     }
     
     .events-panel {
       border-bottom: none;
+      min-height: 200px;
     }
   }
   
   @media (max-width: 768px) {
     .streaming-container {
-      height: calc(100vh - 6rem);
+      height: calc(100vh - 2rem);
     }
     
     .streaming-controls {
-      padding: 1rem;
+      padding: 0.75rem;
       flex-direction: column;
       align-items: stretch;
+      gap: 0.75rem;
     }
     
     .control-group {
       justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .streaming-controls button {
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      min-width: 100px;
     }
     
     .streaming-status {
       text-align: center;
+      font-size: 0.8rem;
+    }
+    
+    .demo-layout {
+      grid-template-rows: 300px 350px 200px;
+      height: calc(100vh - 10rem);
+    }
+    
+    .panel-header {
+      padding: 0.75rem;
+    }
+    
+    .panel-header h3 {
+      font-size: 0.9rem;
+    }
+    
+    .panel-info {
+      font-size: 0.7rem;
+    }
+    
+    .preview-content {
+      padding: 0.75rem;
+    }
+    
+    .events-list {
+      padding: 0.75rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .streaming-container {
+      height: calc(100vh - 1rem);
+    }
+    
+    .streaming-controls {
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+    
+    .control-group {
+      gap: 0.5rem;
+    }
+    
+    .streaming-controls button {
+      padding: 0.625rem 0.75rem;
+      font-size: 0.8rem;
+      min-width: 80px;
+    }
+    
+    .demo-layout {
+      grid-template-rows: 250px 300px 180px;
+      height: calc(100vh - 8rem);
+    }
+    
+    .panel-header {
+      padding: 0.5rem;
+    }
+    
+    .panel-header h3 {
+      font-size: 0.85rem;
+    }
+    
+    .preview-content, .events-list {
+      padding: 0.5rem;
+    }
+    
+    .event-item {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+    
+    .event-value {
+      padding: 0.375rem;
+      font-size: 0.75rem;
     }
   }
   

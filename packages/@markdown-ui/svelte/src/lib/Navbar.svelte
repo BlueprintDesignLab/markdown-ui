@@ -92,13 +92,50 @@
       padding-bottom: 1rem;
     }
     
+    .nav-title {
+      font-size: 1.25rem;
+    }
+    
     .nav-links {
-      gap: 1rem;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     
     .nav-links a {
-      padding: 0.25rem 0.75rem;
+      padding: 0.5rem 0.75rem;
       font-size: 0.875rem;
+      min-width: 80px;
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .nav-container {
+      padding: 0 0.75rem;
+      gap: 0.75rem;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    
+    .nav-title {
+      font-size: 1.1rem;
+    }
+    
+    .nav-links {
+      gap: 0.5rem;
+      width: 100%;
+    }
+    
+    .nav-links li {
+      flex: 1;
+    }
+    
+    .nav-links a {
+      padding: 0.625rem 0.5rem;
+      font-size: 0.8rem;
+      width: 100%;
+      display: block;
     }
   }
   

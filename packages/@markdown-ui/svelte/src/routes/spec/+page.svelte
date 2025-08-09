@@ -211,6 +211,23 @@ interface WidgetEvent {
   @media (max-width: 768px) {
     .spec-container {
       padding: 1rem;
+      max-width: 100%;
+    }
+    
+    .spec-content {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .spec-container {
+      padding: 0.75rem;
+    }
+    
+    .spec-content {
+      font-size: 0.9rem;
+      line-height: 1.4;
     }
   }
   
