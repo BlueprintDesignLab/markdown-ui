@@ -34,5 +34,8 @@
     "@types/node": "^24.2.0",
     "marked": "^16.1.2",
     "typescript": "^5.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

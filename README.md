@@ -23,13 +23,17 @@ Becomes an actual dropdown that emits `{id: "env", value: "prod"}` events.
 
 ## Quick Start
 
-1. **Choose your stack**: We support Svelte, with React coming soon
-2. **Install renderer**: `npm install @markdown-ui/svelte`  
+1. **Choose your stack**: We support Svelte and React
+2. **Install renderer**: `npm install @markdown-ui/svelte` or `npm install @markdown-ui/react`  
 3. **Parse markdown**: Use `@markdown-ui/marked-ext` or any parser
 4. **Render**: Components handle the rest
 
 ```javascript
+// Svelte
 import { MarkdownUI } from '@markdown-ui/svelte';
+
+// React  
+import { MarkdownUI } from '@markdown-ui/react';
 // Your markdown with markdown-ui-widget blocks becomes interactive
 ```
 
@@ -47,7 +51,7 @@ import { MarkdownUI } from '@markdown-ui/svelte';
 ## Architecture
 
 **Parser** (`marked-ext`) → Converts `markdown-ui-widget` blocks to standardized XML  
-**Renderer** (`svelte`) → XML becomes interactive components + events
+**Renderer** (`svelte` | `react`) → XML becomes interactive components + events
 **Events** When users interact with the UI components, it emits `{id, value}` objects which your application can handle.
 
 This separation lets you mix any parser with any renderer.
@@ -60,13 +64,13 @@ This separation lets you mix any parser with any renderer.
 |---------|---------|
 | `@markdown-ui/marked-ext` (Parser) | ✅ Complete |
 | `@markdown-ui/svelte` (Renderer) | ✅ Complete |
+| `@markdown-ui/react` (Renderer) | ✅ Complete |
 
 ## Package Links
 
 - **Parser**: [@markdown-ui/marked-ext](https://www.npmjs.com/package/@markdown-ui/marked-ext)
-- **Renderer**: [@markdown-ui/svelte](https://www.npmjs.com/package/@markdown-ui/svelte)
-
-React renderer implementation is coming soon.
+- **Svelte Renderer**: [@markdown-ui/svelte](https://www.npmjs.com/package/@markdown-ui/svelte)
+- **React Renderer**: [@markdown-ui/react](https://www.npmjs.com/package/@markdown-ui/react)
 
 ## Copyable System Prompt For LLMs
 
@@ -74,6 +78,7 @@ You can embed interactive UI widgets in Markdown using fenced code blocks with l
 
 Supported widgets and their schemas:
 
+````text
 1. textInput 
 ```markdown-ui-widget
 { 
@@ -137,11 +142,12 @@ Supported widgets and their schemas:
 
 
 Output rules:
-- Use one widget per fenced code block. Use multiple blocks if you need multiple widgets.
+- Use one widget per fenced code block. Only one widget per response.
 - Keep all surrounding content as normal Markdown prose outside the widget code fences.
 - Only use the widget types and properties listed above; do not invent new types or props.
 - Keep JSON minimal; omit optional properties unless they add value.
 - Do not include comments inside JSON.
+````
 
 
 ## Contributing
