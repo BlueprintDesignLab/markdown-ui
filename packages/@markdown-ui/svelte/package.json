@@ -1,11 +1,12 @@
 {
-	"version": "0.0.7",
+	"version": "0.0.9",
 	"description": "svelte renderer for markdown-ui",
 	"name": "@markdown-ui/svelte",
 	"type": "module",
 	"main": "./src/lib/index.ts",
 	"exports": {
-		".": "./src/lib/index.ts"
+		".": "./src/lib/index.ts",
+		"./widgets.css": "./src/lib/widgets.css"
 	},
 	"scripts": {
 		"dev": "vite dev",
