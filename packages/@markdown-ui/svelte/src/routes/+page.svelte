@@ -95,7 +95,7 @@ This demonstrates how LLMs can generate complex, interactive forms that would be
       streamedContent = fullContent.slice(0, i + 1);
       
       // Variable delay to simulate more realistic streaming
-      const delay = Math.random() * 3 + 1; // 10-40ms delay
+      const delay = Math.random() * 0.5 + 0.2; 
       await new Promise(resolve => setTimeout(resolve, delay));
       
       if (!isStreaming) break; // Allow stopping mid-stream
@@ -116,7 +116,25 @@ This demonstrates how LLMs can generate complex, interactive forms that would be
   
   const extensions = [
     markdown(),
-    EditorView.lineWrapping
+    EditorView.lineWrapping,
+    EditorView.theme({
+      '&': {
+        height: 'calc(100vh - 180px)', // Account for header + controls
+        maxHeight: 'calc(100vh - 180px)'
+      },
+      '.cm-scroller': {
+        fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
+        fontSize: '13px',
+        maxHeight: 'calc(100vh - 180px)',
+        overflowY: 'auto'
+      },
+      '.cm-content': {
+        padding: '12px'
+      },
+      '.cm-focused': {
+        outline: 'none'
+      }
+    })
   ];
 
   onMount(() => {
@@ -164,21 +182,6 @@ This demonstrates how LLMs can generate complex, interactive forms that would be
           value={streamedContent || '# Ready to start...\n\nClick "Start Demo" to see markdown streaming in real-time!'}
           {extensions}
           readonly={true}
-          styles={{
-            '&': {
-              fontSize: '14px',
-              height: '100%'
-            },
-            '.cm-focused': {
-              outline: 'none'
-            },
-            '.cm-editor': {
-              height: '100%'
-            },
-            '.cm-scroller': {
-              fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace'
-            }
-          }}
         />
       </div>
     </div>

@@ -176,7 +176,25 @@ This configuration system allows you to:
   
   const extensions = $derived([
     markdown(),
-    EditorView.lineWrapping
+    EditorView.lineWrapping,
+    EditorView.theme({
+      '&': {
+        height: 'calc(100vh - 180px)', // Account for header + controls
+        maxHeight: 'calc(100vh - 180px)'
+      },
+      '.cm-scroller': {
+        fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
+        fontSize: '13px',
+        maxHeight: 'calc(100vh - 180px)',
+        overflowY: 'auto'
+      },
+      '.cm-content': {
+        padding: '12px'
+      },
+      '.cm-focused': {
+        outline: 'none'
+      }
+    })
   ]);
 </script>
 
@@ -213,21 +231,6 @@ This configuration system allows you to:
         <CodeMirror 
           bind:value={markdownContent}
           {extensions}
-          styles={{
-            '&': {
-              fontSize: '14px',
-              height: '100%'
-            },
-            '.cm-focused': {
-              outline: 'none'
-            },
-            '.cm-editor': {
-              height: '100%'
-            },
-            '.cm-scroller': {
-              fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace'
-            }
-          }}
         />
       </div>
     </div>
