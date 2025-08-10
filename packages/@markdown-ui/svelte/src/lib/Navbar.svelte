@@ -2,7 +2,9 @@
   import { page } from '$app/stores';
   
   const navItems = [
-    { href: '/', label: 'Streaming Demo' },
+    { href: '/', label: 'Home' },
+    { href: 'https://markdown-ui.blueprintlab.io', label: 'Chat Demo' },
+    { href: '/streaming', label: 'Streaming Demo' },
     { href: '/editor', label: 'Editor Demo' },
     { href: '/spec', label: 'Specification' },
     { href: 'https://github.com/BlueprintDesignLab/markdown-ui', label: 'github' }

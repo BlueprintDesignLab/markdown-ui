@@ -13,12 +13,19 @@
 
 <div class="widget-slider">
   {#if label}<label>{label}</label>{/if}
-  <input
-    type="range"
-    bind:value
-    {min}
-    {max}
-    {step}
-    onchange={() => onchange(value)}
-  />
+  <div class="slider-container">
+    <div class="slider-values">
+      <span class="min-value">{min}</span>
+      <span class="current-value">{value}</span>
+      <span class="max-value">{max}</span>
+    </div>
+    <input
+      type="range"
+      bind:value
+      {min}
+      {max}
+      {step}
+      onchange={() => onchange(value)}
+    />
+  </div>
 </div>

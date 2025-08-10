@@ -1,248 +1,220 @@
-import { jsxs as h, jsx as r } from "react/jsx-runtime";
-import E, { useState as g, useRef as C, useEffect as R } from "react";
-import N from "react-dom";
-var m = {}, p;
-function _() {
-  if (p) return m;
-  p = 1;
-  var o = N;
-  if (process.env.NODE_ENV === "production")
-    m.createRoot = o.createRoot, m.hydrateRoot = o.hydrateRoot;
-  else {
-    var t = o.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-    m.createRoot = function(n, c) {
-      t.usingClientEntryPoint = !0;
-      try {
-        return o.createRoot(n, c);
-      } finally {
-        t.usingClientEntryPoint = !1;
-      }
-    }, m.hydrateRoot = function(n, c, a) {
-      t.usingClientEntryPoint = !0;
-      try {
-        return o.hydrateRoot(n, c, a);
-      } finally {
-        t.usingClientEntryPoint = !1;
-      }
-    };
-  }
-  return m;
-}
-var k = _();
-const v = ({
+import { jsxs as h, jsx as t } from "react/jsx-runtime";
+import f, { useState as m, useRef as C, useEffect as y } from "react";
+import { createRoot as k } from "react-dom/client";
+const g = ({
   choices: o,
-  label: t = "",
-  default: n,
+  label: n = "",
+  default: r,
   onchange: c
 }) => {
-  const [a, l] = g(n ?? o[0]), u = (e) => {
+  const [s, l] = m(r ?? o[0]), i = (e) => {
     l(e), c(e);
   };
   return /* @__PURE__ */ h("div", { className: "widget-button-group", children: [
-    t && /* @__PURE__ */ r("label", { children: t }),
-    /* @__PURE__ */ r("div", { role: "group", "aria-label": t, children: o.map((e) => /* @__PURE__ */ r(
+    n && /* @__PURE__ */ t("label", { children: n }),
+    /* @__PURE__ */ t("div", { role: "group", "aria-label": n, children: o.map((e) => /* @__PURE__ */ t(
       "button",
       {
         type: "button",
-        "aria-pressed": a === e,
-        onClick: () => u(e),
+        "aria-pressed": s === e,
+        onClick: () => i(e),
         children: e
       },
       e
     )) })
   ] });
-}, f = ({
+}, p = ({
   choices: o,
-  label: t = "",
-  default: n,
+  label: n = "",
+  default: r,
   onchange: c
 }) => {
-  const [a, l] = g(n ?? o[0]);
+  const [s, l] = m(r ?? o[0]);
   return /* @__PURE__ */ h("div", { className: "selector", children: [
-    t && /* @__PURE__ */ r("label", { children: t }),
-    /* @__PURE__ */ r("select", { value: a, onChange: (e) => {
-      const s = e.target.value;
-      l(s), c(s);
-    }, children: o.map((e) => /* @__PURE__ */ r("option", { value: e, children: e }, e)) })
+    n && /* @__PURE__ */ t("label", { children: n }),
+    /* @__PURE__ */ t("select", { value: s, onChange: (e) => {
+      const a = e.target.value;
+      l(a), c(a);
+    }, children: o.map((e) => /* @__PURE__ */ t("option", { value: e, children: e }, e)) })
   ] });
-}, y = ({
+}, v = ({
   choices: o,
-  label: t = "",
-  default: n,
+  label: n = "",
+  default: r,
   onchange: c
 }) => {
-  const [a, l] = g(
-    Array.isArray(n) ? n : n ? [n] : []
-  ), u = (e) => {
-    const s = e.target.value;
-    let i;
-    e.target.checked ? i = [...a, s] : i = a.filter((d) => d !== s), l(i), c(i);
+  const [s, l] = m(
+    Array.isArray(r) ? r : r ? [r] : []
+  ), i = (e) => {
+    const a = e.target.value;
+    let d;
+    e.target.checked ? d = [...s, a] : d = s.filter((u) => u !== a), l(d), c(d);
   };
   return /* @__PURE__ */ h("div", { className: "selector-multi", children: [
-    t && /* @__PURE__ */ r("div", { className: "selector-multi-label", children: t }),
-    /* @__PURE__ */ r("div", { className: "checkbox-group", children: o.map((e) => /* @__PURE__ */ h("label", { className: "checkbox-item", children: [
-      /* @__PURE__ */ r(
+    n && /* @__PURE__ */ t("div", { className: "selector-multi-label", children: n }),
+    /* @__PURE__ */ t("div", { className: "checkbox-group", children: o.map((e) => /* @__PURE__ */ h("label", { className: "checkbox-item", children: [
+      /* @__PURE__ */ t(
         "input",
         {
           type: "checkbox",
           value: e,
-          checked: a.includes(e),
-          onChange: u
+          checked: s.includes(e),
+          onChange: i
         }
       ),
-      /* @__PURE__ */ r("span", { children: e })
+      /* @__PURE__ */ t("span", { children: e })
     ] }, e)) })
   ] });
 }, w = ({
   min: o,
-  max: t,
-  step: n = 1,
+  max: n,
+  step: r = 1,
   label: c = "",
-  default: a = o,
+  default: s = o,
   onchange: l
 }) => {
-  const [u, e] = g(a);
+  const [i, e] = m(s);
   return /* @__PURE__ */ h("div", { className: "widget-slider", children: [
-    c && /* @__PURE__ */ r("label", { children: c }),
-    /* @__PURE__ */ r(
+    c && /* @__PURE__ */ t("label", { children: c }),
+    /* @__PURE__ */ t(
       "input",
       {
         type: "range",
-        value: u,
+        value: i,
         min: o,
-        max: t,
-        step: n,
-        onChange: (i) => {
-          const d = Number(i.target.value);
-          e(d), l(d);
+        max: n,
+        step: r,
+        onChange: (d) => {
+          const u = Number(d.target.value);
+          e(u), l(u);
         }
       }
     )
   ] });
 }, b = ({
   placeholder: o = "",
-  label: t = "",
-  default: n = "",
+  label: n = "",
+  default: r = "",
   onchange: c
 }) => {
-  const [a, l] = g(n);
+  const [s, l] = m(r);
   return /* @__PURE__ */ h("div", { className: "widget-button", children: [
-    t && /* @__PURE__ */ r("label", { children: t }),
-    /* @__PURE__ */ r(
+    n && /* @__PURE__ */ t("label", { children: n }),
+    /* @__PURE__ */ t(
       "input",
       {
         type: "text",
-        value: a,
+        value: s,
         onChange: (e) => l(e.target.value),
         onBlur: () => {
-          c(a);
+          c(s);
         },
         placeholder: o
       }
     )
   ] });
-}, S = ({
+}, N = ({
   fields: o,
-  submitLabel: t = "Submit",
-  onchange: n
+  submitLabel: n = "Submit",
+  onchange: r
 }) => {
-  const [c, a] = g({}), l = (s, i) => {
-    a((d) => ({ ...d, [s]: i }));
-  }, u = () => {
-    n({ ...c });
-  }, e = (s) => {
-    const i = {
-      ...s,
-      onchange: (d) => l(s.id, d)
+  const [c, s] = m({}), l = (a, d) => {
+    s((u) => ({ ...u, [a]: d }));
+  }, i = () => {
+    r({ ...c });
+  }, e = (a) => {
+    const d = {
+      ...a,
+      onchange: (u) => l(a.id, u)
     };
-    switch (s.type) {
+    switch (a.type) {
       case "buttonGroup":
-        return /* @__PURE__ */ r(v, { ...i, choices: s.choices ?? [] });
+        return /* @__PURE__ */ t(g, { ...d, choices: a.choices ?? [] });
       case "select":
-        return /* @__PURE__ */ r(f, { ...i, choices: s.choices ?? [] });
+        return /* @__PURE__ */ t(p, { ...d, choices: a.choices ?? [] });
       case "selectMulti":
-        return /* @__PURE__ */ r(y, { ...i, choices: s.choices ?? [] });
+        return /* @__PURE__ */ t(v, { ...d, choices: a.choices ?? [] });
       case "slider":
-        return /* @__PURE__ */ r(
+        return /* @__PURE__ */ t(
           w,
           {
-            ...i,
-            min: s.min ?? 0,
-            max: s.max ?? 100
+            ...d,
+            min: a.min ?? 0,
+            max: a.max ?? 100
           }
         );
       case "textInput":
-        return /* @__PURE__ */ r(b, { ...i });
+        return /* @__PURE__ */ t(b, { ...d });
       default:
         return null;
     }
   };
   return /* @__PURE__ */ h("div", { className: "widget-form", children: [
-    o.map((s) => /* @__PURE__ */ r("div", { children: e(s) }, s.id)),
-    /* @__PURE__ */ r("button", { type: "button", onClick: u, children: t })
+    o.map((a) => /* @__PURE__ */ t("div", { children: e(a) }, a.id)),
+    /* @__PURE__ */ t("button", { type: "button", onClick: i, children: n })
   ] });
 }, x = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  ButtonGroup: v,
-  Form: S,
-  Select: f,
-  SelectMulti: y,
+  ButtonGroup: g,
+  Form: N,
+  Select: p,
+  SelectMulti: v,
   Slider: w,
   TextInput: b
-}, Symbol.toStringTag, { value: "Module" })), V = ({ id: o, content: t }) => {
-  const n = JSON.parse(atob(t)), c = x[n.type], a = (l) => {
-    const u = new CustomEvent("widget-event", {
+}, Symbol.toStringTag, { value: "Module" })), E = ({ id: o, content: n }) => {
+  const r = JSON.parse(atob(n)), c = x[r.type], s = (l) => {
+    const i = new CustomEvent("widget-event", {
       detail: l,
       bubbles: !0,
       composed: !0
     }), e = document.querySelector(".widget-container");
-    e && e.dispatchEvent(u);
+    e && e.dispatchEvent(i);
   };
-  return c ? /* @__PURE__ */ r("div", { className: "widget", children: /* @__PURE__ */ r(
+  return c ? /* @__PURE__ */ t("div", { className: "widget", children: /* @__PURE__ */ t(
     c,
     {
-      ...n,
-      onchange: (l) => a({ id: o, value: l })
+      ...r,
+      onchange: (l) => s({ id: o, value: l })
     }
-  ) }) : /* @__PURE__ */ r("div", { className: "widget", children: /* @__PURE__ */ h("span", { style: { color: "red" }, children: [
+  ) }) : /* @__PURE__ */ t("div", { className: "widget", children: /* @__PURE__ */ h("span", { style: { color: "red" }, children: [
     'Unknown widget "',
-    n.type,
+    r.type,
     '"'
   ] }) });
 };
-class I extends HTMLElement {
+class S extends HTMLElement {
   constructor() {
     super(...arguments), this.reactRoot = null;
   }
   connectedCallback() {
-    const t = this.getAttribute("id") || "", n = this.getAttribute("content") || "";
+    const n = this.getAttribute("id") || "", r = this.getAttribute("content") || "";
     this.innerHTML = "";
     const c = document.createElement("div");
-    this.appendChild(c), this.reactRoot = k.createRoot(c), this.reactRoot.render(E.createElement(V, { id: t, content: n }));
+    this.appendChild(c), this.reactRoot = k(c), this.reactRoot.render(f.createElement(E, { id: n, content: r }));
   }
   disconnectedCallback() {
     this.reactRoot && (this.reactRoot.unmount(), this.reactRoot = null);
   }
 }
-typeof window < "u" && !customElements.get("markdown-ui-widget") && customElements.define("markdown-ui-widget", I);
-const T = ({ html: o, onWidgetEvent: t }) => {
-  const n = C(null);
-  return R(() => {
+typeof window < "u" && !customElements.get("markdown-ui-widget") && customElements.define("markdown-ui-widget", S);
+const _ = ({ html: o, onWidgetEvent: n }) => {
+  const r = C(null);
+  return y(() => {
     const c = (l) => {
-      t && t(l.detail);
-    }, a = n.current;
-    if (a)
-      return a.addEventListener("widget-event", c), () => {
-        a.removeEventListener("widget-event", c);
+      n && n(l.detail);
+    }, s = r.current;
+    if (s)
+      return s.addEventListener("widget-event", c), () => {
+        s.removeEventListener("widget-event", c);
       };
-  }, [t]), /* @__PURE__ */ r("div", { ref: n, className: "widget-container", children: /* @__PURE__ */ r("div", { dangerouslySetInnerHTML: { __html: o } }) });
+  }, [n]), /* @__PURE__ */ t("div", { ref: r, className: "widget-container", children: /* @__PURE__ */ t("div", { dangerouslySetInnerHTML: { __html: o } }) });
 };
 export {
-  v as ButtonGroup,
-  S as Form,
-  T as MarkdownUI,
-  f as Select,
-  y as SelectMulti,
+  g as ButtonGroup,
+  N as Form,
+  _ as MarkdownUI,
+  p as Select,
+  v as SelectMulti,
   w as Slider,
   b as TextInput
 };

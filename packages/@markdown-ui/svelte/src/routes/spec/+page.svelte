@@ -8,185 +8,304 @@
   const marked = new Marked();
   marked.use(markedUiExtension); 
   
-  const specContent = `# Markdown UI: Where Static Text Meets Interactive Magic ✨
+  const specContent = `# Markdown UI Technical Specification
+**Version:** 0.1
+**Status:** Alpha  
+**Date:** 10 August 2025
 
-## Transform Your Content Experience
+## Overview
 
-Imagine turning any piece of markdown text into a dynamic, interactive experience with just a few lines of code. Markdown UI makes this reality by seamlessly embedding live widgets directly within your content—no complex setups, no framework lock-in, just pure interactive power.
+Markdown UI is a specification for embedding interactive widgets within Markdown content using fenced code blocks with a standardized JSON payload. The specification defines a two-stage processing pipeline that separates parsing from rendering to enable maximum flexibility across different platforms and frameworks.
 
-## How It Works: Simple Yet Powerful
+## Architecture
 
-Markdown UI uses a brilliant two-stage approach that gives you maximum flexibility:
+### 2.1 Processing Pipeline
 
-### 🔄 Stage 1: The Smart Parser
-Your parser spots special \`markdown-ui-widget\` code blocks and transforms them into clean, standardized XML tags.
+The Markdown UI specification defines a two-stage processing pipeline:
 
-**From this human-readable format:**
-\`\`\`\`
+1. **Parser Stage**: Converts \`markdown-ui-widget\` fenced code blocks into standardized XML tags
+2. **Renderer Stage**: Transforms XML tags into framework-specific interactive components
+
+### 2.2 Design Principles
+
+- **Framework Agnostic**: Any Markdown parser can be combined with any UI renderer
+- **Progressive Enhancement**: Graceful fallback to code blocks when rendering is unavailable
+- **Security First**: JSON-only payloads prevent code injection attacks
+- **Event Standardization**: Consistent event interface across all widget types
+
+## Specification Format
+
+### 3.1 Input Format
+
+Widgets are declared using fenced code blocks with the language identifier \`markdown-ui-widget\`:
+
+\`\`\`\`markdown
 \`\`\`markdown-ui-widget
-{ "type": "select", "id": "env", "choices": ["dev", "prod"] }
+{ "type": "widgetType", "id": "uniqueId", ...properties }
 \`\`\`
 \`\`\`\`
 
-**To this optimized format:**
+### 3.2 JSON Schema Requirements
+
+All widget declarations MUST:
+- Be valid JSON (RFC 7159)
+- Include a \`type\` property specifying the widget type
+- Include an \`id\` property for event identification (optional, auto-generated if omitted)
+- Use double quotes for all strings
+- Not include trailing commas or comments
+
+### 3.3 Intermediate XML Format
+
+Parsers MUST transform widget declarations into the following XML format:
+
 \`\`\`xml
-<markdown-ui-widget id="unique_generated_id" content="base64_encoded_payload"></markdown-ui-widget>
+<markdown-ui-widget id="generated_id" content="base64_encoded_json_payload"></markdown-ui-widget>
 \`\`\`
 
-### 🎨 Stage 2: The Interactive Renderer  
-Your renderer brings widgets to life by:
-- Converting XML tags into beautiful, interactive components
-- Managing widget state and user interactions  
-- Emitting clean, predictable events when users engage
-- Handling complex interactions with ease
+**Attributes:**
+- \`id\`: Unique identifier (generated if not provided in JSON)
+- \`content\`: Base64-encoded original JSON payload
 
-The renderer has complete freedom to manage internal state and emit events in the most effective way possible.
+## Widget Event Interface
 
-## Ready-to-Use Implementations
+### 4.1 Event Structure
 
-### 🚀 Production-Ready Stack
-
-- **Parser**: \`@markdown-ui/marked-ext\` (seamlessly integrates with marked.js)
-- **Renderer**: \`@markdown-ui/svelte\` (lightning-fast Svelte components)
-
-Explore the full codebase on [GitHub](https://github.com/BlueprintDesignLab/markdown-ui/)!
-
-### 🔧 Build Your Own Stack
-
-The beauty of Markdown UI is its flexibility—mix and match any combination:
-
-- **remarkable** + **React** for component-rich applications  
-- **markdown-it** + **Vue** for progressive web apps
-- **unified/remark** + **Angular** for enterprise solutions
-- Custom parsers + native mobile renderers for cross-platform apps
-
-## Game-Changing Use Cases
-
-### 🤖 Supercharge Your AI Applications
-
-**The Problem**: LLMs generate static text responses that can't capture user input or preferences.
-
-**The Solution**: LLMs can now generate fully interactive interfaces on-demand!
-
-**The Magic Workflow:**
-1. **AI Generates**: Your LLM creates markdown with embedded widgets
-2. **Parser Processes**: Converts to standardized format  
-3. **UI Renders**: Beautiful, interactive components appear instantly
-4. **User Engages**: Real interactions generate meaningful data
-5. **AI Responds**: Your application feeds user choices back to the LLM
-
-**Real Example:**
-*LLM Output*: "Let's configure your deployment pipeline:"
-
-\`\`\`markdown-ui-widget
-{ "type": "form", "id": "deploy", "fields": [...] }
-\`\`\`
-
-*User Experience*: Instantly interactive form appears
-*Result*: Event {id: "deploy", value: {env: "prod", replicas: 3}}
-*AI Context*: "Perfect! User chose production environment with 3 replicas"
-
-### 💼 Revolutionary Non-AI Applications
-
-**Interactive Documentation**: Transform boring API docs into hands-on experiences
-- Live code examples users can modify and test
-- Interactive configuration builders
-- Real-time parameter adjustments
-
-**Dynamic Content Management**: Empower content creators with interactive elements
-- Live polls and surveys within articles
-- Interactive tutorials and learning paths
-- Data visualization widgets that respond to user input
-
-**Enhanced User Experiences**: Build richer interfaces without complex frameworks
-- Progressive forms that adapt based on user choices
-- Interactive dashboards embedded in content
-- Real-time collaboration tools within static sites
-
-## Endless Extensibility
-
-### Adding New Widget Types is Effortless:
-1. **Design**: Define your widget's behavior and data schema
-2. **Parse**: No work needs to be done here!
-3. **Render**: Create the interactive component
-4. **Connect**: Ensure consistent event handling
-
-## Why Developers Love Markdown UI
-
-### 🎯 **Separation of Concerns**
-Parsers and renderers work independently—swap components without breaking your system
-
-### 🌍 **Universal Compatibility**  
-Any markdown parser works with any UI framework—build once, use everywhere
-
-### 📡 **Predictable Events**
-Standardized event format means reliable, debuggable interactions across all widgets
-
-### 🚀 **AI-Native Design**
-Built from the ground up to enable rich interactive experiences from AI-generated content
-
-### 💪 **Progressive Enhancement**
-Gracefully falls back to readable code blocks in environments that don't support rendering
-
-### ⚡ **Zero Vendor Lock-in**
-Switch parsers, renderers, or frameworks anytime without rewriting your content
-
-## Widget Event Format
-
-All widget interactions emit events in this standardized format:
+All widget interactions MUST emit events conforming to this interface:
 
 \`\`\`typescript
 interface WidgetEvent {
-  id: string;    // The unique widget identifier
-  value: any;    // The current value of the widget
+  id: string;       // Widget identifier
+  value: unknown;   // Current widget value
 }
 \`\`\`
 
-## Supported Widget Types
+### 4.2 Event Emission
 
-### Basic Widgets
+- Events MUST be emitted on user interaction
+- Event values MUST reflect the current widget state
+- Events SHOULD be emitted immediately upon value change
 
-#### Button Group
-\`\`\`markdown-ui-widget
-{ "type": "buttonGroup", "id": "mode", "label": "Mode", "choices": ["A", "B", "C"], "default": "A" }
+## Standard Widget Types
+
+### 5.1 textInput
+
+**Purpose**: Single-line text input
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "textInput";
+  id?: string;
+  label?: string;
+  placeholder?: string;
+  default?: string;
+}
 \`\`\`
 
-#### Select Dropdown
-\`\`\`markdown-ui-widget
-{ "type": "select", "id": "env", "label": "Environment", "choices": ["dev", "staging", "prod"], "default": "dev" }
+**Event Value**: \`string\`
+
+**Example**:
+\`\`\`json
+{ "type": "textInput", "id": "username", "label": "Username", "placeholder": "Enter username", "default": "" }
 \`\`\`
 
-#### Multi-Select
-\`\`\`markdown-ui-widget
-{ "type": "selectMulti", "id": "tags", "label": "Tags", "choices": ["tag1", "tag2", "tag3"], "default": ["tag1"] }
+### 5.2 buttonGroup
+
+**Purpose**: Single selection from predefined options
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "buttonGroup";
+  id?: string;
+  label?: string;
+  choices: string[];
+  default?: string; // Must be one of choices
+}
 \`\`\`
 
-#### Slider
-\`\`\`markdown-ui-widget
-{ "type": "slider", "id": "volume", "label": "Volume", "min": 0, "max": 100, "step": 5, "default": 50 }
+**Event Value**: \`string\`
+
+**Example**:
+\`\`\`json
+{ "type": "buttonGroup", "id": "env", "label": "Environment", "choices": ["dev", "staging", "prod"], "default": "dev" }
 \`\`\`
 
-#### Text Input
-\`\`\`markdown-ui-widget
-{ "type": "textInput", "id": "name", "label": "Name", "placeholder": "Enter name...", "default": "" }
+### 5.3 select
+
+**Purpose**: Dropdown selection
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "select";
+  id?: string;
+  label?: string;
+  choices: string[];
+  default?: string; // Must be one of choices
+}
 \`\`\`
 
-### Composite Widgets
+**Event Value**: \`string\`
 
-#### Form
-\`\`\`markdown-ui-widget
+**Example**:
+\`\`\`json
+{ "type": "select", "id": "region", "label": "AWS Region", "choices": ["us-east-1", "us-west-2", "eu-west-1"], "default": "us-east-1" }
+\`\`\`
+
+### 5.4 selectMulti
+
+**Purpose**: Multiple selection from predefined options
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "selectMulti";
+  id?: string;
+  label?: string;
+  choices: string[];
+  default?: string | string[]; // Must be subset of choices
+}
+\`\`\`
+
+**Event Value**: \`string[]\`
+
+**Example**:
+\`\`\`json
+{ "type": "selectMulti", "id": "services", "label": "Services", "choices": ["redis", "postgres", "nginx"], "default": ["redis"] }
+\`\`\`
+
+### 5.5 slider
+
+**Purpose**: Numeric input with range constraints
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "slider";
+  id?: string;
+  label?: string;
+  min: number;
+  max: number;
+  step?: number; // Default: 1
+  default?: number; // Must be within [min, max]
+}
+\`\`\`
+
+**Event Value**: \`number\`
+
+**Example**:
+\`\`\`json
+{ "type": "slider", "id": "cpu", "label": "CPU Cores", "min": 1, "max": 32, "step": 1, "default": 4 }
+\`\`\`
+
+### 5.6 form
+
+**Purpose**: Composite widget containing multiple fields
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "form";
+  id?: string;
+  submitLabel?: string;
+  fields: Widget[]; // Array of other widget definitions
+}
+\`\`\`
+
+**Event Value**: \`Record<string, unknown>\` (object with field IDs as keys)
+
+**Example**:
+\`\`\`json
 {
   "type": "form",
-  "id": "config-form",
-  "submitLabel": "Submit",
+  "id": "server-config",
+  "submitLabel": "Deploy",
   "fields": [
-    { "type": "select", "id": "env", "label": "Environment", "choices": ["dev", "prod"] },
-    { "type": "slider", "id": "timeout", "label": "Timeout", "min": 1, "max": 60, "default": 30 }
+    { "type": "select", "id": "env", "choices": ["dev", "prod"] },
+    { "type": "slider", "id": "replicas", "min": 1, "max": 10, "default": 3 }
   ]
 }
 \`\`\`
 
+## Implementation Guidelines
 
+### 6.1 Parser Requirements
+
+Parsers MUST:
+- Detect \`markdown-ui-widget\` fenced code blocks
+- Validate JSON syntax
+- Generate unique IDs when not provided
+- Encode payloads in Base64
+- Convert to standardized XML format
+
+### 6.2 Renderer Requirements
+
+Renderers MUST:
+- Parse Base64-encoded JSON payloads
+- Implement all standard widget types
+- Emit events conforming to the WidgetEvent interface
+- Handle malformed payloads gracefully
+- Provide fallback rendering for unsupported widget types
+
+### 6.3 Error Handling
+
+- Invalid JSON SHOULD be rendered as code blocks
+- Unsupported widget types SHOULD be rendered as code blocks
+- Missing required properties SHOULD be handled with sensible defaults
+
+## Extension Points
+
+### 7.1 Custom Widget Types
+
+Implementations MAY support additional widget types by:
+- Defining custom type strings (prefixed with implementation name recommended)
+- Implementing renderer support
+- Maintaining consistent event interface
+
+### 7.2 Custom Properties
+
+Standard widgets MAY accept implementation-specific properties that:
+- Do not conflict with standard properties
+- Are ignored by other implementations
+- Maintain backward compatibility
+
+## Security Considerations
+
+- JSON payloads prevent code injection
+- Base64 encoding ensures safe transport
+- No executable code in widget definitions
+- Event values should be sanitized by consuming applications
+
+## Conformance
+
+### 9.1 Parser Conformance
+
+A conformant parser MUST:
+- Support all standard widget types
+- Generate valid XML output
+- Handle edge cases gracefully
+
+### 9.2 Renderer Conformance
+
+A conformant renderer MUST:
+- Implement all standard widget types
+- Emit standard event format
+- Provide graceful fallbacks
+
+## Examples
+
+See the [Home page](/) for interactive examples of all widget types.
+
+## Reference Implementations
+
+- **Parser**: [@markdown-ui/marked-ext](https://www.npmjs.com/package/@markdown-ui/marked-ext)
+- **Svelte Renderer**: [@markdown-ui/svelte](https://www.npmjs.com/package/@markdown-ui/svelte)  
+- **React Renderer**: [@markdown-ui/react](https://www.npmjs.com/package/@markdown-ui/react)
+
+---
+
+*This specification is maintained at [github.com/BlueprintDesignLab/markdown-ui](https://github.com/BlueprintDesignLab/markdown-ui)*
 `;
 </script>
 
@@ -198,36 +317,182 @@ interface WidgetEvent {
 
 <style>
   .spec-container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 2rem;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff;
+    min-height: calc(100vh - 4rem);
   }
   
   .spec-content {
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+  
+  /* Enhanced typography for technical spec */
+  :global(.spec-content h1) {
+    color: #1f2937;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  
+  :global(.spec-content h2) {
+    color: #374151;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 3rem 0 1.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  :global(.spec-content h3) {
+    color: #4b5563;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+  }
+  
+  :global(.spec-content p) {
+    color: #374151;
+    margin-bottom: 1.25rem;
+    text-align: justify;
+  }
+  
+  :global(.spec-content strong) {
+    color: #1f2937;
+    font-weight: 600;
+  }
+  
+  :global(.spec-content ul) {
+    margin: 1rem 0 1.5rem 1.5rem;
+    color: #4b5563;
+  }
+  
+  :global(.spec-content li) {
+    margin-bottom: 0.5rem;
     line-height: 1.6;
+  }
+  
+  :global(.spec-content code) {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-weight: 500;
+  }
+  
+  :global(.spec-content pre) {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  
+  :global(.spec-content pre code) {
+    background: transparent;
+    padding: 0;
+    color: #475569;
+    font-size: inherit;
+  }
+  
+  :global(.spec-content a) {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  :global(.spec-content a:hover) {
+    text-decoration: underline;
+    color: #2563eb;
+  }
+  
+  /* Table of contents style numbering */
+  :global(.spec-content h2::before) {
+    content: counter(h2-counter) ". ";
+    counter-increment: h2-counter;
+    color: #6b7280;
+    font-weight: 400;
+  }
+  
+  :global(.spec-content) {
+    counter-reset: h2-counter;
+  }
+  
+  /* Special styling for metadata at the top */
+  :global(.spec-content p:first-of-type),
+  :global(.spec-content p:nth-of-type(2)),
+  :global(.spec-content p:nth-of-type(3)) {
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Horizontal rule styling */
+  :global(.spec-content hr) {
+    border: none;
+    height: 1px;
+    background: #e5e7eb;
+    margin: 3rem 0;
   }
   
   @media (max-width: 768px) {
     .spec-container {
-      padding: 1rem;
+      padding: 1.5rem;
       max-width: 100%;
     }
     
     .spec-content {
       font-size: 0.95rem;
-      line-height: 1.5;
+      line-height: 1.6;
+    }
+    
+    :global(.spec-content h1) {
+      font-size: 1.875rem;
+    }
+    
+    :global(.spec-content h2) {
+      font-size: 1.5rem;
+      margin: 2.5rem 0 1.25rem 0;
+    }
+    
+    :global(.spec-content h3) {
+      font-size: 1.125rem;
+      margin: 1.5rem 0 0.75rem 0;
     }
   }
   
   @media (max-width: 480px) {
     .spec-container {
-      padding: 0.75rem;
+      padding: 1rem;
     }
     
     .spec-content {
       font-size: 0.9rem;
-      line-height: 1.4;
+      line-height: 1.5;
+    }
+    
+    :global(.spec-content h1) {
+      font-size: 1.625rem;
+    }
+    
+    :global(.spec-content h2) {
+      font-size: 1.25rem;
+    }
+    
+    :global(.spec-content pre) {
+      padding: 0.75rem;
+      font-size: 0.8rem;
     }
   }
   

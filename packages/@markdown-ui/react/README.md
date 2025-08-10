@@ -157,8 +157,34 @@ const handleWidgetEvent = (data: { id: string, value: any }) => {
 
 This package includes full TypeScript definitions. All components are typed and provide IntelliSense support.
 
+## Next.js Usage
+
+Due to the use of Web Components and browser APIs, this library requires client-side rendering. Use dynamic imports with SSR disabled:
+
+```tsx
+import dynamic from 'next/dynamic';
+
+const MarkdownUI = dynamic(() => import('@markdown-ui/react').then(mod => ({ default: mod.MarkdownUI })), {
+  ssr: false
+});
+
+export default function Page() {
+  const handleWidgetEvent = (data: any) => {
+    console.log('Widget event:', data);
+  };
+
+  return (
+    <MarkdownUI 
+      html={yourProcessedHtml} 
+      onWidgetEvent={handleWidgetEvent} 
+    />
+  );
+}
+```
+
 ## Compatibility
 
-- React 18+
+- React 19+ (React 18+ also supported)
 - Modern browsers with Web Components support
-- Works with Next.js, Create React App, and other React frameworks
+- Next.js (with client-side rendering only)
+- Create React App and other React frameworks

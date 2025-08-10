@@ -10,13 +10,10 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          'react/jsx-runtime': 'react/jsx-runtime'
-        }
+      external: (id) => {
+        return ['react', 'react-dom', 'react/jsx-runtime'].includes(id) || 
+               id.startsWith('react/') || 
+               id.startsWith('react-dom/')
       }
     }
   }

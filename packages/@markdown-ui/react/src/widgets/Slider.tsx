@@ -28,14 +28,21 @@ export const Slider: React.FC<SliderProps> = ({
   return (
     <div className="widget-slider">
       {label && <label>{label}</label>}
-      <input
-        type="range"
-        value={value}
-        min={min}
-        max={max}
-        step={step}
-        onChange={handleChange}
-      />
+      <div className="slider-container">
+        <div className="slider-values">
+          <span className="min-value">{min}</span>
+          <span className="current-value">{value}</span>
+          <span className="max-value">{max}</span>
+        </div>
+        <input
+          type="range"
+          value={value}
+          min={min}
+          max={max}
+          step={step}
+          onChange={handleChange}
+        />
+      </div>
     </div>
   );
 };
