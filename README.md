@@ -1,7 +1,7 @@
 # Markdown UI
 **Micro-spec for interactive widgets inside Markdown.**  
 
-See the [live demo here](https://markdown-ui.yaoke.pro).
+See the [live demo here](https://markdown-ui.blueprintlab.io/).
 
 If your renderer supports it → live UI. If not → graceful fallback.
 
