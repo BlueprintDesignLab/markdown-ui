@@ -58,8 +58,6 @@ This separation lets you mix any parser with any renderer.
 
 ## Implementations
 
-# Implementations
-
 | Package | Status |
 |---------|---------|
 | `@markdown-ui/marked-ext` (Parser) | ✅ Complete |
