@@ -11,8 +11,7 @@ export const markedUiExtension: MarkedExtension = {
                 try {
                     payloadJson = JSON.parse(token.text);
                 } catch (e) {
-                    // invalid json, default rendering
-                    return false;
+                    // invalid json, render loading widget
                 }
                 const payload = btoa(token.text);
                 const id = nanoid();

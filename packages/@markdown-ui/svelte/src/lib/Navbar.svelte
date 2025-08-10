@@ -3,7 +3,7 @@
   
   const navItems = [
     { href: '/', label: 'Home' },
-    { href: 'https://markdown-ui.blueprintlab.io', label: 'Chat Demo' },
+    { href: 'https://markdown-ui-chat.blueprintlab.io', label: 'Chat Demo' },
     { href: '/streaming', label: 'Streaming Demo' },
     { href: '/editor', label: 'Editor Demo' },
     { href: '/spec', label: 'Specification' },

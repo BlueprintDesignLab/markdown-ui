@@ -8,9 +8,20 @@ export interface WidgetProps {
 
 type WidgetType = keyof typeof widgets;
 
+// Map camelCase JSON types to PascalCase component names
+const typeMapping: Record<string, WidgetType> = {
+  'buttonGroup': 'ButtonGroup',
+  'form': 'Form',
+  'select': 'Select',
+  'selectMulti': 'SelectMulti',
+  'slider': 'Slider',
+  'textInput': 'TextInput'
+};
+
 export const Widget: React.FC<WidgetProps> = ({ id, content }) => {
   const parsed = JSON.parse(atob(content));
-  const WidgetComponent = widgets[parsed.type as WidgetType];
+  const componentType = typeMapping[parsed.type] || parsed.type;
+  const WidgetComponent = widgets[componentType as WidgetType];
 
   const dispatch = (detail: any) => {
     const event = new CustomEvent('widget-event', {
