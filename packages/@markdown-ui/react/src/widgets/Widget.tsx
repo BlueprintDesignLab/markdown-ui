@@ -12,6 +12,7 @@ type WidgetType = keyof typeof widgets;
 const typeMapping: Record<string, WidgetType> = {
   'buttonGroup': 'ButtonGroup',
   'form': 'Form',
+  'incomplete': 'Incomplete',
   'select': 'Select',
   'selectMulti': 'SelectMulti',
   'slider': 'Slider',

@@ -20,8 +20,8 @@
           <a 
             href={item.href} 
             class:active={$page.url.pathname === item.href}
-            target={item.label === 'github' ? '_blank' : undefined}
-            rel={item.label === 'github' ? 'noopener noreferrer' : undefined}
+            target={item.href.startsWith("https") ? '_blank' : undefined}
+            rel={item.href.startsWith("https") ? 'noopener noreferrer' : undefined}
           >
             {item.label}
           </a>
