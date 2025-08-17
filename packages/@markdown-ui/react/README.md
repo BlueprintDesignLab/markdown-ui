@@ -30,7 +30,7 @@ const App = () => {
 
 \`\`\`markdown-ui-widget
 {
-  "type": "textInput",
+  "type": "text-input",
   "id": "name",
   "label": "Your Name",
   "placeholder": "Enter your name"
@@ -92,7 +92,7 @@ Both syntaxes produce identical widget output. The extension automatically detec
 ```markdown
 \`\`\`markdown-ui-widget
 {
-  "type": "textInput",
+  "type": "text-input",
   "id": "name",
   "label": "Name",
   "placeholder": "Enter your name",
@@ -112,7 +112,7 @@ text-input name "Name" "Enter your name" "John Doe"
 ```markdown
 \`\`\`markdown-ui-widget
 {
-  "type": "buttonGroup",
+  "type": "button-group",
   "id": "choice",
   "label": "Choose an option",
   "choices": ["Option A", "Option B", "Option C"],
@@ -158,7 +158,7 @@ slider value 0 100 1 50
   "submitLabel": "Submit Form",
   "fields": [
     {
-      "type": "textInput",
+      "type": "text-input",
       "id": "name",
       "label": "Name",
       "placeholder": "Your name"

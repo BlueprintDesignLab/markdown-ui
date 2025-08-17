@@ -50,11 +50,11 @@ import { MarkdownUI } from '@markdown-ui/react';
 
 | Widget | Purpose | Events |
 |--------|---------|--------|
-| **buttonGroup** | A/B choices, yes/no | `string` |
+| **button-group** | A/B choices, yes/no | `string` |
 | **select** | Dropdown, multi-select | `string \| string[]` |
-| **selectMulti** | Tag selection | `string[]` |
+| **select-multi** | Tag selection | `string[]` |
 | **slider** | Numeric input | `number` |  
-| **textInput** | Free text | `string` |
+| **text-input** | Free text | `string` |
 | **form** | Composite widget | `object` |
 
 ## Architecture
@@ -91,12 +91,12 @@ Use concise DSL syntax for more ergonomic widget definitions.
 
 **DSL Format Examples:**
 
-1. textInput
+1. text-input
 ```markdown-ui-widget
 text-input username "Username" "Enter username" "john"
 ```
 
-2. buttonGroup
+2. button-group
 ```markdown-ui-widget
 button-group env [dev staging prod] dev
 ```
@@ -106,7 +106,7 @@ button-group env [dev staging prod] dev
 select region [us-east-1 us-west-2] us-east-1
 ```
 
-4. selectMulti
+4. select-multi
 ```markdown-ui-widget
 select-multi services [redis postgres nginx] [redis]
 ```

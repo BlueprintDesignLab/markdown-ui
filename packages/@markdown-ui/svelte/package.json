@@ -19,16 +19,16 @@
 	"devDependencies": {
 		"@codemirror/lang-markdown": "^6.3.4",
 		"@codemirror/view": "^6.38.1",
-		"@markdown-ui/marked-ext": "^1.0.13",
-		"@sveltejs/adapter-auto": "^6.0.0",
-		"@sveltejs/kit": "^2.22.0",
-		"@sveltejs/vite-plugin-svelte": "^6.0.0",
+		"@markdown-ui/marked-ext": "^1.0.16",
+		"@sveltejs/adapter-auto": "^6.1.0",
+		"@sveltejs/kit": "^2.31.1",
+		"@sveltejs/vite-plugin-svelte": "^6.1.2",
 		"marked": "^16.1.2",
-		"svelte": "^5.0.0",
-		"svelte-check": "^4.0.0",
+		"svelte": "^5.38.1",
+		"svelte-check": "^4.3.1",
 		"svelte-codemirror-editor": "^1.4.1",
-		"typescript": "^5.0.0",
-		"vite": "^7.0.4"
+		"typescript": "^5.9.2",
+		"vite": "^7.1.2"
 	},
 	"dependencies": {},
 	"publishConfig": {

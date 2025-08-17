@@ -35,7 +35,7 @@ Markdown UI allows you to embed interactive widgets directly in Markdown using s
 Here's a simple example - pick your environment:
 
 \`\`\`markdown-ui-widget
-{ "type": "buttonGroup", "id": "env", "label": "Environment", "choices": ["development", "staging", "production"], "default": "development" }
+{ "type": "button-group", "id": "env", "label": "Environment", "choices": ["development", "staging", "production"], "default": "development" }
 \`\`\`
 
 Or use the new concise **DSL syntax** (60-70% shorter):
@@ -65,11 +65,11 @@ select region [us-east-1 us-west-2 eu-west-1 ap-southeast-1] us-east-1
 
 | Widget | Purpose | Demo |
 |--------|---------|------|
-| **buttonGroup** | A/B choices, yes/no |  Above |
+| **button-group** | A/B choices, yes/no |  Above |
 | **select** | Dropdown selection |  Above |
 | **slider** | Numeric input |  Above |
-| **textInput** | Free text input | [Editor Demo](/editor) |
-| **selectMulti** | Tag selection | [Editor Demo](/editor) |
+| **text-input** | Free text input | [Editor Demo](/editor) |
+| **select-multi** | Tag selection | [Editor Demo](/editor) |
 | **form** | Composite widgets | [Streaming Demo](/streaming) |
 
 ## Next Steps

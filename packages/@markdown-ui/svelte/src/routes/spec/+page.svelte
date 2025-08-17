@@ -136,14 +136,14 @@ interface WidgetEvent {
 
 ## Standard Widget Types
 
-### 5.1 textInput
+### 5.1 text-input
 
 **Purpose**: Single-line text input
 
 **Schema**:
 \`\`\`typescript
 {
-  type: "textInput";
+  type: "text-input";
   id?: string;
   label?: string;
   placeholder?: string;
@@ -155,7 +155,7 @@ interface WidgetEvent {
 
 **Example**:
 \`\`\`json
-{ "type": "textInput", "id": "username", "label": "Username", "placeholder": "Enter username", "default": "" }
+{ "type": "text-input", "id": "username", "label": "Username", "placeholder": "Enter username", "default": "" }
 \`\`\`
 
 **DSL Example**:
@@ -163,14 +163,14 @@ interface WidgetEvent {
 text-input username "Username" "Enter username" ""
 \`\`\`
 
-### 5.2 buttonGroup
+### 5.2 button-group
 
 **Purpose**: Single selection from predefined options
 
 **Schema**:
 \`\`\`typescript
 {
-  type: "buttonGroup";
+  type: "button-group";
   id?: string;
   label?: string;
   choices: string[];
@@ -182,7 +182,7 @@ text-input username "Username" "Enter username" ""
 
 **Example**:
 \`\`\`json
-{ "type": "buttonGroup", "id": "env", "label": "Environment", "choices": ["dev", "staging", "prod"], "default": "dev" }
+{ "type": "button-group", "id": "env", "label": "Environment", "choices": ["dev", "staging", "prod"], "default": "dev" }
 \`\`\`
 
 **DSL Example**:
@@ -212,14 +212,14 @@ button-group env [dev staging prod] dev
 { "type": "select", "id": "region", "label": "AWS Region", "choices": ["us-east-1", "us-west-2", "eu-west-1"], "default": "us-east-1" }
 \`\`\`
 
-### 5.4 selectMulti
+### 5.4 select-multi
 
 **Purpose**: Multiple selection from predefined options
 
 **Schema**:
 \`\`\`typescript
 {
-  type: "selectMulti";
+  type: "select-multi";
   id?: string;
   label?: string;
   choices: string[];
@@ -231,7 +231,7 @@ button-group env [dev staging prod] dev
 
 **Example**:
 \`\`\`json
-{ "type": "selectMulti", "id": "services", "label": "Services", "choices": ["redis", "postgres", "nginx"], "default": ["redis"] }
+{ "type": "select-multi", "id": "services", "label": "Services", "choices": ["redis", "postgres", "nginx"], "default": ["redis"] }
 \`\`\`
 
 ### 5.5 slider

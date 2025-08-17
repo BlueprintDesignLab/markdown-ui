@@ -82,7 +82,7 @@ export class DSLParser {
             return { success: false, error: "text-input requires at least an id" };
         }
         const widget = {
-            type: "textInput",
+            type: "text-input",
             id: tokens[1]
         };
         if (tokens.length > 2)
@@ -100,7 +100,7 @@ export class DSLParser {
         try {
             const choices = this.parseArray(tokens[2]);
             const widget = {
-                type: "buttonGroup",
+                type: "button-group",
                 id: tokens[1],
                 choices
             };
@@ -138,7 +138,7 @@ export class DSLParser {
         try {
             const choices = this.parseArray(tokens[2]);
             const widget = {
-                type: "selectMulti",
+                type: "select-multi",
                 id: tokens[1],
                 choices
             };

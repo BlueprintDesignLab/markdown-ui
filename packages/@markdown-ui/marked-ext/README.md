@@ -29,7 +29,7 @@ marked.use(markedUiExtension);
 const jsonMarkdown = `
 \`\`\`markdown-ui-widget
 {
-  "type": "textInput",
+  "type": "text-input",
   "id": "username", 
   "label": "Username",
   "placeholder": "Enter username"

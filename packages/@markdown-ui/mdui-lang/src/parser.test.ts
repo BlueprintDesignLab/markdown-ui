@@ -7,7 +7,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('text-input myId');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'textInput',
+        type: 'text-input',
         id: 'myId'
       });
     });
@@ -16,7 +16,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('text-input username "Username" "Enter username" "defaultValue"');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'textInput',
+        type: 'text-input',
         id: 'username',
         label: 'Username',
         placeholder: 'Enter username',
@@ -28,7 +28,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('text-input id "Long label text" "Placeholder with spaces"');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'textInput',
+        type: 'text-input',
         id: 'id',
         label: 'Long label text',
         placeholder: 'Placeholder with spaces'
@@ -41,7 +41,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('button-group env [dev staging prod]');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'buttonGroup',
+        type: 'button-group',
         id: 'env',
         choices: ['dev', 'staging', 'prod']
       });
@@ -51,7 +51,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('button-group env [dev staging prod] dev');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'buttonGroup',
+        type: 'button-group',
         id: 'env',
         choices: ['dev', 'staging', 'prod'],
         default: 'dev'
@@ -62,7 +62,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('button-group confirm [yes]');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'buttonGroup',
+        type: 'button-group',
         id: 'confirm',
         choices: ['yes']
       });
@@ -103,7 +103,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('select-multi services [redis postgres nginx]');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'selectMulti',
+        type: 'select-multi',
         id: 'services',
         choices: ['redis', 'postgres', 'nginx']
       });
@@ -113,7 +113,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('select-multi services [redis postgres nginx] redis');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'selectMulti',
+        type: 'select-multi',
         id: 'services',
         choices: ['redis', 'postgres', 'nginx'],
         default: 'redis'
@@ -124,7 +124,7 @@ describe('DSL Parser', () => {
       const result = parseDSL('select-multi services [redis postgres nginx] [redis postgres]');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'selectMulti',
+        type: 'select-multi',
         id: 'services',
         choices: ['redis', 'postgres', 'nginx'],
         default: ['redis', 'postgres']
@@ -233,7 +233,7 @@ describe('DSL Parser', () => {
             default: 3
           },
           {
-            type: 'textInput',
+            type: 'text-input',
             id: 'name',
             label: 'Server Name'
           }
@@ -279,7 +279,7 @@ not indented
       const result = parseDSL('text-input    id     "label"');
       expect(result.success).toBe(true);
       expect(result.widget).toEqual({
-        type: 'textInput',
+        type: 'text-input',
         id: 'id',
         label: 'label'
       });

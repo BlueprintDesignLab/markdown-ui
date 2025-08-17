@@ -17,7 +17,7 @@ import { parseDSL } from '@markdown-ui/mdui-lang';
 const result = parseDSL('text-input username "Username" "Enter username"');
 console.log(result.widget);
 // {
-//   type: 'textInput',
+//   type: 'text-input',
 //   id: 'username', 
 //   label: 'Username',
 //   placeholder: 'Enter username'
@@ -114,7 +114,7 @@ interface ParseResult {
 
 **Traditional JSON:**
 ```json
-{ "type": "textInput", "id": "username", "label": "Username", "placeholder": "Enter username", "default": "john" }
+{ "type": "text-input", "id": "username", "label": "Username", "placeholder": "Enter username", "default": "john" }
 ```
 
 **DSL:**

@@ -1,12 +1,12 @@
 export interface TextInputWidget {
-    type: "textInput";
+    type: "text-input";
     id?: string;
     label?: string;
     placeholder?: string;
     default?: string;
 }
 export interface ButtonGroupWidget {
-    type: "buttonGroup";
+    type: "button-group";
     id?: string;
     label?: string;
     choices: string[];
@@ -20,7 +20,7 @@ export interface SelectWidget {
     default?: string;
 }
 export interface SelectMultiWidget {
-    type: "selectMulti";
+    type: "select-multi";
     id?: string;
     label?: string;
     choices: string[];

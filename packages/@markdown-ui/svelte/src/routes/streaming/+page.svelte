@@ -25,7 +25,7 @@ I need to help you set up a new production server. Instead of asking you dozens 
 ## Security Configuration
 
 \`\`\`markdown-ui-widget
-{ "type": "selectMulti", "id": "security", "label": "Security Features", "choices": ["WAF", "DDoS Protection", "VPC", "Private Subnets", "Bastian Host", "Multi-Factor Auth"], "default": ["WAF", "VPC"] }
+{ "type": "select-multi", "id": "security", "label": "Security Features", "choices": ["WAF", "DDoS Protection", "VPC", "Private Subnets", "Bastian Host", "Multi-Factor Auth"], "default": ["WAF", "VPC"] }
 \`\`\`
 
 ## Server Deployment Configuration
@@ -38,10 +38,10 @@ Please fill out the following configuration form:
   "id": "server-config",
   "submitLabel": "Generate Configuration",
   "fields": [
-    { "type": "textInput", "id": "project-name", "label": "Project Name", "placeholder": "my-awesome-app", "default": "" },
+    { "type": "text-input", "id": "project-name", "label": "Project Name", "placeholder": "my-awesome-app", "default": "" },
     { "type": "select", "id": "environment", "label": "Environment", "choices": ["development", "staging", "production"], "default": "production" },
-    { "type": "buttonGroup", "id": "server-type", "label": "Server Type", "choices": ["Web Server", "API Server", "Database Server", "Full Stack"], "default": "Full Stack" },
-    { "type": "selectMulti", "id": "services", "label": "Required Services", "choices": ["PostgreSQL", "Redis", "Nginx", "SSL Certificate", "Load Balancer", "CDN", "Monitoring"], "default": ["PostgreSQL", "Nginx"] },
+    { "type": "button-group", "id": "server-type", "label": "Server Type", "choices": ["Web Server", "API Server", "Database Server", "Full Stack"], "default": "Full Stack" },
+    { "type": "select-multi", "id": "services", "label": "Required Services", "choices": ["PostgreSQL", "Redis", "Nginx", "SSL Certificate", "Load Balancer", "CDN", "Monitoring"], "default": ["PostgreSQL", "Nginx"] },
     { "type": "slider", "id": "cpu-cores", "label": "CPU Cores", "min": 1, "max": 32, "step": 1, "default": 4 },
     { "type": "slider", "id": "memory-gb", "label": "Memory (GB)", "min": 1, "max": 128, "step": 1, "default": 8 },
     { "type": "select", "id": "region", "label": "AWS Region", "choices": ["us-east-1", "us-west-2", "eu-west-1", "ap-southeast-1"], "default": "us-east-1" }

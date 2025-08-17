@@ -135,11 +135,11 @@ const h = ({
       onchange: (m) => r(a.id, m)
     };
     switch (a.type) {
-      case "buttonGroup":
+      case "button-group":
         return /* @__PURE__ */ e(h, { ...d, choices: a.choices ?? [] });
       case "select":
         return /* @__PURE__ */ e(g, { ...d, choices: a.choices ?? [] });
-      case "selectMulti":
+      case "select-multi":
         return /* @__PURE__ */ e(v, { ...d, choices: a.choices ?? [] });
       case "slider":
         return /* @__PURE__ */ e(
@@ -150,7 +150,7 @@ const h = ({
             max: a.max ?? 100
           }
         );
-      case "textInput":
+      case "text-input":
         return /* @__PURE__ */ e(y, { ...d });
       default:
         return null;
@@ -208,16 +208,16 @@ const E = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   SelectMulti: v,
   Slider: f,
   TextInput: y
-}, Symbol.toStringTag, { value: "Module" })), M = {
-  buttonGroup: "ButtonGroup",
+}, Symbol.toStringTag, { value: "Module" })), R = {
+  "button-group": "ButtonGroup",
   form: "Form",
   incomplete: "Incomplete",
   select: "Select",
-  selectMulti: "SelectMulti",
+  "select-multi": "SelectMulti",
   slider: "Slider",
-  textInput: "TextInput"
-}, I = ({ id: s, content: n }) => {
-  const c = JSON.parse(atob(n)), l = M[c.type] || c.type, o = E[l], r = (i) => {
+  "text-input": "TextInput"
+}, M = ({ id: s, content: n }) => {
+  const c = JSON.parse(atob(n)), l = R[c.type] || c.type, o = E[l], r = (i) => {
     const t = new CustomEvent("widget-event", {
       detail: i,
       bubbles: !0,
@@ -237,7 +237,7 @@ const E = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     '"'
   ] }) });
 };
-class R extends HTMLElement {
+class I extends HTMLElement {
   constructor() {
     super(...arguments), this.reactRoot = null;
   }
@@ -245,13 +245,13 @@ class R extends HTMLElement {
     const n = this.getAttribute("id") || "", c = this.getAttribute("content") || "";
     this.innerHTML = "";
     const l = document.createElement("div");
-    this.appendChild(l), this.reactRoot = N(l), this.reactRoot.render(w.createElement(I, { id: n, content: c }));
+    this.appendChild(l), this.reactRoot = N(l), this.reactRoot.render(w.createElement(M, { id: n, content: c }));
   }
   disconnectedCallback() {
     this.reactRoot && (this.reactRoot.unmount(), this.reactRoot = null);
   }
 }
-typeof window < "u" && !customElements.get("markdown-ui-widget") && customElements.define("markdown-ui-widget", R);
+typeof window < "u" && !customElements.get("markdown-ui-widget") && customElements.define("markdown-ui-widget", I);
 const L = ({ html: s, onWidgetEvent: n }) => {
   const c = b(null);
   return x(() => {

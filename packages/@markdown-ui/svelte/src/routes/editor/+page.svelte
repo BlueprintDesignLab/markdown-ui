@@ -26,7 +26,7 @@ Edit this markdown to experiment with different widgets:
 ### Button Group Example
 
 \`\`\`markdown-ui-widget
-{ "type": "buttonGroup", "id": "example-buttons", "label": "Choose Option", "choices": ["Option A", "Option B", "Option C"], "default": "Option A" }
+{ "type": "button-group", "id": "example-buttons", "label": "Choose Option", "choices": ["Option A", "Option B", "Option C"], "default": "Option A" }
 \`\`\`
 
 Or with DSL syntax:
@@ -45,7 +45,7 @@ button-group example-buttons-dsl [OptionA OptionB OptionC] OptionA
   "fields": [
     { "type": "select", "id": "priority", "label": "Priority", "choices": ["Low", "Medium", "High"], "default": "Medium" },
     { "type": "slider", "id": "urgency", "label": "Urgency Level", "min": 1, "max": 10, "default": 5 },
-    { "type": "textInput", "id": "description", "label": "Description", "placeholder": "Describe your request..." }
+    { "type": "text-input", "id": "description", "label": "Description", "placeholder": "Describe your request..." }
   ]
 }
 \`\`\`
@@ -62,7 +62,7 @@ form sample-form-dsl "Submit Form"
 ### Multi-Select Example
 
 \`\`\`markdown-ui-widget
-{ "type": "selectMulti", "id": "features", "label": "Select Features", "choices": ["Auto-save", "Live Preview", "Export PDF", "Collaboration"], "default": ["Live Preview"] }
+{ "type": "select-multi", "id": "features", "label": "Select Features", "choices": ["Auto-save", "Live Preview", "Export PDF", "Collaboration"], "default": ["Live Preview"] }
 \`\`\`
 
 Or with DSL syntax:
@@ -122,11 +122,11 @@ This example demonstrates various interactive widgets.
 ### JSON Format
 
 \`\`\`markdown-ui-widget
-{ "type": "textInput", "id": "username", "label": "Username", "placeholder": "Enter username" }
+{ "type": "text-input", "id": "username", "label": "Username", "placeholder": "Enter username" }
 \`\`\`
 
 \`\`\`markdown-ui-widget
-{ "type": "buttonGroup", "id": "size", "label": "Size", "choices": ["Small", "Medium", "Large"], "default": "Medium" }
+{ "type": "button-group", "id": "size", "label": "Size", "choices": ["Small", "Medium", "Large"], "default": "Medium" }
 \`\`\`
 
 \`\`\`markdown-ui-widget
@@ -164,7 +164,7 @@ form showcase-form "Process Form"
 Just some basic markdown with a single widget.
 
 \`\`\`markdown-ui-widget
-{ "type": "buttonGroup", "id": "simple", "label": "Pick One", "choices": ["Yes", "No", "Maybe"], "default": "Maybe" }
+{ "type": "button-group", "id": "simple", "label": "Pick One", "choices": ["Yes", "No", "Maybe"], "default": "Maybe" }
 \`\`\`
 
 That's it! Simple and clean.`;
@@ -187,7 +187,7 @@ This is a more complex example with multiple sections and widgets.
 \`\`\`
 
 \`\`\`markdown-ui-widget
-{ "type": "selectMulti", "id": "flags", "label": "Feature Flags", "choices": ["debug", "verbose", "profile", "trace"], "default": ["debug"] }
+{ "type": "select-multi", "id": "flags", "label": "Feature Flags", "choices": ["debug", "verbose", "profile", "trace"], "default": ["debug"] }
 \`\`\`
 
 ## Advanced Form
@@ -198,8 +198,8 @@ This is a more complex example with multiple sections and widgets.
   "id": "advanced-config",
   "submitLabel": "Apply Configuration",
   "fields": [
-    { "type": "textInput", "id": "name", "label": "Configuration Name", "placeholder": "Enter configuration name..." },
-    { "type": "buttonGroup", "id": "mode", "label": "Mode", "choices": ["Development", "Testing", "Production"], "default": "Development" },
+    { "type": "text-input", "id": "name", "label": "Configuration Name", "placeholder": "Enter configuration name..." },
+    { "type": "button-group", "id": "mode", "label": "Mode", "choices": ["Development", "Testing", "Production"], "default": "Development" },
     { "type": "slider", "id": "workers", "label": "Worker Threads", "min": 1, "max": 16, "step": 1, "default": 4 }
   ]
 }

@@ -10,13 +10,13 @@ type WidgetType = keyof typeof widgets;
 
 // Map camelCase JSON types to PascalCase component names
 const typeMapping: Record<string, WidgetType> = {
-  'buttonGroup': 'ButtonGroup',
+  'button-group': 'ButtonGroup',
   'form': 'Form',
   'incomplete': 'Incomplete',
   'select': 'Select',
-  'selectMulti': 'SelectMulti',
+  'select-multi': 'SelectMulti',
   'slider': 'Slider',
-  'textInput': 'TextInput'
+  'text-input': 'TextInput'
 };
 
 export const Widget: React.FC<WidgetProps> = ({ id, content }) => {

@@ -39,11 +39,11 @@ export const Form: React.FC<FormProps> = ({
     };
 
     switch (field.type) {
-      case 'buttonGroup':
+      case 'button-group':
         return <ButtonGroup {...commonProps} choices={field.choices ?? []} />;
       case 'select':
         return <Select {...commonProps} choices={field.choices ?? []} />;
-      case 'selectMulti':
+      case 'select-multi':
         return <SelectMulti {...commonProps} choices={field.choices ?? []} />;
       case 'slider':
         return (
@@ -53,7 +53,7 @@ export const Form: React.FC<FormProps> = ({
             max={field.max ?? 100} 
           />
         );
-      case 'textInput':
+      case 'text-input':
         return <TextInput {...commonProps} />;
       default:
         return null;

@@ -96,7 +96,7 @@ export class DSLParser {
     }
 
     const widget: Widget = {
-      type: "textInput",
+      type: "text-input",
       id: tokens[1]
     };
 
@@ -115,7 +115,7 @@ export class DSLParser {
     try {
       const choices = this.parseArray(tokens[2]);
       const widget: Widget = {
-        type: "buttonGroup",
+        type: "button-group",
         id: tokens[1],
         choices
       };
@@ -157,7 +157,7 @@ export class DSLParser {
     try {
       const choices = this.parseArray(tokens[2]);
       const widget: Widget = {
-        type: "selectMulti",
+        type: "select-multi",
         id: tokens[1],
         choices
       };

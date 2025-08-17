@@ -30,11 +30,11 @@
 
 <div class="widget-form">
   {#each fields as f (f.id)}
-    {#if f.type === 'buttonGroup'}
+    {#if f.type === 'button-group'}
       <ButtonGroup {...f} choices={f.choices ?? []} onchange={(v) => set(f.id, v)} />
     {:else if f.type === 'select'}
       <Select {...f} choices={f.choices ?? []} onchange={(v) => set(f.id, v)} />
-    {:else if f.type === 'selectMulti'}
+    {:else if f.type === 'select-multi'}
       <SelectMulti {...f} choices={f.choices ?? []} onchange={(v) => set(f.id, v)} />
     {:else if f.type === 'slider'}
       <Slider
@@ -43,7 +43,7 @@
         max={f.max ?? 100}
         onchange={(v) => set(f.id, v)}
       />
-    {:else if f.type === 'textInput'}
+    {:else if f.type === 'text-input'}
       <TextInput {...f} onchange={(v) => set(f.id, v)} />
     {/if}
   {/each}

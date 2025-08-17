@@ -60,7 +60,7 @@ Create a set of toggle buttons for single selection:
 ```markdown
 \`\`\`markdown-ui-widget
 { 
-  "type": "buttonGroup", 
+  "type": "button-group", 
   "id": "mode", 
   "label": "Mode", 
   "choices": ["Development", "Staging", "Production"],
@@ -104,7 +104,7 @@ Allow users to select multiple options:
 ```markdown
 \`\`\`markdown-ui-widget
 { 
-  "type": "selectMulti", 
+  "type": "select-multi", 
   "id": "features", 
   "label": "Features", 
   "choices": ["SSL", "CDN", "Analytics", "Monitoring"],
@@ -143,7 +143,7 @@ Simple text input field:
 ```markdown
 \`\`\`markdown-ui-widget
 { 
-  "type": "textInput", 
+  "type": "text-input", 
   "id": "appName", 
   "label": "Application Name", 
   "placeholder": "Enter app name...",
