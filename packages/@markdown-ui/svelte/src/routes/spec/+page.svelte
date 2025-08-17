@@ -45,6 +45,14 @@ Widgets are declared using fenced code blocks with the language identifier \`mar
 \`\`\`
 \`\`\`\`
 
+**DSL Alternative**: The extension also supports a concise DSL syntax:
+
+\`\`\`\`markdown
+\`\`\`markdown-ui-widget
+widget-type id [parameters...]
+\`\`\`
+\`\`\`\`
+
 ### 3.2 JSON Schema Requirements
 
 All widget declarations MUST:
@@ -65,6 +73,47 @@ Parsers MUST transform widget declarations into the following XML format:
 **Attributes:**
 - \`id\`: Unique identifier (generated if not provided in JSON)
 - \`content\`: Base64-encoded original JSON payload
+
+### 3.4 DSL Syntax Reference
+
+The DSL provides a more concise syntax for widget definitions:
+
+**Atomic Widgets (single line):**
+\`\`\`
+text-input id [label] [placeholder] [default]
+button-group id [choice1 choice2 ...] [default]
+select id [choice1 choice2 ...] [default]  
+select-multi id [choice1 choice2 ...] [default]
+slider id min max step [default]
+\`\`\`
+
+**Form Widget (multi-line with indentation):**
+\`\`\`
+form id [submitLabel]
+  text-input id [label] [placeholder] [default]
+  select id [choice1 choice2 ...] [default]
+  ...
+\`\`\`
+
+**DSL Rules:**
+- **Tokens**: Separated by one or more spaces
+- **Arrays**: Wrapped in \`[]\`, items separated by spaces
+- **Quotes**: Use double quotes \`"..."\` for strings with spaces or brackets
+- **Indentation**: Form fields indented exactly 2 spaces
+- **Positioning**: Parameters after \`id\` are positional and optional
+
+**Examples:**
+\`\`\`
+text-input username "Username" "Enter username" "john"
+button-group env [dev staging prod] dev
+select region [us-east-1 us-west-2] us-east-1
+slider cpu 1 32 1 4
+
+form server-config "Deploy"
+  text-input name "Server Name" 
+  select env [dev prod] dev
+  slider replicas 1 10 1 3
+\`\`\`
 
 ## Widget Event Interface
 
@@ -109,6 +158,11 @@ interface WidgetEvent {
 { "type": "textInput", "id": "username", "label": "Username", "placeholder": "Enter username", "default": "" }
 \`\`\`
 
+**DSL Example**:
+\`\`\`
+text-input username "Username" "Enter username" ""
+\`\`\`
+
 ### 5.2 buttonGroup
 
 **Purpose**: Single selection from predefined options
@@ -129,6 +183,11 @@ interface WidgetEvent {
 **Example**:
 \`\`\`json
 { "type": "buttonGroup", "id": "env", "label": "Environment", "choices": ["dev", "staging", "prod"], "default": "dev" }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+button-group env [dev staging prod] dev
 \`\`\`
 
 ### 5.3 select
@@ -197,6 +256,11 @@ interface WidgetEvent {
 **Example**:
 \`\`\`json
 { "type": "slider", "id": "cpu", "label": "CPU Cores", "min": 1, "max": 32, "step": 1, "default": 4 }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+slider cpu 1 32 1 4
 \`\`\`
 
 ### 5.6 form

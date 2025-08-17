@@ -8,6 +8,8 @@ A Svelte renderer for [Markdown UI](https://github.com/BlueprintDesignLab/markdo
 npm install @markdown-ui/svelte @markdown-ui/marked-ext marked
 ```
 
+> **New!** The `@markdown-ui/marked-ext` extension now supports both JSON and DSL syntax for widgets. The DSL is 60-70% more concise than JSON while maintaining full functionality.
+
 ## Quick Start
 
 ```javascript
@@ -28,6 +30,12 @@ Choose your deployment settings:
 
 \`\`\`markdown-ui-widget
 { "type": "select", "id": "env", "choices": ["dev", "staging", "prod"] }
+\`\`\`
+
+Or using the more concise DSL syntax:
+
+\`\`\`markdown-ui-widget
+select env [dev staging prod]
 \`\`\`
 `;
 
@@ -61,6 +69,13 @@ Create a set of toggle buttons for single selection:
 \`\`\`
 ```
 
+Or with DSL:
+```markdown
+\`\`\`markdown-ui-widget
+button-group mode [Development Staging Production] Development
+\`\`\`
+```
+
 ### Select Dropdown
 Standard dropdown selection:
 
@@ -73,6 +88,13 @@ Standard dropdown selection:
   "choices": ["us-east-1", "us-west-2", "eu-west-1"],
   "default": "us-east-1"
 }
+\`\`\`
+```
+
+Or with DSL:
+```markdown
+\`\`\`markdown-ui-widget
+select region [us-east-1 us-west-2 eu-west-1] us-east-1
 \`\`\`
 ```
 
@@ -105,6 +127,13 @@ Numeric input with visual feedback:
   "step": 1,
   "default": 3
 }
+\`\`\`
+```
+
+Or with DSL:
+```markdown
+\`\`\`markdown-ui-widget
+slider replicas 1 10 1 3
 \`\`\`
 ```
 

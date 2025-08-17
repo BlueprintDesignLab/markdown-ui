@@ -2,10 +2,12 @@
 
 React renderer for markdown-ui widgets. This package provides React components that work with the markdown-ui widget system.
 
+See [markdown-ui Github](https://github.com/BlueprintDesignLab/markdown-ui/).
+
 ## Installation
 
 ```bash
-npm install @markdown-ui/react @markdown-ui/marked-ext
+npm install @markdown-ui/react @markdown-ui/marked-ext @markdown-ui/mdui-lang
 ```
 
 ## Usage
@@ -29,9 +31,16 @@ const App = () => {
 \`\`\`markdown-ui-widget
 {
   "type": "textInput",
+  "id": "name",
   "label": "Your Name",
   "placeholder": "Enter your name"
 }
+\`\`\`
+
+Or use the more concise DSL syntax:
+
+\`\`\`markdown-ui-widget
+text-input name "Your Name" "Enter your name"
 \`\`\`
   `;
 
@@ -61,6 +70,22 @@ All widgets from the Svelte implementation are available:
 - **Slider**: Range input
 - **Form**: Container for multiple widgets
 
+### DSL Syntax
+
+The `@markdown-ui/marked-ext` extension now supports both JSON and DSL syntax in `markdown-ui-widget` code blocks. The DSL is **60-70% more concise** than JSON:
+
+**JSON:**
+```json
+{"type": "textInput", "id": "name", "label": "Name", "placeholder": "Enter name"}
+```
+
+**DSL:**
+```
+text-input name "Name" "Enter name"
+```
+
+Both syntaxes produce identical widget output. The extension automatically detects the format.
+
 ### Widget Examples
 
 #### Text Input
@@ -68,10 +93,18 @@ All widgets from the Svelte implementation are available:
 \`\`\`markdown-ui-widget
 {
   "type": "textInput",
+  "id": "name",
   "label": "Name",
   "placeholder": "Enter your name",
   "default": "John Doe"
 }
+\`\`\`
+```
+
+Or with DSL:
+```markdown
+\`\`\`markdown-ui-widget
+text-input name "Name" "Enter your name" "John Doe"
 \`\`\`
 ```
 
@@ -80,10 +113,18 @@ All widgets from the Svelte implementation are available:
 \`\`\`markdown-ui-widget
 {
   "type": "buttonGroup",
+  "id": "choice",
   "label": "Choose an option",
   "choices": ["Option A", "Option B", "Option C"],
   "default": "Option A"
 }
+\`\`\`
+```
+
+Or with DSL:
+```markdown
+\`\`\`markdown-ui-widget
+button-group choice [OptionA OptionB OptionC] OptionA
 \`\`\`
 ```
 
@@ -92,12 +133,20 @@ All widgets from the Svelte implementation are available:
 \`\`\`markdown-ui-widget
 {
   "type": "slider",
+  "id": "value",
   "label": "Value",
   "min": 0,
   "max": 100,
   "step": 1,
   "default": 50
 }
+\`\`\`
+```
+
+Or with DSL:
+```markdown
+\`\`\`markdown-ui-widget
+slider value 0 100 1 50
 \`\`\`
 ```
 

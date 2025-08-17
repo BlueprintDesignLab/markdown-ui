@@ -29,6 +29,12 @@ Edit this markdown to experiment with different widgets:
 { "type": "buttonGroup", "id": "example-buttons", "label": "Choose Option", "choices": ["Option A", "Option B", "Option C"], "default": "Option A" }
 \`\`\`
 
+Or with DSL syntax:
+
+\`\`\`markdown-ui-widget
+button-group example-buttons-dsl [OptionA OptionB OptionC] OptionA
+\`\`\`
+
 ### Form Example
 
 \`\`\`markdown-ui-widget
@@ -44,10 +50,25 @@ Edit this markdown to experiment with different widgets:
 }
 \`\`\`
 
+Or with DSL syntax:
+
+\`\`\`markdown-ui-widget
+form sample-form-dsl "Submit Form"
+  select priority [Low Medium High] Medium
+  slider urgency 1 10 1 5
+  text-input description "Description" "Describe your request..."
+\`\`\`
+
 ### Multi-Select Example
 
 \`\`\`markdown-ui-widget
 { "type": "selectMulti", "id": "features", "label": "Select Features", "choices": ["Auto-save", "Live Preview", "Export PDF", "Collaboration"], "default": ["Live Preview"] }
+\`\`\`
+
+Or with DSL syntax:
+
+\`\`\`markdown-ui-widget
+select-multi features [Auto-save "Live Preview" "Export PDF" Collaboration] ["Live Preview"]
 \`\`\`
 
 ## Markdown Tips
@@ -96,21 +117,45 @@ function hello(name) {
 
 This example demonstrates various interactive widgets.
 
-## Form Widgets
+## Individual Widgets
+
+### JSON Format
 
 \`\`\`markdown-ui-widget
-{
-  "type": "form",
-  "id": "showcase-form",
-  "submitLabel": "Process Form",
-  "fields": [
-    { "type": "buttonGroup", "id": "size", "label": "Size", "choices": ["Small", "Medium", "Large"], "default": "Medium" },
-    { "type": "select", "id": "color", "label": "Color", "choices": ["Red", "Green", "Blue", "Purple"], "default": "Blue" },
-    { "type": "selectMulti", "id": "options", "label": "Options", "choices": ["Option 1", "Option 2", "Option 3", "Option 4"], "default": ["Option 1"] },
-    { "type": "slider", "id": "quantity", "label": "Quantity", "min": 1, "max": 100, "step": 1, "default": 10 },
-    { "type": "textInput", "id": "name", "label": "Item Name", "placeholder": "Enter name..." }
-  ]
-}
+{ "type": "textInput", "id": "username", "label": "Username", "placeholder": "Enter username" }
+\`\`\`
+
+\`\`\`markdown-ui-widget
+{ "type": "buttonGroup", "id": "size", "label": "Size", "choices": ["Small", "Medium", "Large"], "default": "Medium" }
+\`\`\`
+
+\`\`\`markdown-ui-widget
+{ "type": "slider", "id": "quantity", "label": "Quantity", "min": 1, "max": 100, "step": 1, "default": 10 }
+\`\`\`
+
+### DSL Format (Same Widgets)
+
+\`\`\`markdown-ui-widget
+text-input username2 "Username" "Enter username"
+\`\`\`
+
+\`\`\`markdown-ui-widget
+button-group size2 [Small Medium Large] Medium
+\`\`\`
+
+\`\`\`markdown-ui-widget
+slider quantity2 1 100 1 10
+\`\`\`
+
+## Complex Form
+
+\`\`\`markdown-ui-widget
+form showcase-form "Process Form"
+  button-group size [Small Medium Large] Medium
+  select color [Red Green Blue Purple] Blue
+  select-multi options [Option1 Option2 Option3 Option4] [Option1]
+  slider quantity 1 100 1 10
+  text-input name "Item Name" "Enter name..."
 \`\`\``;
         break;
       case 'minimal':

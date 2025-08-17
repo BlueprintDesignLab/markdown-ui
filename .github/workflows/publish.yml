@@ -1,0 +1,106 @@
+name: Publish packages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies for mdui-lang
+        working-directory: packages/@markdown-ui/mdui-lang
+        run: npm ci
+      
+      - name: Build mdui-lang
+        working-directory: packages/@markdown-ui/mdui-lang
+        run: npm run build
+      
+      - name: Install dependencies for marked-ext
+        working-directory: packages/@markdown-ui/marked-ext
+        run: npm ci
+      
+      - name: Build marked-ext
+        working-directory: packages/@markdown-ui/marked-ext
+        run: npm run build
+      
+      - name: Install dependencies for react
+        working-directory: packages/@markdown-ui/react
+        run: npm ci
+      
+      - name: Build react
+        working-directory: packages/@markdown-ui/react
+        run: npm run build
+      
+      - name: Check if mdui-lang version changed
+        id: mdui-lang-version
+        working-directory: packages/@markdown-ui/mdui-lang
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          PUBLISHED_VERSION=$(npm view @markdown-ui/mdui-lang version 2>/dev/null || echo "0.0.0")
+          if [ "$PACKAGE_VERSION" != "$PUBLISHED_VERSION" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Check if marked-ext version changed
+        id: marked-ext-version
+        working-directory: packages/@markdown-ui/marked-ext
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          PUBLISHED_VERSION=$(npm view @markdown-ui/marked-ext version 2>/dev/null || echo "0.0.0")
+          if [ "$PACKAGE_VERSION" != "$PUBLISHED_VERSION" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Check if react version changed
+        id: react-version
+        working-directory: packages/@markdown-ui/react
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          PUBLISHED_VERSION=$(npm view @markdown-ui/react version 2>/dev/null || echo "0.0.0")
+          if [ "$PACKAGE_VERSION" != "$PUBLISHED_VERSION" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Publish mdui-lang
+        if: steps.mdui-lang-version.outputs.changed == 'true'
+        working-directory: packages/@markdown-ui/mdui-lang
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Publish marked-ext
+        if: steps.marked-ext-version.outputs.changed == 'true'
+        working-directory: packages/@markdown-ui/marked-ext
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Publish react
+        if: steps.react-version.outputs.changed == 'true'
+        working-directory: packages/@markdown-ui/react
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

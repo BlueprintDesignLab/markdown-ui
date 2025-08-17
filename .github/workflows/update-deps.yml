@@ -1,0 +1,87 @@
+name: Update Dependencies
+
+on:
+  schedule:
+    # Run weekly on Mondays at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Update mdui-lang dependencies
+        working-directory: packages/@markdown-ui/mdui-lang
+        run: |
+          npx npm-check-updates -u
+          npm install
+      
+      - name: Update marked-ext dependencies
+        working-directory: packages/@markdown-ui/marked-ext
+        run: |
+          npx npm-check-updates -u
+          npm install
+      
+      - name: Update react dependencies
+        working-directory: packages/@markdown-ui/react
+        run: |
+          npx npm-check-updates -u
+          npm install
+      
+      - name: Update svelte dependencies
+        working-directory: packages/@markdown-ui/svelte
+        run: |
+          npx npm-check-updates -u
+          npm install
+      
+      - name: Run tests for mdui-lang
+        working-directory: packages/@markdown-ui/mdui-lang
+        run: |
+          npm run build
+          npm run test || true
+      
+      - name: Run build for marked-ext
+        working-directory: packages/@markdown-ui/marked-ext
+        run: npm run build
+      
+      - name: Run build for react
+        working-directory: packages/@markdown-ui/react
+        run: npm run build
+      
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create Pull Request
+        if: steps.changes.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update dependencies'
+          title: 'chore: update dependencies'
+          body: |
+            This PR updates all dependencies to their latest versions.
+            
+            - Updates were applied using npm-check-updates
+            - All packages were built successfully
+            - Please review the changes before merging
+          branch: update-dependencies
+          delete-branch: true

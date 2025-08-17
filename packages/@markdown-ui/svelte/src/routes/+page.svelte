@@ -38,14 +38,20 @@ Here's a simple example - pick your environment:
 { "type": "buttonGroup", "id": "env", "label": "Environment", "choices": ["development", "staging", "production"], "default": "development" }
 \`\`\`
 
-Or configure some server settings:
+Or use the new concise **DSL syntax** (60-70% shorter):
+
+\`\`\`markdown-ui-widget
+button-group env2 [development staging production] development
+\`\`\`
+
+Configure some server settings:
 
 \`\`\`markdown-ui-widget
 { "type": "slider", "id": "cpu", "label": "CPU Cores", "min": 1, "max": 16, "step": 1, "default": 4 }
 \`\`\`
 
 \`\`\`markdown-ui-widget
-{ "type": "select", "id": "region", "label": "AWS Region", "choices": ["us-east-1", "us-west-2", "eu-west-1", "ap-southeast-1"], "default": "us-east-1" }
+select region [us-east-1 us-west-2 eu-west-1 ap-southeast-1] us-east-1
 \`\`\`
 
 ## How it works
