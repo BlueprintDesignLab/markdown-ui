@@ -12,8 +12,8 @@
     const marked = new Marked();
     marked.use(markedUiExtension);
 
-    function handleWidgetEvent(event: CustomEvent<{id: string, value: unknown}>) {
-        inputMessage = JSON.stringify(event.detail.value);
+    function handleWidgetEvent(event: {id: string, value: unknown}) {
+        inputMessage = JSON.stringify(event.value);
         sendMessage();
     }
 
@@ -26,11 +26,14 @@
 	}
 
     const initSystemMessage = `
-You are an expert sales person for markdown-ui. 
+Always use exactly one markdown-ui widget in your response.
+
 Start with one simple, non text-input widgets.
-On the second turn, show them a simple form widget.
+On the second turn, show a simple form widget.
+
 Then after the form, give the actual result.
-Your interaction style is always concise. Max 3 sentences.
+Your interaction style is always concise. 
+Max 3 sentences.
 
 You can embed interactive UI widgets in Markdown using fenced code blocks with language "markdown-ui-widget". 
 
@@ -107,6 +110,11 @@ Output rules:
 	function scrollToBottom() {
 		if (messagesContainer) {
 			tick().then(() => {
+                // console.log("scrolling", {
+                //     scrollHeight: messagesContainer!.scrollHeight,
+                //     offsetHeight: messagesContainer!.offsetHeight,
+                //     scrollTop: messagesContainer!.scrollTop
+                // });
 				messagesContainer!.scrollTo({
 					top: messagesContainer!.scrollHeight,
 					behavior: 'smooth'
@@ -114,20 +122,6 @@ Output rules:
 			});
 		}
 	}
-
-	// Auto-scroll when new messages are added or streaming updates
-	$effect(() => {
-		if (messages.length > 0) {
-			scrollToBottom();
-		}
-	});
-
-	// Auto-scroll during streaming
-	$effect(() => {
-		if (isStreaming) {
-			scrollToBottom();
-		}
-	});
 
 
 	function getSystemMessage(): string {
@@ -137,8 +131,8 @@ Output rules:
 	function initializeOpenAI() {
 		openai = new OpenAI({
 			apiKey: 'dummy-key',
-			baseURL: 'http://localhost:3010',
-			// baseURL: 'https://llm-proxy-735482512776.us-west1.run.app',
+			// baseURL: 'http://localhost:3010',
+			baseURL: 'https://llm-proxy-735482512776.us-west1.run.app',
 			dangerouslyAllowBrowser: true
 		});
 	}
@@ -161,6 +155,7 @@ Output rules:
 		messages.push(userMessage);
 		inputMessage = '';
 		isLoading = true;
+		scrollToBottom();
 
 		// Create a placeholder message for the streaming response
 		const assistantMessageId = crypto.randomUUID();
@@ -175,6 +170,7 @@ Output rules:
 		streamingMessageId = assistantMessageId;
 		isLoading = false;
 		isStreaming = true;
+		scrollToBottom();
 
 		try {
 			const stream = await openai.chat.completions.create({
@@ -192,6 +188,7 @@ Output rules:
 				const delta = chunk.choices[0]?.delta?.content || '';
 				if (delta) {
 					streamedContent += delta;
+                    scrollToBottom();
 					
 					// Update the message in the messages array
 					const streamingMsg = messages.find(msg => msg.id === assistantMessageId);
@@ -281,11 +278,9 @@ Output rules:
 				<!-- Content Display -->
 				<div class="flex-1 overflow-y-auto mb-8">
 					<div class="bg-gray-50/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50">
-						{#if getSystemMessage()}
-							<pre class="whitespace-pre-wrap text-sm text-gray-800 font-mono leading-relaxed overflow-x-auto">{getSystemMessage()}</pre>
-						{:else}
-							<p class="text-gray-500 italic text-center py-8">No system prompt configured</p>
-						{/if}
+						<div class="prose prose-sm max-w-none text-gray-800">
+							{getSystemMessage() || "No system prompt configured"}
+						</div>
 					</div>
 				</div>
 				
@@ -334,8 +329,8 @@ Output rules:
 	</div>
 
 	<!-- Messages Container -->
-	<div bind:this={messagesContainer} class="flex-1 overflow-y-auto">
-		<div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-12 sm:pb-16 space-y-4 sm:space-y-6">
+	<div class="flex-1 overflow-y-auto">
+		<div bind:this={messagesContainer} class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-4 sm:space-y-6">
 			{#if messages.filter(m => m.role !== 'system').length === 0}
 				<div class="text-center py-12">
 					<div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
