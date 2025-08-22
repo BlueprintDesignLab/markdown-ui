@@ -11,7 +11,7 @@ If your renderer supports it → live UI. If not → graceful fallback.
 ```
 ````
 
-> ~NEW~
+> NEW
 Or use the more concise DSL syntax in the same tag:
 
 ````markdown
