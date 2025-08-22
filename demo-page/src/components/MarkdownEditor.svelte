@@ -20,91 +20,9 @@
 	let events = $state<Array<{id: string, value: unknown, timestamp: string}>>([]);
 	let charCount = $state(0);
 
-	const initialMarkdown = `# Welcome to Markdown UI
+	import { demoMarkdown } from '../data/demoMarkdown';
 
-**Micro-spec for interactive widgets inside Markdown.**
-
-If your renderer supports it -> live UI. If not -> graceful fallback.
-
-## What is Markdown UI?
-
-Markdown UI allows you to embed interactive widgets directly in Markdown using simple JSON configurations. Perfect for AI-generated content that needs user interaction.
-
-- **LLM-Native**: Designed for AI to generate interactive experiences
-- **Zero Dependencies**: Pure specification, bring your own parser/renderer
-- **Cross-Platform**: Works with any Markdown parser + any UI framework
-- **Secure**: JSON-only, no code execution
-- **Progressive**: Graceful fallback to code blocks
-
-## Try it now! (Edit the text on the left)
-
-Here's a simple example - pick your environment:
-
-\`\`\`markdown-ui-widget
-{ "type": "button-group", "id": "env", "label": "Environment", "choices": ["development", "staging", "production"], "default": "development" }
-\`\`\`
-
-Or use the new concise **DSL syntax** (60-70% shorter):
-
-\`\`\`markdown-ui-widget
-button-group env2 [development staging production] development
-\`\`\`
-
-Configure some server settings:
-
-\`\`\`markdown-ui-widget
-select region [us-east-1 us-west-2 eu-west-1 ap-southeast-1] us-east-1
-\`\`\`
-
-## Form Example
-
-\`\`\`markdown-ui-widget
-form sample-form-dsl "Submit Form"
-  select priority [Low Medium High] Medium
-  slider urgency 1 10 1 5
-  text-input description "Description" "Describe your request..."
-\`\`\`
-
-Or with DSL syntax:
-
-\`\`\`markdown-ui-widget
-select-multi features [Auto-save "Live Preview" "Export PDF" Collaboration] ["Live Preview"]
-\`\`\`
-
-## How it works
-
-1. **Write**: Standard Markdown with \`markdown-ui-widget\` code blocks
-2. **Parse**: Our extension converts widgets to standardized XML
-3. **Render**: Framework-specific components handle the UI
-4. **Interact**: Get \`{id, value}\` events from user interactions
-
-## Supported Widgets
-
-| Widget | Purpose | Demo |
-|--------|---------|------|
-| **button-group** | A/B choices, yes/no |  Above |
-| **select** | Dropdown selection |  Above |
-| **slider** | Numeric input |  Above |
-| **text-input** | Free text input | Above |
-| **select-multi** | Tag selection | Above |
-| **form** | Composite widgets | Above |
-
-## Next Steps
-
-- **[Chat Demo](/chat)** - Interactive chat with AI that generates widgets
-- **[Streaming Demo](/streaming)** - See widgets rendered in real-time
-- **[Specification](/spec)** - Full technical documentation
-- **[GitHub](https://github.com/BlueprintDesignLab/markdown-ui)** - Source code and examples
-
-Perfect for chatbots, forms, configuration UIs, and any AI-generated content that needs user input!
-
----
-
-## Try editing this markdown!
-
-You can modify the text on the left to experiment with different widgets. Try adding your own widgets or changing the existing ones.`;
-
-	let currentMarkdown = $state(initialMarkdown);
+	let currentMarkdown = $state(demoMarkdown);
 	let renderedHtml = $state('');
 
 	// Re-render when markdown changes
@@ -120,7 +38,7 @@ You can modify the text on the left to experiment with different widgets. Try ad
 
 	onMount(() => {
 		const state = EditorState.create({
-			doc: initialMarkdown,
+			doc: demoMarkdown,
 			extensions: [
 				basicSetup,
 				markdown(),
