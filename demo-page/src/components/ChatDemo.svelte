@@ -12,8 +12,8 @@
     const marked = new Marked();
     marked.use(markedUiExtension);
 
-    function handleWidgetEvent(event: {id: string, value: unknown}) {
-        inputMessage = JSON.stringify(event.value);
+    function handleWidgetEvent(event: CustomEvent<{id: string, value: unknown}>) {
+        inputMessage = JSON.stringify(event.detail);
         sendMessage();
     }
 
@@ -174,7 +174,7 @@ Output rules:
 
 		try {
 			const stream = await openai.chat.completions.create({
-				model: 'gpt-5-nano',
+				model: 'gpt-4.1-mini',
 				messages: messages.filter(m => m.id !== assistantMessageId).map(m => ({
 					role: m.role,
 					content: m.content
