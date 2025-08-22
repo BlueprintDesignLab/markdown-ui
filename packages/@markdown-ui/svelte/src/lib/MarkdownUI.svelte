@@ -18,8 +18,8 @@
         };
     });
 
-    function handleChange(e: CustomEvent<string>) {
-        onwidgetevent(e.detail);
+    function handleChange(e: CustomEvent<{id: string, value: unknown}>) {
+        onwidgetevent(e);
     }
 </script>
 

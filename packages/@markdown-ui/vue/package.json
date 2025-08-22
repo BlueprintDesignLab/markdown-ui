@@ -1,0 +1,50 @@
+{
+  "name": "@markdown-ui/vue",
+  "version": "0.1.10",
+  "description": "Vue renderer for markdown-ui",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./widgets.css": "./src/lib/widgets.css"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "vue-tsc && vite build",
+    "dev": "vite build --watch",
+    "demo": "node demo/server.js",
+    "prepublishOnly": "npm run build",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "keywords": [
+    "vue",
+    "markdown",
+    "widgets",
+    "ui"
+  ],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "vue-tsc": "^3.0.6"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@tsconfig/node22": "^22.0.2",
+    "@vue/tsconfig": "^0.8.1"
+  }
+}

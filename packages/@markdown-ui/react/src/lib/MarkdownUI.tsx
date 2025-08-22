@@ -4,38 +4,42 @@ import { Widget } from '../widgets/Widget';
 
 export interface MarkdownUIProps {
   html: string;
-  onWidgetEvent?: (data: any) => void;
+  onWidgetEvent?: (event: CustomEvent<{id: string, value: unknown}>) => void;
 }
 
-// Custom element definition for markdown-ui-widget
-class MarkdownUIWidgetElement extends HTMLElement {
-  private reactRoot: Root | null = null;
+// Custom element definition for markdown-ui-widget (browser only)
+let MarkdownUIWidgetElement: typeof HTMLElement | undefined;
 
-  connectedCallback() {
-    const id = this.getAttribute('id') || '';
-    const content = this.getAttribute('content') || '';
-    
-    // Create a React component instance
-    this.innerHTML = '';
-    const div = document.createElement('div');
-    this.appendChild(div);
-    
-    // Use React 18+ createRoot API
-    this.reactRoot = createRoot(div);
-    this.reactRoot.render(React.createElement(Widget, { id, content }));
-  }
+if (typeof HTMLElement !== 'undefined') {
+  MarkdownUIWidgetElement = class extends HTMLElement {
+    private reactRoot: Root | null = null;
 
-  disconnectedCallback() {
-    if (this.reactRoot) {
-      this.reactRoot.unmount();
-      this.reactRoot = null;
+    connectedCallback() {
+      const id = this.getAttribute('id') || '';
+      const content = this.getAttribute('content') || '';
+      
+      // Create a React component instance
+      this.innerHTML = '';
+      const div = document.createElement('div');
+      this.appendChild(div);
+      
+      // Use React 18+ createRoot API
+      this.reactRoot = createRoot(div);
+      this.reactRoot.render(React.createElement(Widget, { id, content }));
     }
-  }
-}
 
-// Register the custom element if not already registered
-if (typeof window !== 'undefined' && !customElements.get('markdown-ui-widget')) {
-  customElements.define('markdown-ui-widget', MarkdownUIWidgetElement);
+    disconnectedCallback() {
+      if (this.reactRoot) {
+        this.reactRoot.unmount();
+        this.reactRoot = null;
+      }
+    }
+  };
+
+  // Register the custom element if not already registered
+  if (typeof window !== 'undefined' && !customElements.get('markdown-ui-widget')) {
+    customElements.define('markdown-ui-widget', MarkdownUIWidgetElement);
+  }
 }
 
 export const MarkdownUI: React.FC<MarkdownUIProps> = ({ html, onWidgetEvent }) => {
@@ -43,9 +47,9 @@ export const MarkdownUI: React.FC<MarkdownUIProps> = ({ html, onWidgetEvent }) =
 
   useEffect(() => {
     const handleWidgetEvent = (e: Event) => {
-      const customEvent = e as CustomEvent;
+      const customEvent = e as CustomEvent<{id: string, value: unknown}>;
       if (onWidgetEvent) {
-        onWidgetEvent(customEvent.detail);
+        onWidgetEvent(customEvent);
       }
     };
 

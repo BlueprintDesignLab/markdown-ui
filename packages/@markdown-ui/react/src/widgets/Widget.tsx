@@ -31,10 +31,13 @@ export const Widget: React.FC<WidgetProps> = ({ id, content }) => {
       composed: true
     });
     
-    // Find the closest widget container and dispatch from there
-    const container = document.querySelector('.widget-container');
-    if (container) {
-      container.dispatchEvent(event);
+    // Find the custom element and bubble up to find the closest widget container
+    const customElement = document.querySelector(`markdown-ui-widget[id="${id}"]`);
+    if (customElement) {
+      const container = customElement.closest('.widget-container');
+      if (container) {
+        container.dispatchEvent(event);
+      }
     }
   };
 

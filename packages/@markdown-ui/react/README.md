@@ -46,8 +46,8 @@ text-input name "Your Name" "Enter your name"
 
   const html = marked(markdown);
 
-  const handleWidgetEvent = (data: any) => {
-    console.log('Widget event:', data);
+  const handleWidgetEvent = (event: CustomEvent<{id: string, value: unknown}>) => {
+    console.log('Widget event:', event.detail);
   };
 
   return (
@@ -194,11 +194,11 @@ You can also customize the styling by overriding the CSS classes:
 
 ### Event Handling
 
-The `onWidgetEvent` callback receives data when widget values change:
+The `onWidgetEvent` callback receives a CustomEvent when widget values change:
 
 ```tsx
-const handleWidgetEvent = (data: { id: string, value: any }) => {
-  console.log(`Widget ${data.id} changed to:`, data.value);
+const handleWidgetEvent = (event: CustomEvent<{id: string, value: unknown}>) => {
+  console.log(`Widget ${event.detail.id} changed to:`, event.detail.value);
 };
 ```
 
@@ -218,8 +218,8 @@ const MarkdownUI = dynamic(() => import('@markdown-ui/react').then(mod => ({ def
 });
 
 export default function Page() {
-  const handleWidgetEvent = (data: any) => {
-    console.log('Widget event:', data);
+  const handleWidgetEvent = (event: CustomEvent<{id: string, value: unknown}>) => {
+    console.log('Widget event:', event.detail);
   };
 
   return (

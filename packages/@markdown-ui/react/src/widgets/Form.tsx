@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ButtonGroup } from './ButtonGroup';
 import { Select } from './Select';
 import { SelectMulti } from './SelectMulti';
@@ -22,7 +22,30 @@ export const Form: React.FC<FormProps> = ({
   submitLabel = 'Submit', 
   onchange 
 }) => {
-  const [data, setData] = useState<Record<string, unknown>>({});
+  const initialData = useMemo(() => {
+    const acc: Record<string, unknown> = {};
+    for (const f of fields) {
+      if (f.type === 'button-group') {
+        acc[f.id] = f.default ?? (Array.isArray(f.choices) && f.choices.length ? f.choices[0] : undefined);
+      } else if (f.type === 'select') {
+        acc[f.id] = f.default ?? (Array.isArray(f.choices) && f.choices.length ? f.choices[0] : undefined);
+      } else if (f.type === 'select-multi') {
+        const d = f.default;
+        acc[f.id] = Array.isArray(d) ? d : (d ? [d] : []);
+      } else if (f.type === 'slider') {
+        acc[f.id] = f.default ?? (typeof f.min === 'number' ? f.min : 0);
+      } else if (f.type === 'text-input') {
+        acc[f.id] = f.default ?? '';
+      }
+    }
+    return acc;
+  }, [fields]);
+
+  const [data, setData] = useState<Record<string, unknown>>(initialData);
+
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   const setValue = (id: string, value: unknown) => {
     setData(prev => ({ ...prev, [id]: value }));

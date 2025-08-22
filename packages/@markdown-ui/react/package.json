@@ -1,6 +1,6 @@
 {
   "name": "@markdown-ui/react",
-  "version": "0.1.2",
+  "version": "0.1.10",
   "description": "React renderer for markdown-ui",
   "type": "module",
   "main": "./dist/index.js",
@@ -39,7 +39,7 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "typescript": "^5.9.2",
-    "vite": "^7.1.2"
+    "vite": "^7.1.3"
   },
   "publishConfig": {
     "access": "public"

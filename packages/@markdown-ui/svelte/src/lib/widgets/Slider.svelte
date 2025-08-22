@@ -25,7 +25,8 @@
       {min}
       {max}
       {step}
-      onchange={() => onchange(value)}
+      onmouseup={() => onchange(value)}
+      ontouchend={() => onchange(value)}
     />
   </div>
 </div>

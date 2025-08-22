@@ -1,0 +1,72 @@
+---
+import '../styles/global.css'
+
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const isActive = (path: string) => Astro.url.pathname === path;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Markdown UI - Interactive widgets in Markdown" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{title}</title>
+  </head>
+  <body class="antialiased bg-neutral-50 text-neutral-900 selection:bg-blue-200/60 selection:text-neutral-900">
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-neutral-200">
+      <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <a href="/" class="font-semibold tracking-[-0.01em] text-[17px]">Markdown UI</a>
+        <button aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-menu" id="nav-toggle" class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-md border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <ul id="site-menu" class="hidden md:flex items-center gap-1">
+          <li><a href="/" class:list={[isActive('/') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Home</a></li>
+          <li><a href="/chat" class:list={[isActive('/chat') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Chat Demo</a></li>
+          <li><a href="/streaming" class:list={[isActive('/streaming') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Streaming</a></li>
+          <li><a href="/implementations" class:list={[isActive('/implementations') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Implementations</a></li>
+          <li><a href="/spec" class:list={[isActive('/spec') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Specification</a></li>
+        </ul>
+      </div>
+      <div id="mobile-menu" class="md:hidden hidden border-t border-neutral-200 bg-white/95">
+        <div class="max-w-6xl mx-auto px-4 py-2">
+          <ul class="flex flex-col py-2">
+            <li><a href="/" class:list={[isActive('/') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Home</a></li>
+            <li><a href="/chat" class:list={[isActive('/chat') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Chat Demo</a></li>
+            <li><a href="/streaming" class:list={[isActive('/streaming') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Streaming</a></li>
+            <li><a href="/implementations" class:list={[isActive('/implementations') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Implementations</a></li>
+            <li><a href="/spec" class:list={[isActive('/spec') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Specification</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="min-h-[calc(100vh-3.5rem)]">
+      <slot />
+    </main>
+    <script is:inline>
+      const btn = document.getElementById('nav-toggle');
+      const menu = document.getElementById('mobile-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          menu.classList.toggle('hidden', expanded);
+        });
+        menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+          btn.setAttribute('aria-expanded', 'false');
+          menu.classList.add('hidden');
+        }));
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, sans-serif; overflow-x: hidden; }
+</style>

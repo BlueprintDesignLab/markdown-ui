@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+html, body, main {
+  overflow-x: hidden;
+}
+
+/* Keep tables and widgets from forcing horizontal scroll */
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.markdown-ui, .prose {
+  max-width: 100%;
+}
+
+.prose pre, pre {
+  overflow-x: auto;
+  white-space: pre;
+  max-width: 100%;
+}
+
+.prose code, code {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.cm-editor {
+  max-width: 100%;
+}
+
+.cm-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Responsive helpers */
+@media (orientation: portrait) {
+  .max-h-40vh-portrait { max-height: 40vh; }
+  .max-h-50vh-portrait { max-height: 50vh; }
+}

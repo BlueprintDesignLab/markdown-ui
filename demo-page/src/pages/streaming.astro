@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StreamingDemo from '../components/StreamingDemo.svelte';
+---
+
+<Layout title="Markdown UI - Streaming Demo">
+  <StreamingDemo client:load />
+</Layout>
+
+<style>
+  /* Reset any default padding for full-screen streaming demo */
+  :global(main) { padding: 0; }
+  :global(.markdown-ui), :global(.prose) { max-width: 100%; overflow-x: hidden; }
+</style>

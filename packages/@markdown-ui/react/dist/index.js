@@ -1,166 +1,186 @@
-import { jsxs as u, jsx as e } from "react/jsx-runtime";
-import w, { useState as p, useRef as b, useEffect as x } from "react";
-import { createRoot as N } from "react-dom/client";
-const h = ({
-  choices: s,
-  label: n = "",
-  default: c,
+import { jsxs as p, jsx as t } from "react/jsx-runtime";
+import N, { useState as h, useMemo as C, useEffect as f, useRef as k } from "react";
+import { createRoot as E } from "react-dom/client";
+const v = ({
+  choices: c,
+  label: o = "",
+  default: i,
   onchange: l
 }) => {
-  const [o, r] = p(c ?? s[0]), i = (t) => {
-    r(t), l(t);
+  const [r, a] = h(i ?? c[0]), d = (s) => {
+    a(s), l(s);
   };
-  return /* @__PURE__ */ u("div", { className: "widget-button-group", children: [
-    n && /* @__PURE__ */ e("label", { children: n }),
-    /* @__PURE__ */ e("div", { role: "group", "aria-label": n, children: s.map((t) => /* @__PURE__ */ e(
+  return /* @__PURE__ */ p("div", { className: "widget-button-group", children: [
+    o && /* @__PURE__ */ t("label", { children: o }),
+    /* @__PURE__ */ t("div", { role: "group", "aria-label": o, children: c.map((s) => /* @__PURE__ */ t(
       "button",
       {
         type: "button",
-        "aria-pressed": o === t,
-        onClick: () => i(t),
-        children: t
+        "aria-pressed": r === s,
+        onClick: () => d(s),
+        children: s
       },
-      t
+      s
     )) })
   ] });
-}, g = ({
-  choices: s,
-  label: n = "",
-  default: c,
+}, y = ({
+  choices: c,
+  label: o = "",
+  default: i,
   onchange: l
 }) => {
-  const [o, r] = p(c ?? s[0]);
-  return /* @__PURE__ */ u("div", { className: "selector", children: [
-    n && /* @__PURE__ */ e("label", { children: n }),
-    /* @__PURE__ */ e("select", { value: o, onChange: (t) => {
-      const a = t.target.value;
-      r(a), l(a);
-    }, children: s.map((t) => /* @__PURE__ */ e("option", { value: t, children: t }, t)) })
+  const [r, a] = h(i ?? c[0]);
+  return /* @__PURE__ */ p("div", { className: "selector", children: [
+    o && /* @__PURE__ */ t("label", { children: o }),
+    /* @__PURE__ */ t("select", { value: r, onChange: (s) => {
+      const u = s.target.value;
+      a(u), l(u);
+    }, children: c.map((s) => /* @__PURE__ */ t("option", { value: s, children: s }, s)) })
   ] });
-}, v = ({
-  choices: s,
-  label: n = "",
-  default: c,
+}, w = ({
+  choices: c,
+  label: o = "",
+  default: i,
   onchange: l
 }) => {
-  const [o, r] = p(
-    Array.isArray(c) ? c : c ? [c] : []
-  ), i = (t) => {
-    const a = t.target.value;
-    let d;
-    t.target.checked ? d = [...o, a] : d = o.filter((m) => m !== a), r(d), l(d);
+  const [r, a] = h(
+    Array.isArray(i) ? i : i ? [i] : []
+  ), d = (s) => {
+    const u = s.target.value;
+    let n;
+    s.target.checked ? n = [...r, u] : n = r.filter((e) => e !== u), a(n), l(n);
   };
-  return /* @__PURE__ */ u("div", { className: "selector-multi", children: [
-    n && /* @__PURE__ */ e("div", { className: "selector-multi-label", children: n }),
-    /* @__PURE__ */ e("div", { className: "checkbox-group", children: s.map((t) => /* @__PURE__ */ u("label", { className: "checkbox-item", children: [
-      /* @__PURE__ */ e(
+  return /* @__PURE__ */ p("div", { className: "selector-multi", children: [
+    o && /* @__PURE__ */ t("div", { className: "selector-multi-label", children: o }),
+    /* @__PURE__ */ t("div", { className: "checkbox-group", children: c.map((s) => /* @__PURE__ */ p("label", { className: "checkbox-item", children: [
+      /* @__PURE__ */ t(
         "input",
         {
           type: "checkbox",
-          value: t,
-          checked: o.includes(t),
-          onChange: i
+          value: s,
+          checked: r.includes(s),
+          onChange: d
         }
       ),
-      /* @__PURE__ */ e("span", { children: t })
-    ] }, t)) })
+      /* @__PURE__ */ t("span", { children: s })
+    ] }, s)) })
   ] });
-}, f = ({
-  min: s,
-  max: n,
-  step: c = 1,
+}, b = ({
+  min: c,
+  max: o,
+  step: i = 1,
   label: l = "",
-  default: o = s,
-  onchange: r
+  default: r = c,
+  onchange: a
 }) => {
-  const [i, t] = p(o);
-  return /* @__PURE__ */ u("div", { className: "widget-slider", children: [
-    l && /* @__PURE__ */ e("label", { children: l }),
-    /* @__PURE__ */ u("div", { className: "slider-container", children: [
-      /* @__PURE__ */ u("div", { className: "slider-values", children: [
-        /* @__PURE__ */ e("span", { className: "min-value", children: s }),
-        /* @__PURE__ */ e("span", { className: "current-value", children: i }),
-        /* @__PURE__ */ e("span", { className: "max-value", children: n })
+  const [d, s] = h(r), u = (e) => {
+    const m = Number(e.target.value);
+    s(m);
+  }, n = () => {
+    a(d);
+  };
+  return /* @__PURE__ */ p("div", { className: "widget-slider", children: [
+    l && /* @__PURE__ */ t("label", { children: l }),
+    /* @__PURE__ */ p("div", { className: "slider-container", children: [
+      /* @__PURE__ */ p("div", { className: "slider-values", children: [
+        /* @__PURE__ */ t("span", { className: "min-value", children: c }),
+        /* @__PURE__ */ t("span", { className: "current-value", children: d }),
+        /* @__PURE__ */ t("span", { className: "max-value", children: o })
       ] }),
-      /* @__PURE__ */ e(
+      /* @__PURE__ */ t(
         "input",
         {
           type: "range",
-          value: i,
-          min: s,
-          max: n,
-          step: c,
-          onChange: (d) => {
-            const m = Number(d.target.value);
-            t(m), r(m);
-          }
+          value: d,
+          min: c,
+          max: o,
+          step: i,
+          onChange: u,
+          onMouseUp: n,
+          onTouchEnd: n
         }
       )
     ] })
   ] });
-}, y = ({
-  placeholder: s = "",
-  label: n = "",
-  default: c = "",
+}, x = ({
+  placeholder: c = "",
+  label: o = "",
+  default: i = "",
   onchange: l
 }) => {
-  const [o, r] = p(c);
-  return /* @__PURE__ */ u("div", { className: "widget-button", children: [
-    n && /* @__PURE__ */ e("label", { children: n }),
-    /* @__PURE__ */ e(
+  const [r, a] = h(i);
+  return /* @__PURE__ */ p("div", { className: "widget-button", children: [
+    o && /* @__PURE__ */ t("label", { children: o }),
+    /* @__PURE__ */ t(
       "input",
       {
         type: "text",
-        value: o,
-        onChange: (t) => r(t.target.value),
+        value: r,
+        onChange: (s) => a(s.target.value),
         onBlur: () => {
-          l(o);
+          l(r);
         },
-        placeholder: s
+        placeholder: c
       }
     )
   ] });
-}, C = ({
-  fields: s,
-  submitLabel: n = "Submit",
-  onchange: c
+}, S = ({
+  fields: c,
+  submitLabel: o = "Submit",
+  onchange: i
 }) => {
-  const [l, o] = p({}), r = (a, d) => {
-    o((m) => ({ ...m, [a]: d }));
-  }, i = () => {
-    c({ ...l });
-  }, t = (a) => {
-    const d = {
-      ...a,
-      onchange: (m) => r(a.id, m)
+  const l = C(() => {
+    const n = {};
+    for (const e of c)
+      if (e.type === "button-group")
+        n[e.id] = e.default ?? (Array.isArray(e.choices) && e.choices.length ? e.choices[0] : void 0);
+      else if (e.type === "select")
+        n[e.id] = e.default ?? (Array.isArray(e.choices) && e.choices.length ? e.choices[0] : void 0);
+      else if (e.type === "select-multi") {
+        const m = e.default;
+        n[e.id] = Array.isArray(m) ? m : m ? [m] : [];
+      } else e.type === "slider" ? n[e.id] = e.default ?? (typeof e.min == "number" ? e.min : 0) : e.type === "text-input" && (n[e.id] = e.default ?? "");
+    return n;
+  }, [c]), [r, a] = h(l);
+  f(() => {
+    a(l);
+  }, [l]);
+  const d = (n, e) => {
+    a((m) => ({ ...m, [n]: e }));
+  }, s = () => {
+    i({ ...r });
+  }, u = (n) => {
+    const e = {
+      ...n,
+      onchange: (m) => d(n.id, m)
     };
-    switch (a.type) {
+    switch (n.type) {
       case "button-group":
-        return /* @__PURE__ */ e(h, { ...d, choices: a.choices ?? [] });
+        return /* @__PURE__ */ t(v, { ...e, choices: n.choices ?? [] });
       case "select":
-        return /* @__PURE__ */ e(g, { ...d, choices: a.choices ?? [] });
+        return /* @__PURE__ */ t(y, { ...e, choices: n.choices ?? [] });
       case "select-multi":
-        return /* @__PURE__ */ e(v, { ...d, choices: a.choices ?? [] });
+        return /* @__PURE__ */ t(w, { ...e, choices: n.choices ?? [] });
       case "slider":
-        return /* @__PURE__ */ e(
-          f,
+        return /* @__PURE__ */ t(
+          b,
           {
-            ...d,
-            min: a.min ?? 0,
-            max: a.max ?? 100
+            ...e,
+            min: n.min ?? 0,
+            max: n.max ?? 100
           }
         );
       case "text-input":
-        return /* @__PURE__ */ e(y, { ...d });
+        return /* @__PURE__ */ t(x, { ...e });
       default:
         return null;
     }
   };
-  return /* @__PURE__ */ u("div", { className: "widget-form", children: [
-    s.map((a) => /* @__PURE__ */ e("div", { children: t(a) }, a.id)),
-    /* @__PURE__ */ e("button", { type: "button", onClick: i, children: n })
+  return /* @__PURE__ */ p("div", { className: "widget-form", children: [
+    c.map((n) => /* @__PURE__ */ t("div", { children: u(n) }, n.id)),
+    /* @__PURE__ */ t("button", { type: "button", onClick: s, children: o })
   ] });
-}, k = () => /* @__PURE__ */ e("div", { className: "incomplete-widget", children: /* @__PURE__ */ e("div", { className: "loading-indicator", children: /* @__PURE__ */ e("span", { className: "loading-text", children: "Loading..." }) }) }), S = `
+}, M = () => /* @__PURE__ */ t("div", { className: "incomplete-widget", children: /* @__PURE__ */ t("div", { className: "loading-indicator", children: /* @__PURE__ */ t("span", { className: "loading-text", children: "Loading..." }) }) }), A = `
 .incomplete-widget {
   display: flex;
   align-items: center;
@@ -196,19 +216,19 @@ const h = ({
 }
 `;
 if (typeof document < "u" && !document.getElementById("incomplete-widget-styles")) {
-  const s = document.createElement("style");
-  s.id = "incomplete-widget-styles", s.textContent = S, document.head.appendChild(s);
+  const c = document.createElement("style");
+  c.id = "incomplete-widget-styles", c.textContent = A, document.head.appendChild(c);
 }
-const E = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const R = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  ButtonGroup: h,
-  Form: C,
-  Incomplete: k,
-  Select: g,
-  SelectMulti: v,
-  Slider: f,
-  TextInput: y
-}, Symbol.toStringTag, { value: "Module" })), R = {
+  ButtonGroup: v,
+  Form: S,
+  Incomplete: M,
+  Select: y,
+  SelectMulti: w,
+  Slider: b,
+  TextInput: x
+}, Symbol.toStringTag, { value: "Module" })), T = {
   "button-group": "ButtonGroup",
   form: "Form",
   incomplete: "Incomplete",
@@ -216,61 +236,64 @@ const E = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   "select-multi": "SelectMulti",
   slider: "Slider",
   "text-input": "TextInput"
-}, M = ({ id: s, content: n }) => {
-  const c = JSON.parse(atob(n)), l = R[c.type] || c.type, o = E[l], r = (i) => {
-    const t = new CustomEvent("widget-event", {
-      detail: i,
+}, I = ({ id: c, content: o }) => {
+  const i = JSON.parse(atob(o)), l = T[i.type] || i.type, r = R[l], a = (d) => {
+    const s = new CustomEvent("widget-event", {
+      detail: d,
       bubbles: !0,
       composed: !0
-    }), a = document.querySelector(".widget-container");
-    a && a.dispatchEvent(t);
-  };
-  return o ? /* @__PURE__ */ e("div", { className: "widget", children: /* @__PURE__ */ e(
-    o,
-    {
-      ...c,
-      onchange: (i) => r({ id: s, value: i })
+    }), u = document.querySelector(`markdown-ui-widget[id="${c}"]`);
+    if (u) {
+      const n = u.closest(".widget-container");
+      n && n.dispatchEvent(s);
     }
-  ) }) : /* @__PURE__ */ e("div", { className: "widget", children: /* @__PURE__ */ u("span", { style: { color: "red" }, children: [
+  };
+  return r ? /* @__PURE__ */ t("div", { className: "widget", children: /* @__PURE__ */ t(
+    r,
+    {
+      ...i,
+      onchange: (d) => a({ id: c, value: d })
+    }
+  ) }) : /* @__PURE__ */ t("div", { className: "widget", children: /* @__PURE__ */ p("span", { style: { color: "red" }, children: [
     'Unknown widget "',
-    c.type,
+    i.type,
     '"'
   ] }) });
 };
-class I extends HTMLElement {
+let g;
+typeof HTMLElement < "u" && (g = class extends HTMLElement {
   constructor() {
     super(...arguments), this.reactRoot = null;
   }
   connectedCallback() {
-    const n = this.getAttribute("id") || "", c = this.getAttribute("content") || "";
+    const c = this.getAttribute("id") || "", o = this.getAttribute("content") || "";
     this.innerHTML = "";
-    const l = document.createElement("div");
-    this.appendChild(l), this.reactRoot = N(l), this.reactRoot.render(w.createElement(M, { id: n, content: c }));
+    const i = document.createElement("div");
+    this.appendChild(i), this.reactRoot = E(i), this.reactRoot.render(N.createElement(I, { id: c, content: o }));
   }
   disconnectedCallback() {
     this.reactRoot && (this.reactRoot.unmount(), this.reactRoot = null);
   }
-}
-typeof window < "u" && !customElements.get("markdown-ui-widget") && customElements.define("markdown-ui-widget", I);
-const L = ({ html: s, onWidgetEvent: n }) => {
-  const c = b(null);
-  return x(() => {
-    const l = (r) => {
-      n && n(r.detail);
-    }, o = c.current;
-    if (o)
-      return o.addEventListener("widget-event", l), () => {
-        o.removeEventListener("widget-event", l);
+}, typeof window < "u" && !customElements.get("markdown-ui-widget") && customElements.define("markdown-ui-widget", g));
+const _ = ({ html: c, onWidgetEvent: o }) => {
+  const i = k(null);
+  return f(() => {
+    const l = (a) => {
+      o && o(a);
+    }, r = i.current;
+    if (r)
+      return r.addEventListener("widget-event", l), () => {
+        r.removeEventListener("widget-event", l);
       };
-  }, [n]), /* @__PURE__ */ e("div", { ref: c, className: "widget-container", children: /* @__PURE__ */ e("div", { dangerouslySetInnerHTML: { __html: s } }) });
+  }, [o]), /* @__PURE__ */ t("div", { ref: i, className: "widget-container", children: /* @__PURE__ */ t("div", { dangerouslySetInnerHTML: { __html: c } }) });
 };
 export {
-  h as ButtonGroup,
-  C as Form,
-  k as Incomplete,
-  L as MarkdownUI,
-  g as Select,
-  v as SelectMulti,
-  f as Slider,
-  y as TextInput
+  v as ButtonGroup,
+  S as Form,
+  M as Incomplete,
+  _ as MarkdownUI,
+  y as Select,
+  w as SelectMulti,
+  b as Slider,
+  x as TextInput
 };

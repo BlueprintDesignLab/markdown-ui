@@ -22,7 +22,10 @@ export const Slider: React.FC<SliderProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
     setValue(newValue);
-    onchange(newValue);
+  };
+
+  const handleComplete = () => {
+    onchange(value);
   };
 
   return (
@@ -41,6 +44,8 @@ export const Slider: React.FC<SliderProps> = ({
           max={max}
           step={step}
           onChange={handleChange}
+          onMouseUp={handleComplete}
+          onTouchEnd={handleComplete}
         />
       </div>
     </div>

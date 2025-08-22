@@ -17,8 +17,36 @@
   }
   let { fields, submitLabel = 'Submit', onchange }: Props = $props();
 
-  // local state keyed by id
-  const data = $state<Record<string, unknown>>({});
+  // ---------- helper ----------
+  function buildDefaults(fields: Field[]): Record<string, unknown> {
+    const out: Record<string, unknown> = {};
+
+    for (const f of fields) {
+      switch (f.type) {
+        case 'button-group':
+        case 'select':
+          out[f.id] = f.default ?? (f.choices?.[0] ?? undefined);
+          break;
+
+        case 'select-multi':
+          out[f.id] = Array.isArray(f.default) ? f.default : (f.default ? [f.default] : []);
+          break;
+
+        case 'slider':
+          out[f.id] = f.default ?? (typeof f.min === 'number' ? f.min : 0);
+          break;
+
+        case 'text-input':
+          out[f.id] = f.default ?? '';
+          break;
+      }
+    }
+    return out;
+  }
+
+  // ---------- state ----------
+  const data = $state<Record<string, unknown>>(buildDefaults(fields));
+
   function set(id: string, value: unknown) {
     data[id] = value;
   }

@@ -15,17 +15,29 @@ update_dependencies() {
 build_packages() {
   echo "🏗️  Building packages..."
   
-  # Build mdui-lang first (no dependencies)
-  echo "Building mdui-lang..."
-  cd packages/@markdown-ui/mdui-lang && npm run build && cd - > /dev/null
+  # Define build order: dependencies first, then framework packages
+  local build_order=("mdui-lang" "marked-ext")
   
-  # Build marked-ext (depends on mdui-lang)
-  echo "Building marked-ext..."
-  cd packages/@markdown-ui/marked-ext && npm run build && cd - > /dev/null
+  # Add all remaining packages to build order
+  for dir in packages/@markdown-ui/*/; do
+    package_name=$(basename "$dir")
+    # Skip if already in build_order
+    if [[ ! " ${build_order[@]} " =~ " ${package_name} " ]]; then
+      build_order+=("$package_name")
+    fi
+  done
   
-  # Build react package
-  echo "Building react..."
-  cd packages/@markdown-ui/react && npm run build && cd - > /dev/null
+  # Build packages in order
+  for package in "${build_order[@]}"; do
+    if [[ -d "packages/@markdown-ui/$package" ]]; then
+      echo "Building $package..."
+      if [[ -f "packages/@markdown-ui/$package/package.json" ]] && grep -q '"build"' "packages/@markdown-ui/$package/package.json"; then
+        cd "packages/@markdown-ui/$package" && npm run build && cd - > /dev/null
+      else
+        echo "  ⚠️  No build script found for $package, skipping..."
+      fi
+    fi
+  done
   
   echo "✅ All packages built successfully"
 }
@@ -47,20 +59,30 @@ bump_versions() {
 publish_packages() {
   echo "📦 Publishing packages..."
   
-  # Publish mdui-lang
-  echo "Publishing @markdown-ui/mdui-lang..."
-  cd packages/@markdown-ui/mdui-lang && npm publish && cd - > /dev/null
-  echo "✅ Published @markdown-ui/mdui-lang"
+  # Use same build order for publishing to respect dependencies
+  local publish_order=("mdui-lang" "marked-ext")
   
-  # Publish marked-ext
-  echo "Publishing @markdown-ui/marked-ext..."
-  cd packages/@markdown-ui/marked-ext && npm publish && cd - > /dev/null
-  echo "✅ Published @markdown-ui/marked-ext"
+  # Add all remaining packages to publish order
+  for dir in packages/@markdown-ui/*/; do
+    package_name=$(basename "$dir")
+    # Skip if already in publish_order
+    if [[ ! " ${publish_order[@]} " =~ " ${package_name} " ]]; then
+      publish_order+=("$package_name")
+    fi
+  done
   
-  # Publish react
-  echo "Publishing @markdown-ui/react..."
-  cd packages/@markdown-ui/react && npm publish && cd - > /dev/null
-  echo "✅ Published @markdown-ui/react"
+  # Publish packages in order
+  for package in "${publish_order[@]}"; do
+    if [[ -d "packages/@markdown-ui/$package" ]]; then
+      echo "Publishing @markdown-ui/$package..."
+      if [[ -f "packages/@markdown-ui/$package/package.json" ]]; then
+        cd "packages/@markdown-ui/$package" && npm publish && cd - > /dev/null
+        echo "✅ Published @markdown-ui/$package"
+      else
+        echo "  ⚠️  No package.json found for $package, skipping..."
+      fi
+    fi
+  done
   
   echo "✅ Publishing complete"
 }

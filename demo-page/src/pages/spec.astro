@@ -1,15 +1,9 @@
-<script>
-  import { MarkdownUI } from '$lib';
-  import "$lib/widgets.css";
+---
+import Layout from '../layouts/Layout.astro';
+import SpecRenderer from '../components/SpecRenderer.svelte';
 
-  import { Marked } from 'marked';
-  import { markedUiExtension } from "@markdown-ui/marked-ext";
-  
-  const marked = new Marked();
-  marked.use(markedUiExtension); 
-  
-  const specContent = `# Markdown UI Technical Specification
-**Version:** 0.1
+const specContent = `# Markdown UI Technical Specification
+**Version:** 0.2
 **Status:** Alpha  
 **Date:** 10 August 2025
 
@@ -130,7 +124,11 @@ interface WidgetEvent {
 
 ### 4.2 Event Emission
 
-- Events MUST be emitted on user interaction
+- In browser environments, events MUST be emitted as a CustomEvent named \`widgetevent\` with \`detail\` set to \`{ id, value }\`
+- On mobile (native) environments, the recommended equivalent is a platform-native event/notification carrying the same payload shape:
+  - iOS: NSNotification (or Combine publisher) with userInfo = { id: String, value: Any }
+  - Android: LiveData/Flow/Callback or LocalBroadcast with extras = { id: String, value: Any }
+- Events MUST be dispatched on user interaction
 - Event values MUST reflect the current widget state
 - Events SHOULD be emitted immediately upon value change
 
@@ -369,195 +367,13 @@ See the [Home page](/) for interactive examples of all widget types.
 
 ---
 
-*This specification is maintained at [github.com/BlueprintDesignLab/markdown-ui](https://github.com/BlueprintDesignLab/markdown-ui)*
-`;
-</script>
+*This specification is maintained at [github.com/BlueprintDesignLab/markdown-ui](https://github.com/BlueprintDesignLab/markdown-ui)*`;
+---
 
-<div class="spec-container">
-  <div class="spec-content">
-    <MarkdownUI html={marked.parse(specContent)} />
+<Layout title="Markdown UI - Technical Specification">
+  <div class="max-w-6xl mx-auto px-4 py-10 bg-white min-h-[calc(100vh-3.5rem)]">
+    <div class="prose prose-neutral max-w-none">
+      <SpecRenderer markdown={specContent} client:only="svelte" />
+    </div>
   </div>
-</div>
-
-<style>
-  .spec-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 2rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #ffffff;
-    min-height: calc(100vh - 4rem);
-  }
-  
-  .spec-content {
-    line-height: 1.7;
-    font-size: 1rem;
-  }
-  
-  /* Enhanced typography for technical spec */
-  :global(.spec-content h1) {
-    color: #1f2937;
-    font-size: 2.25rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid #e5e7eb;
-  }
-  
-  :global(.spec-content h2) {
-    color: #374151;
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 3rem 0 1.5rem 0;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e5e7eb;
-  }
-  
-  :global(.spec-content h3) {
-    color: #4b5563;
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 2rem 0 1rem 0;
-  }
-  
-  :global(.spec-content p) {
-    color: #374151;
-    margin-bottom: 1.25rem;
-    text-align: justify;
-  }
-  
-  :global(.spec-content strong) {
-    color: #1f2937;
-    font-weight: 600;
-  }
-  
-  :global(.spec-content ul) {
-    margin: 1rem 0 1.5rem 1.5rem;
-    color: #4b5563;
-  }
-  
-  :global(.spec-content li) {
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-  }
-  
-  :global(.spec-content code) {
-    background: #f1f5f9;
-    color: #475569;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.9em;
-    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-    font-weight: 500;
-  }
-  
-  :global(.spec-content pre) {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 1rem;
-    margin: 1.5rem 0;
-    overflow-x: auto;
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
-  
-  :global(.spec-content pre code) {
-    background: transparent;
-    padding: 0;
-    color: #475569;
-    font-size: inherit;
-  }
-  
-  :global(.spec-content a) {
-    color: #3b82f6;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  
-  :global(.spec-content a:hover) {
-    text-decoration: underline;
-    color: #2563eb;
-  }
-  
-  /* Table of contents style numbering */
-  :global(.spec-content h2::before) {
-    content: counter(h2-counter) ". ";
-    counter-increment: h2-counter;
-    color: #6b7280;
-    font-weight: 400;
-  }
-  
-  :global(.spec-content) {
-    counter-reset: h2-counter;
-  }
-  
-  /* Special styling for metadata at the top */
-  :global(.spec-content p:first-of-type),
-  :global(.spec-content p:nth-of-type(2)),
-  :global(.spec-content p:nth-of-type(3)) {
-    font-family: 'SF Mono', Monaco, monospace;
-    font-size: 0.9rem;
-    color: #6b7280;
-    margin-bottom: 0.5rem;
-  }
-  
-  /* Horizontal rule styling */
-  :global(.spec-content hr) {
-    border: none;
-    height: 1px;
-    background: #e5e7eb;
-    margin: 3rem 0;
-  }
-  
-  @media (max-width: 768px) {
-    .spec-container {
-      padding: 1.5rem;
-      max-width: 100%;
-    }
-    
-    .spec-content {
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-    
-    :global(.spec-content h1) {
-      font-size: 1.875rem;
-    }
-    
-    :global(.spec-content h2) {
-      font-size: 1.5rem;
-      margin: 2.5rem 0 1.25rem 0;
-    }
-    
-    :global(.spec-content h3) {
-      font-size: 1.125rem;
-      margin: 1.5rem 0 0.75rem 0;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .spec-container {
-      padding: 1rem;
-    }
-    
-    .spec-content {
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-    
-    :global(.spec-content h1) {
-      font-size: 1.625rem;
-    }
-    
-    :global(.spec-content h2) {
-      font-size: 1.25rem;
-    }
-    
-    :global(.spec-content pre) {
-      padding: 0.75rem;
-      font-size: 0.8rem;
-    }
-  }
-  
-</style>
+</Layout>

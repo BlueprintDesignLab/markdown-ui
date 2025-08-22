@@ -1,0 +1,269 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ReactDemo from "../components/ReactDemo.tsx";
+import SvelteDemo from "../components/SvelteDemo.svelte";
+import VueDemo from "../components/VueDemo.vue";
+import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown.ts";
+---
+
+<Layout title="Implementations">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-[28px] font-semibold tracking-tight text-neutral-900 mb-1">Framework Implementations</h1>
+    <p class="text-[15px] text-neutral-600 mb-4">Basic live demos for React, Svelte, and Vue. Toggle to view the source for each example.</p>
+    
+    <!-- Framework Selector -->
+    <div class="bg-white border border-neutral-200 rounded-xl shadow-sm p-4 mb-6">
+      <div class="flex items-center justify-between gap-4 flex-wrap">
+        <h2 class="text-lg font-semibold text-neutral-900 m-0">Choose Framework</h2>
+        <div class="flex items-center gap-2">
+          <button 
+            id="react-btn" 
+            class="framework-btn active flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors" 
+            data-framework="react"
+          >
+            <img src="/React.svg" alt="React" class="w-4 h-4" />
+            React
+          </button>
+          <button 
+            id="svelte-btn" 
+            class="framework-btn flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors" 
+            data-framework="svelte"
+          >
+            <img src="/Svelte.svg" alt="Svelte" class="w-4 h-4" />
+            Svelte
+          </button>
+          <button 
+            id="vue-btn" 
+            class="framework-btn flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors" 
+            data-framework="vue"
+          >
+            <img src="/Vue.js.svg" alt="Vue" class="w-4 h-4" />
+            Vue
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <section id="react-demo" class="framework-demo bg-white border border-neutral-200 rounded-xl shadow-sm p-4 sm:p-5 mb-6" aria-labelledby="react-heading">
+      <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-neutral-200/70">
+        <h2 id="react-heading" class="m-0 text-lg font-semibold text-neutral-900 flex items-center gap-2">
+          <img src="/React.svg" alt="React" class="w-5 h-5" />
+          React <a href="https://www.npmjs.com/package/@markdown-ui/react" target="_blank" rel="noreferrer" class="text-blue-600 text-sm font-normal">@markdown-ui/react ↗</a>
+        </h2>
+        <div class="flex items-center gap-2">
+          <span class="text-xs bg-neutral-100 text-neutral-800 px-2 py-1 rounded-full">Live</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-[500px]">
+        <div class="rounded-xl bg-[#0b1020] text-slate-200 overflow-auto">
+          <pre class="m-0 p-3.5 text-[13px] whitespace-pre">{reactExample}</pre>
+        </div>
+        <div class="react-demo-container">
+          <ReactDemo client:load />
+        </div>
+      </div>
+    </section>
+
+    <section id="svelte-demo" class="framework-demo hidden bg-white border border-neutral-200 rounded-xl shadow-sm p-4 sm:p-5 mb-6" aria-labelledby="svelte-heading">
+      <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-neutral-200/70">
+        <h2 id="svelte-heading" class="m-0 text-lg font-semibold text-neutral-900 flex items-center gap-2">
+          <img src="/Svelte.svg" alt="Svelte" class="w-5 h-5" />
+          Svelte <a href="https://www.npmjs.com/package/@markdown-ui/svelte" target="_blank" rel="noreferrer" class="text-blue-600 text-sm font-normal">@markdown-ui/svelte ↗</a>
+        </h2>
+        <div class="flex items-center gap-2">
+          <span class="text-xs bg-neutral-100 text-neutral-800 px-2 py-1 rounded-full">Live</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-[500px]">
+        <div class="rounded-xl bg-[#0b1020] text-slate-200 overflow-auto">
+          <pre class="m-0 p-3.5 text-[13px] whitespace-pre">{svelteExample}</pre>
+        </div>
+        <div class="svelte-demo-container h-full">
+          <SvelteDemo client:only="svelte" />
+        </div>
+      </div>
+    </section>
+
+    <section id="vue-demo" class="framework-demo hidden bg-white border border-neutral-200 rounded-xl shadow-sm p-4 sm:p-5 mb-6" aria-labelledby="vue-heading">
+      <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-neutral-200/70">
+        <h2 id="vue-heading" class="m-0 text-lg font-semibold text-neutral-900 flex items-center gap-2">
+          <img src="/Vue.js.svg" alt="Vue" class="w-5 h-5" />
+          Vue <a href="https://www.npmjs.com/package/@markdown-ui/vue" target="_blank" rel="noreferrer" class="text-blue-600 text-sm font-normal">@markdown-ui/vue ↗</a>
+        </h2>
+        <div class="flex items-center gap-2">
+          <span class="text-xs bg-neutral-100 text-neutral-800 px-2 py-1 rounded-full">Live</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-[500px]">
+        <div class="rounded-xl bg-[#0b1020] text-slate-200 overflow-auto">
+          <pre class="m-0 p-3.5 text-[13px] whitespace-pre">{vueExample}</pre>
+        </div>
+        <div class="vue-demo-container h-full">
+          <VueDemo client:only="vue" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Universal Events Panel -->
+    <section class="bg-white border border-neutral-200 rounded-xl shadow-sm p-4 sm:p-5 mb-6">
+      <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-neutral-200/70">
+        <h2 class="m-0 text-lg font-semibold text-neutral-900">Widget Events</h2>
+        <button 
+          id="clear-events" 
+          class="px-2.5 py-1 rounded-full bg-neutral-900 text-white text-xs"
+        >
+          Clear
+        </button>
+      </div>
+      <div id="events-container" class="h-[300px] overflow-y-auto">
+        <div id="no-events" class="flex flex-col items-center justify-center h-full text-neutral-500 text-center bg-neutral-50 border border-neutral-200 rounded-md">
+          <p class="my-1 text-sm"><strong>No events yet</strong></p>
+          <p class="my-1 text-sm">Interact with any framework's widgets to see events here.</p>
+        </div>
+        <div id="events-list" class="hidden space-y-3"></div>
+      </div>
+    </section>
+
+    <div class="mt-10 pt-4 border-t border-neutral-200">
+      <h2 class="text-lg font-semibold text-neutral-900 mb-3">Package links</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/svelte" target="_blank" rel="noreferrer">
+          <div class="flex items-center gap-2">
+            <img src="/Svelte.svg" alt="Svelte" class="w-4 h-4" />
+            <span class="text-neutral-900">@markdown-ui/svelte</span>
+          </div>
+          <span class="text-neutral-600 text-sm">Svelte renderer</span>
+        </a>
+        <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/react" target="_blank" rel="noreferrer">
+          <div class="flex items-center gap-2">
+            <img src="/React.svg" alt="React" class="w-4 h-4" />
+            <span class="text-neutral-900">@markdown-ui/react</span>
+          </div>
+          <span class="text-neutral-600 text-sm">React renderer</span>
+        </a>
+        <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/vue" target="_blank" rel="noreferrer">
+          <div class="flex items-center gap-2">
+            <img src="/Vue.js.svg" alt="Vue" class="w-4 h-4" />
+            <span class="text-neutral-900">@markdown-ui/vue</span>
+          </div>
+          <span class="text-neutral-600 text-sm">Vue renderer</span>
+        </a>
+        <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/marked-ext" target="_blank" rel="noreferrer">
+          <span class="text-neutral-900">@markdown-ui/marked-ext</span>
+          <span class="text-neutral-600 text-sm">Marked extension</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .framework-btn {
+      border-color: #d4d4d8;
+      color: #71717a;
+      background: white;
+    }
+    
+    .framework-btn.active {
+      border-color: #3b82f6;
+      color: #3b82f6;
+      background: #eff6ff;
+    }
+    
+    .framework-btn:hover {
+      border-color: #a1a1aa;
+      color: #52525b;
+    }
+    
+    .framework-btn.active:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+  </style>
+
+  <script>
+    // Framework switching functionality
+    let currentFramework = 'react';
+    let events = [];
+
+    function switchFramework(framework) {
+      if (framework === currentFramework) return;
+
+      // Update button states
+      document.querySelectorAll('.framework-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.framework === framework);
+      });
+
+      // Hide all demos
+      document.querySelectorAll('.framework-demo').forEach(demo => {
+        demo.classList.add('hidden');
+      });
+
+      // Show selected demo
+      const selectedDemo = document.getElementById(`${framework}-demo`);
+      if (selectedDemo) {
+        selectedDemo.classList.remove('hidden');
+      }
+
+      currentFramework = framework;
+    }
+
+    function renderEvents() {
+      const noEventsDiv = document.getElementById('no-events');
+      const eventsList = document.getElementById('events-list');
+      
+      if (events.length === 0) {
+        noEventsDiv.classList.remove('hidden');
+        eventsList.classList.add('hidden');
+      } else {
+        noEventsDiv.classList.add('hidden');
+        eventsList.classList.remove('hidden');
+        
+        eventsList.innerHTML = events.map(event => {
+          const colorClass = event.id.startsWith('react-') ? 'text-blue-600' :
+                           event.id.startsWith('svelte-') ? 'text-orange-600' :
+                           event.id.startsWith('vue-') ? 'text-green-600' : 'text-neutral-600';
+          
+          return `<div class="p-3 bg-white border border-neutral-200 rounded-md text-sm shadow-sm">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-semibold ${colorClass}">${event.id}</span>
+              <span class="text-xs text-neutral-500">${event.timestamp}</span>
+            </div>
+            <div class="font-mono bg-neutral-50 p-2 rounded text-neutral-600 text-xs">
+              ${JSON.stringify(event.value)}
+            </div>
+          </div>`;
+        }).join('');
+      }
+    }
+
+    function clearEvents() {
+      events = [];
+      renderEvents();
+    }
+
+    function handleWidgetEvent(e) {
+      const timestamp = new Date().toLocaleTimeString();
+      events = [{ ...e.detail, timestamp }, ...events].slice(0, 20);
+      renderEvents();
+    }
+
+    // Add event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      // Framework switching
+      document.querySelectorAll('.framework-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const framework = e.currentTarget?.dataset.framework;
+          if (framework) {
+            switchFramework(framework);
+          }
+        });
+      });
+
+      // Universal event listener
+      document.addEventListener('widget-event', handleWidgetEvent);
+
+      // Clear events button
+      document.getElementById('clear-events').addEventListener('click', clearEvents);
+    });
+  </script>
+</Layout>

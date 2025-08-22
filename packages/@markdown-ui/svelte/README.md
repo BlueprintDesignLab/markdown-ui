@@ -39,8 +39,8 @@ select env [dev staging prod]
 \`\`\`
 `;
 
-function handleWidgetEvent(detail) {
-  console.log('User selected:', detail); 
+function handleWidgetEvent(event: CustomEvent<{id: string, value: unknown}>) {
+  console.log('User selected:', event.detail); 
   // Output: {id: "env", value: "prod"}
 }
 ```
@@ -175,8 +175,8 @@ Combine multiple widgets into a single form:
 All widgets emit standardized events when users interact with them:
 
 ```javascript
-function handleWidgetEvent(detail) {
-  const { id, value } = detail;
+function handleWidgetEvent(event: CustomEvent<{id: string, value: unknown}>) {
+  const { id, value } = event.detail;
   
   // do work
 }
