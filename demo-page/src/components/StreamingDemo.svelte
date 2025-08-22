@@ -16,7 +16,7 @@
 
 	const fullContent = `# Interactive Content Creation Demo
 
-This demonstrates how markdown-ui enables real-time streaming of interactive content. As you can see, complex UI elements appear and become functional immediately as they stream in.
+This demonstrates how markdown-ui enables real-time streaming of interactive content. 
 
 ## User Preferences
 
@@ -39,13 +39,6 @@ This demonstrates how markdown-ui enables real-time streaming of interactive con
 \`\`\`
 
 ## Why This Matters
-
-This streaming approach enables:
-
-- **Real-time interaction** - Users can start interacting before content finishes loading
-- **Progressive enhancement** - UI becomes more functional as it streams
-- **Better UX** - No waiting for complete page loads
-- **Flexible content** - Dynamic forms and interfaces generated on-demand
 
 Perfect for AI assistants, dynamic content creation, and progressive web applications where immediate user engagement is crucial.`;
 
