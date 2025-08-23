@@ -278,9 +278,9 @@ Output rules:
 				<!-- Content Display -->
 				<div class="flex-1 overflow-y-auto mb-8">
 					<div class="bg-gray-50/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50">
-						<div class="prose prose-sm max-w-none text-gray-800">
+						<pre class="whitespace-pre-wrap break-words overflow-x-auto font-mono text-[13px] leading-5 text-gray-800">
 							{getSystemMessage() || "No system prompt configured"}
-						</div>
+						</pre>
 					</div>
 				</div>
 				
