@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ReactDemo from "../components/ReactDemo.tsx";
-import SvelteDemo from "../components/SvelteDemo.svelte";
+import SvelteDemo from "../components/SvelteDemoReact.tsx";
 import VueDemo from "../components/VueDemo.vue";
 import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown.ts";
 ---
@@ -79,7 +79,7 @@ import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown
           <pre class="m-0 p-3.5 text-[13px] whitespace-pre">{svelteExample}</pre>
         </div>
         <div class="svelte-demo-container h-full">
-          <SvelteDemo client:only="svelte" />
+          <SvelteDemo client:load />
         </div>
       </div>
     </section>
