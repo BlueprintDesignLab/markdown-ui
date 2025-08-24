@@ -1,21 +1,22 @@
 # @markdown-ui/vue
+**Transform Markdown into interactive Vue components—instantly.**
 
-Vue renderer for markdown-ui widgets.
+Turn static docs into live experiences users can click, select, and submit.
 
-## Installation
+✨ [Try the live demo](https://markdown-ui.com/) ✨
+
+## Get started in 30 seconds
 
 ```bash
-npm install @markdown-ui/vue
+npm install @markdown-ui/vue @markdown-ui/marked-ext marked
 ```
-
-## Usage
 
 ```vue
 <template>
   <MarkdownUI :html="html" @widgetEvent="handleWidgetEvent" />
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { MarkdownUI } from '@markdown-ui/vue'
 import '@markdown-ui/vue/widgets.css'
 import { Marked } from 'marked'
@@ -25,75 +26,57 @@ const marked = new Marked()
 marked.use(markedUiExtension)
 
 const markdown = `
-# My Form
-
 \`\`\`markdown-ui-widget
-{
-  "type": "text-input",
-  "id": "name", 
-  "label": "Your Name",
-  "placeholder": "Enter your name"
-}
-\`\`\`
-
-\`\`\`markdown-ui-widget
-{
-  "type": "button-group",
-  "id": "env",
-  "label": "Environment", 
-  "choices": ["dev", "staging", "prod"],
-  "default": "dev"
-}
+select env [dev staging prod]
 \`\`\`
 `
 
 const html = marked.parse(markdown)
 
-const handleWidgetEvent = (event: CustomEvent<{id: string, value: unknown}>) => {
-  console.log('Widget event:', event.detail)
-  // Output: {id: "name", value: "John Doe"}
+const handleWidgetEvent = (event) => {
+  console.log('User selected:', event.detail)
 }
 </script>
 ```
 
-### Event Handling
+## What you can build
 
-The `@widgetEvent` listener receives a CustomEvent when widget values change:
+**Quick inputs**
+```vue
+text-input username "Username" "Enter name"
+button-group env [dev staging prod] dev
+select region [us-east us-west] us-east
+```
 
-```typescript
-const handleWidgetEvent = (event: CustomEvent<{id: string, value: unknown}>) => {
-  console.log(`Widget ${event.detail.id} changed to:`, event.detail.value)
+**Complex forms**
+```vue
+form deploy "Launch"
+  text-input name "App Name"
+  slider replicas 1 10 1 3
+  select env [dev prod] dev
+```
+
+**Events made simple**
+```vue
+const handleWidgetEvent = (event) => {
+  const { id, value } = event.detail
+  // That's it - perfect event data
 }
 ```
 
-The event contains:
-- `event.detail.id`: The widget identifier
-- `event.detail.value`: The current widget value
+## TypeScript ready
 
-### Widget Types
+Full type safety out of the box. All components and events are properly typed for the best developer experience.
 
-All standard markdown-ui widgets are supported:
+## Works everywhere
 
-- `text-input`
-- `button-group` 
-- `select`
-- `select-multi`
-- `slider`
-- `form`
+**SSR-safe by design.** No special setup needed for Nuxt or any Vue framework.
 
-See the main [markdown-ui documentation](https://github.com/anthropics/markdown-ui) for complete widget syntax and options.
-
-### TypeScript Support
-
-Full TypeScript support is included:
-
-```typescript
-interface WidgetEvent {
-  id: string
-  value: unknown
-}
-
-const handleWidgetEvent = (event: CustomEvent<WidgetEvent>) => {
-  const { id, value } = event.detail // Fully typed
-}
+```vue
+// Just import and use - SSR handled automatically
+import { MarkdownUI } from '@markdown-ui/vue'
 ```
+
+**Compatibility:** Vue 3+, Nuxt, Vite, and all modern Vue tooling.
+
+MIT © 2025

@@ -1,88 +1,66 @@
 # @markdown-ui/marked-ext
+**Turn your Markdown parser into a widget factory.**
 
-Marked extension for markdown-ui widgets.
+Transform `markdown-ui-widget` code blocks into interactive components with zero configuration.
 
-See [markdown-ui Github](https://github.com/BlueprintDesignLab/markdown-ui/).
+✨ [Try the live demo](https://markdown-ui.com/) ✨
 
-## Overview
+Works with any Marked.js setup—just add the extension and widgets come alive.
 
-This package provides a Marked.js extension that enables rendering of `markdown-ui-widget` code blocks as interactive UI components. When markdown contains code blocks with the language `markdown-ui-widget`, this extension converts them into custom web components.
-
-> New! Added support for atom widgets – ultra-lightweight inline controls that render directly in the text flow.
-
-## Installation
+## Get started in 30 seconds
 
 ```bash
-npm install @markdown-ui/marked-ext
+npm install @markdown-ui/marked-ext marked
 ```
-
-## Usage
 
 ```typescript
-import { marked } from 'marked';
+import { Marked } from 'marked';
 import { markedUiExtension } from '@markdown-ui/marked-ext';
 
-// Register the extension
+const marked = new Marked();
 marked.use(markedUiExtension);
 
-// JSON widget syntax
-const jsonMarkdown = `
+// This markdown...
+const markdown = `
 \`\`\`markdown-ui-widget
-{
-  "type": "text-input",
-  "id": "username", 
-  "label": "Username",
-  "placeholder": "Enter username"
-}
+select env [dev staging prod]
 \`\`\`
 `;
 
-// DSL syntax (more concise!)
-const dslMarkdown = `
-\`\`\`markdown-ui-widget
-text-input username "Username" "Enter username"
-\`\`\`
-`;
-
-const html = marked(jsonMarkdown);
-console.log(html);
-// Output: <markdown-ui-widget id="unique-id" content="base64-encoded-content"></markdown-ui-widget>
+const html = marked.parse(markdown);
+// ...becomes interactive widgets!
 ```
 
-### Dual Syntax Support
+## Two syntaxes, same magic
 
-This extension supports **both JSON and DSL syntax** in `markdown-ui-widget` code blocks:
+Write widgets in **JSON** (traditional) or **DSL** (60% more concise):
 
-- **JSON**: Traditional object notation for maximum flexibility
-- **DSL**: Concise syntax that's 60-70% shorter than JSON
-
-The extension automatically detects the format - try JSON first, fall back to DSL if JSON parsing fails.
-
-**DSL Examples:**
-```
+**DSL** ⚡
+```markdown
 text-input username "Username" "Enter username"
 button-group env [dev staging prod] dev
 select region [us-east-1 us-west-2] us-east-1
-slider cpu 1 32 1 4
 form config "Submit"
-  text-input name "Name"
+  text-input name "Name" 
   select env [dev prod]
 ```
 
-For complete DSL documentation, see [@markdown-ui/mdui-lang](https://www.npmjs.com/package/@markdown-ui/mdui-lang).
+**JSON** 📝
+```json
+{"type": "text-input", "id": "username", "label": "Username"}
+```
+
+Both work identically—the extension auto-detects the format.
 
 ## How it works
 
-1. The extension identifies code blocks with the language `markdown-ui-widget`
-2. It base64-encodes the widget configuration content
-3. It generates a unique ID using nanoid
-4. It creates a `<markdown-ui-widget>` custom element with the encoded content and ID, which will require a marked-ui supported renderer.
+1. **Detects** `markdown-ui-widget` code blocks in your Markdown
+2. **Encodes** widget config as base64 with unique IDs
+3. **Generates** `<markdown-ui-widget>` custom elements
+4. **Renders** with your framework (React, Svelte, Vue)
 
-## Dependencies
+Perfect separation—any parser, any renderer, any framework.
 
-- `nanoid`: Used for generating unique widget IDs
-- `marked`: Peer dependency for the Marked.js library
+**Next step:** Add a renderer like `@markdown-ui/react` or `@markdown-ui/svelte` to see your widgets come alive.
 
-## License
-
-ISC
+MIT © 2025

@@ -1,18 +1,9 @@
 # Markdown UI
-**Micro-spec for interactive widgets inside Markdown.**  
+**Turn static docs into interactive experiences—instantly.**
 
-See the [live demo here](https://markdown-ui.blueprintlab.io/).
+✨ [Try the live demo](https://markdown-ui.com/) ✨
 
-If your renderer supports it → live UI. If not → graceful fallback.
-
-````markdown
-```markdown-ui-widget
-{ "type": "select", "id": "env", "choices": ["dev", "prod"] }
-```
-````
-
-> NEW
-Or use the more concise DSL syntax in the same tag:
+Transform any Markdown into clickable UI that works everywhere. Write once, render interactive widgets in any framework.
 
 ````markdown
 ```markdown-ui-widget
@@ -20,65 +11,75 @@ select env [dev prod]
 ```
 ````
 
-Both become an actual dropdown that emits `{id: "env", value: "prod"}` events.
+That's it. Real dropdown, real events, zero setup.
 
-## Why Markdown UI?
+## Why it's powerful
 
-- **LLM-Native**: Designed for AI to generate interactive experiences
-- **Zero Dependencies**: Pure specification, bring your own parser/renderer  
-- **Cross-Platform**: Works with any Markdown parser + any UI framework
-- **Secure**: JSON-only, no code execution
-- **Progressive**: Graceful fallback to code blocks
+- **AI-ready**: LLMs generate interactive flows and gather feedback, all in Markdown
+- **Built for humans and bots**: Works great typed by hand or produced with AI
+- **Readable everywhere**: Preview rich UI, but if unsupported, it's still legible Markdown
+- **Zero lock-in**: Pure spec—works with any Markdown parser + any UI framework
 
-## Quick Start
+## Get started in 30 seconds
 
-1. **Choose your stack**: We support Svelte and React
-2. **Install renderer**: `npm install @markdown-ui/svelte` or `npm install @markdown-ui/react`  
-3. **Parse markdown**: Use `@markdown-ui/marked-ext` or any parser
-4. **Render**: Components handle the rest
-
-```javascript
-// Svelte
-import { MarkdownUI } from '@markdown-ui/svelte';
-
-// React  
-import { MarkdownUI } from '@markdown-ui/react';
-// Your markdown with markdown-ui-widget blocks becomes interactive
+```bash
+npm install @markdown-ui/svelte @markdown-ui/marked-ext
 ```
 
-## Supported Widgets
+```javascript
+import { MarkdownUI } from '@markdown-ui/svelte';
+import { markedUiExtension } from '@markdown-ui/marked-ext';
 
-| Widget | Purpose | Events |
-|--------|---------|--------|
-| **button-group** | A/B choices, yes/no | `string` |
-| **select** | Dropdown, multi-select | `string \| string[]` |
-| **select-multi** | Tag selection | `string[]` |
-| **slider** | Numeric input | `number` |  
-| **text-input** | Free text | `string` |
-| **form** | Composite widget | `object` |
+// Your markdown with widgets → live UI
+```
 
-## Architecture
+React or Vue? Use `@markdown-ui/react` or `@markdown-ui/vue` instead. Same API, same magic.
 
-**Parser** (`marked-ext`) → Converts `markdown-ui-widget` blocks to standardized XML  
-**Renderer** (`svelte` | `react`) → XML becomes interactive components + events
-**Events** When users interact with the UI components, it emits `CustomEvent<{id, value}>` objects which your application can handle.
+## What you can build
 
-This separation lets you mix any parser with any renderer.
+**Buttons & choices**
+```markdown
+button-group plan [Basic Pro Enterprise] Basic
+```
 
-## Implementations
+**Dropdowns & multi-select** 
+```markdown
+select region [us-east us-west] us-east
+select-multi tools [Docker Redis Postgres] [Docker]
+```
 
-| Package | Status |
-|---------|---------|
-| `@markdown-ui/marked-ext` (Parser) | ✅ Complete |
-| `@markdown-ui/svelte` (Renderer) | ✅ Complete |
-| `@markdown-ui/react` (Renderer) | ✅ Complete |
+**Text & numbers**
+```markdown
+text-input name "Your name" "Enter name here"
+slider cpu 1 32 1 4
+```
 
-## Package Links
+**Complex forms**
+```markdown
+form deploy "Launch"
+  select env [dev prod] dev
+  slider replicas 1 10 1 3
+```
 
-- **DSL Parser**: [@markdown-ui/mdui-lang](https://www.npmjs.com/package/@markdown-ui/mdui-lang)
-- **Parser**: [@markdown-ui/marked-ext](https://www.npmjs.com/package/@markdown-ui/marked-ext)
-- **Svelte Renderer**: [@markdown-ui/svelte](https://www.npmjs.com/package/@markdown-ui/svelte)
-- **React Renderer**: [@markdown-ui/react](https://www.npmjs.com/package/@markdown-ui/react)
+## How it works
+
+1. **Write** widgets in Markdown using simple DSL syntax
+2. **Parse** with our extension (or bring your own parser)  
+3. **Render** as interactive components in your framework
+4. **Listen** for events when users interact with widgets
+
+Works with any Markdown parser + any UI framework. Zero lock-in.
+
+## Available packages
+
+**Parsers** ✅
+- `@markdown-ui/mdui-lang` - DSL parser
+- `@markdown-ui/marked-ext` - Marked.js extension
+
+**Renderers** ✅  
+- `@markdown-ui/svelte` - Svelte components
+- `@markdown-ui/react` - React components
+- `@markdown-ui/vue` - Vue components
 
 
 ## Copyable System Prompt For LLMs
