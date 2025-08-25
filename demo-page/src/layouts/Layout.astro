@@ -21,7 +21,10 @@ const isActive = (path: string) => Astro.url.pathname === path;
   <body class="antialiased bg-neutral-50 text-neutral-900 selection:bg-blue-200/60 selection:text-neutral-900">
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-neutral-200">
       <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <a href="/" class="font-semibold tracking-[-0.01em] text-[17px]">Markdown UI</a>
+        <a href="/" class="font-semibold tracking-[-0.01em] text-[17px] flex items-center gap-2">
+          <img src="/favicon.png" alt="Markdown UI logo" class="w-6 h-6" />
+          Markdown UI
+        </a>
         <button aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-menu" id="nav-toggle" class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-md border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>

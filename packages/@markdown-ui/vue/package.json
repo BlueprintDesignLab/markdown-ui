@@ -1,6 +1,6 @@
 {
   "name": "@markdown-ui/vue",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Vue renderer for markdown-ui",
   "type": "module",
   "main": "./dist/index.js",

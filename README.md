@@ -44,8 +44,8 @@ button-group plan [Basic Pro Enterprise] Basic
 
 **Dropdowns & multi-select** 
 ```markdown
-select region [us-east us-west] us-east
-select-multi tools [Docker Redis Postgres] [Docker]
+select region ["US East" "US West"] "US East"
+select-multi tools [Docker "Redis Cache" Postgres] [Docker]
 ```
 
 **Text & numbers**
@@ -57,7 +57,7 @@ slider cpu 1 32 1 4
 **Complex forms**
 ```markdown
 form deploy "Launch"
-  select env [dev prod] dev
+  select env ["Development" "Production"] "Development"
   slider replicas 1 10 1 3
 ```
 
@@ -85,100 +85,66 @@ Works with any Markdown parser + any UI framework. Zero lock-in.
 ## Copyable System Prompt For LLMs
 
 ````text
-You can embed interactive UI widgets in Markdown using fenced code blocks with language "markdown-ui-widget". 
-
-**DSL Format:**
-Use concise DSL syntax for more ergonomic widget definitions.
-
-**DSL Format Examples:**
-
-1. text-input
-```markdown-ui-widget
-text-input username "Username" "Enter username" "john"
-```
-
-2. button-group
-```markdown-ui-widget
-button-group env [dev staging prod] dev
-```
-
-3. select
-```markdown-ui-widget
-select region [us-east-1 us-west-2] us-east-1
-```
-
-4. select-multi
-```markdown-ui-widget
-select-multi services [redis postgres nginx] [redis]
-```
-
-5. slider
-```markdown-ui-widget
-slider cpu 1 32 1 4
-```
-
-6. form
-```markdown-ui-widget
-form config "Deploy"
-  select env [dev prod]
-  slider replicas 1 10 1
-```
-
-
-Output rules:
-- Use one widget per fenced code block. Only one widget per response.
-- Keep all surrounding content as normal Markdown prose outside the widget code fences.
-- Only use the widget types listed above; do not invent new types.
-- DSL: Use concise syntax; parameters after id are positional and optional.
-````
+You can embed interactive UI widgets in Markdown using fenced code blocks with language "markdown-ui-widget".
 
 ## DSL Syntax Reference
 
-The `markdown-ui-widget` blocks support both JSON and a concise **DSL syntax**. The DSL is 60-70% shorter than JSON while maintaining full functionality.
+**Widget Types:**
+- text-input id "label" "placeholder" "default"
+- button-group id ["Choice 1" "Choice 2" ...] "default"
+- select id ["Option A" "Option B" ...] "default"  
+- select-multi id ["Item 1" "Item 2" ...] ["default1" "default2"]
+- slider id min max step default
+- form id "Submit Label" (multi-line with 2-space indented fields)
 
-### Atomic Widgets (single line)
+**Quoting Rules:**
+- Use quotes for ANY text containing spaces: "User Name", "New York"
+- Arrays support mixed quoting: [Simple "Complex Item" Another]
+- Required quotes: labels, placeholders, array items with spaces
+- Optional quotes: single words, numbers
 
+**Examples:**
+
+Text Input:
+```markdown-ui-widget
+text-input email "Email Address" "Enter your email" "user@example.com"
 ```
-text-input id label placeholder default
-button-group id [choice1 choice2 ...] default
-select id [choice1 choice2 ...] default  
-select-multi id [choice1 choice2 ...] default
-slider id min max step default
+
+Button Groups:
+```markdown-ui-widget
+button-group plan ["Basic Plan" "Pro Plan" "Enterprise"] "Basic Plan"
 ```
 
-### Form Widget (multi-line with indentation)
-
-```
-form id [submitLabel]
-  text-input id label placeholder default
-  select id [choice1 choice2 ...] default
-  ...
+Dropdowns:
+```markdown-ui-widget
+select region ["US East" "US West" "Europe"] "US East"
 ```
 
-### DSL Rules
+Multi-Select:
+```markdown-ui-widget
+select-multi tools [Docker "Redis Cache" "PostgreSQL DB"] [Docker]
+```
 
-- **Tokens**: Separated by one or more spaces
-- **Arrays**: Wrapped in `[]`, items separated by spaces
-- **Quotes**: Use double quotes `"..."` for strings with spaces or brackets
-- **Indentation**: Form fields indented exactly 2 spaces
-- **Positioning**: Parameters after `id` are positional and optional
-
-### Examples
-
-```markdown
-# Simple widgets
-text-input username "Username" "Enter username" "john"
-button-group env [dev staging prod] dev
-select region [us-east-1 us-west-2] us-east-1
+Sliders:
+```markdown-ui-widget
 slider cpu 1 32 1 4
+```
 
-# Complex form
-form server-config "Deploy"
-  text-input name "Server Name" 
-  select env [dev prod] dev
+Forms:
+```markdown-ui-widget
+form deployment "Deploy Now"
+  text-input name "App Name"
+  select env ["Development" "Production"] "Development"
   slider replicas 1 10 1 3
 ```
 
+**Output Rules:**
+- One widget per code block
+- Use quotes for any text with spaces
+- Parameters after ID are positional and optional
+- Form fields must be indented exactly 2 spaces
+- Only use the 6 widget types above
+````
 
 ## Contributing
 

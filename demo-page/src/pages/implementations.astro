@@ -59,7 +59,7 @@ import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown
           <pre class="m-0 p-3.5 text-[13px] whitespace-pre">{reactExample}</pre>
         </div>
         <div class="react-demo-container">
-          <ReactDemo client:load />
+          <ReactDemo client:only="react" />
         </div>
       </div>
     </section>
@@ -79,7 +79,7 @@ import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown
           <pre class="m-0 p-3.5 text-[13px] whitespace-pre">{svelteExample}</pre>
         </div>
         <div class="svelte-demo-container h-full">
-          <SvelteDemo client:load />
+          <SvelteDemo client:only="react" />
         </div>
       </div>
     </section>
@@ -242,12 +242,16 @@ import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown
     }
 
     function handleWidgetEvent(e) {
+      console.log('🎯 Event received on page:', e.detail);
       const timestamp = new Date().toLocaleTimeString();
       events = [{ ...e.detail, timestamp }, ...events].slice(0, 20);
       renderEvents();
     }
 
-    // Add event listeners
+    // Set up widget event listener immediately (before DOMContentLoaded)
+    document.addEventListener('widget-event', handleWidgetEvent);
+
+    // Add other event listeners on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
       // Framework switching
       document.querySelectorAll('.framework-btn').forEach(btn => {
@@ -258,9 +262,6 @@ import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown
           }
         });
       });
-
-      // Universal event listener
-      document.addEventListener('widget-event', handleWidgetEvent);
 
       // Clear events button
       document.getElementById('clear-events').addEventListener('click', clearEvents);

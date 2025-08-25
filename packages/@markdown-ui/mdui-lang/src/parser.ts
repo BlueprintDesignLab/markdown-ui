@@ -87,7 +87,40 @@ export class DSLParser {
     }
     const content = arrayToken.slice(1, -1).trim();
     if (!content) return [];
-    return content.split(/\s+/);
+    
+    // Parse array content with support for quoted strings
+    const items: string[] = [];
+    let current = '';
+    let inQuotes = false;
+    let i = 0;
+    
+    while (i < content.length) {
+      const char = content[i];
+      
+      if (char === '"') {
+        inQuotes = !inQuotes;
+        i++;
+        continue;
+      }
+      
+      if (char === ' ' && !inQuotes) {
+        if (current.trim()) {
+          items.push(current.trim());
+          current = '';
+        }
+        i++;
+        continue;
+      }
+      
+      current += char;
+      i++;
+    }
+    
+    if (current.trim()) {
+      items.push(current.trim());
+    }
+    
+    return items;
   }
 
   private parseTextInput(tokens: string[]): ParseResult {

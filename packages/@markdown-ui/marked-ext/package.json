@@ -1,5 +1,5 @@
 {
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Marked extension for markdown-ui widgets",
   "name": "@markdown-ui/marked-ext",
   "type": "module",

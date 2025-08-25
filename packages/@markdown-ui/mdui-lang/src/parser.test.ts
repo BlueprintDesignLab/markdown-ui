@@ -304,5 +304,36 @@ not indented
         choices: []
       });
     });
+
+    it('handles quoted choices with spaces in arrays', () => {
+      const result = parseDSL('select location [Chicago "New York" "San Francisco"]');
+      expect(result.success).toBe(true);
+      expect(result.widget).toEqual({
+        type: 'select',
+        id: 'location',
+        choices: ['Chicago', 'New York', 'San Francisco']
+      });
+    });
+
+    it('handles mixed quoted and unquoted choices', () => {
+      const result = parseDSL('button-group options [simple "Complex Option" another]');
+      expect(result.success).toBe(true);
+      expect(result.widget).toEqual({
+        type: 'button-group',
+        id: 'options',
+        choices: ['simple', 'Complex Option', 'another']
+      });
+    });
+
+    it('handles quoted defaults with spaces', () => {
+      const result = parseDSL('select location [Chicago "New York"] "New York"');
+      expect(result.success).toBe(true);
+      expect(result.widget).toEqual({
+        type: 'select',
+        id: 'location',
+        choices: ['Chicago', 'New York'],
+        default: 'New York'
+      });
+    });
   });
 });

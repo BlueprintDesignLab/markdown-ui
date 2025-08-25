@@ -25,6 +25,8 @@ export const Widget: React.FC<WidgetProps> = ({ id, content }) => {
   const WidgetComponent = widgets[componentType as WidgetType];
 
   const dispatch = (detail: any) => {
+    console.log('🔥 Widget dispatch called', { id, detail });
+    
     const event = new CustomEvent('widget-event', {
       detail: detail,
       bubbles: true,
@@ -33,11 +35,17 @@ export const Widget: React.FC<WidgetProps> = ({ id, content }) => {
     
     // Find the custom element and bubble up to find the closest widget container
     const customElement = document.querySelector(`markdown-ui-widget[id="${id}"]`);
+    console.log('🔍 Custom element found:', customElement);
+    
     if (customElement) {
       const container = customElement.closest('.widget-container');
+      console.log('📦 Container found:', container);
       if (container) {
+        console.log('📤 Dispatching event on container');
         container.dispatchEvent(event);
       }
+    } else {
+      console.log('❌ No custom element found for id:', id);
     }
   };
 

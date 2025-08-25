@@ -93,19 +93,23 @@ form id [submitLabel]
 - **Tokens**: Separated by one or more spaces
 - **Arrays**: Wrapped in \`[]\`, items separated by spaces
 - **Quotes**: Use double quotes \`"..."\` for strings with spaces or brackets
+  - **Required for**: Labels, placeholders, and array items containing spaces
+  - **Examples**: \`"User Name"\`, \`["New York" Chicago "Los Angeles"]\`
+- **Mixed quoting**: Arrays can mix quoted and unquoted items: \`[simple "Complex Item" another]\`
 - **Indentation**: Form fields indented exactly 2 spaces
 - **Positioning**: Parameters after \`id\` are positional and optional
 
 **Examples:**
 \`\`\`
 text-input username "Username" "Enter username" "john"
-button-group env [dev staging prod] dev
-select region [us-east-1 us-west-2] us-east-1
+button-group env ["Development" "Staging" "Production"] "Development"
+select region ["US East 1" "US West 2"] "US East 1"
+select-multi services [Docker "Redis Cache" "PostgreSQL DB"] [Docker]
 slider cpu 1 32 1 4
 
 form server-config "Deploy"
   text-input name "Server Name" 
-  select env [dev prod] dev
+  select env ["Development" "Production"] "Development"
   slider replicas 1 10 1 3
 \`\`\`
 
@@ -180,12 +184,12 @@ text-input username "Username" "Enter username" ""
 
 **Example**:
 \`\`\`json
-{ "type": "button-group", "id": "env", "label": "Environment", "choices": ["dev", "staging", "prod"], "default": "dev" }
+{ "type": "button-group", "id": "env", "label": "Environment", "choices": ["Development", "Staging", "Production"], "default": "Development" }
 \`\`\`
 
 **DSL Example**:
 \`\`\`
-button-group env [dev staging prod] dev
+button-group env ["Development" "Staging" "Production"] "Development"
 \`\`\`
 
 ### 5.3 select
@@ -207,7 +211,12 @@ button-group env [dev staging prod] dev
 
 **Example**:
 \`\`\`json
-{ "type": "select", "id": "region", "label": "AWS Region", "choices": ["us-east-1", "us-west-2", "eu-west-1"], "default": "us-east-1" }
+{ "type": "select", "id": "region", "label": "AWS Region", "choices": ["US East 1", "US West 2", "EU West 1"], "default": "US East 1" }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+select region ["US East 1" "US West 2" "EU West 1"] "US East 1"
 \`\`\`
 
 ### 5.4 select-multi
@@ -229,7 +238,12 @@ button-group env [dev staging prod] dev
 
 **Example**:
 \`\`\`json
-{ "type": "select-multi", "id": "services", "label": "Services", "choices": ["redis", "postgres", "nginx"], "default": ["redis"] }
+{ "type": "select-multi", "id": "services", "label": "Services", "choices": ["Redis", "PostgreSQL DB", "Nginx"], "default": ["Redis"] }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+select-multi services [Redis "PostgreSQL DB" Nginx] [Redis]
 \`\`\`
 
 ### 5.5 slider

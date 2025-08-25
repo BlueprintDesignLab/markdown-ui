@@ -6,8 +6,7 @@ import { markedUiExtension } from '@markdown-ui/marked-ext';
 const marked = new Marked();
 marked.use(markedUiExtension);
 
-export default function SvelteDemoReact() {
-  const exampleMarkdown = `# Svelte Implementation
+const exampleMarkdown = `# Svelte Implementation
 
 This demo runs using **@markdown-ui/svelte**:
 
@@ -25,7 +24,9 @@ slider svelte-reactivity 1 10 1 8
 
 The widgets above emit events when you interact with them, demonstrating Svelte's reactive state management.`;
 
-  const renderedHtml = marked.parse(exampleMarkdown);
+const renderedHtml = marked.parse(exampleMarkdown);
+
+export default function SvelteDemoReact() {
 
   return (
     <div className="flex flex-col min-h-[400px]">

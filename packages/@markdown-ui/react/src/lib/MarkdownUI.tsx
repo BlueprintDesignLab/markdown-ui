@@ -18,6 +18,8 @@ if (typeof HTMLElement !== 'undefined') {
       const id = this.getAttribute('id') || '';
       const content = this.getAttribute('content') || '';
       
+      console.log('🏗️ Custom element connected', { id, content });
+      
       // Create a React component instance
       this.innerHTML = '';
       const div = document.createElement('div');

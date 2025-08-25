@@ -4,7 +4,7 @@
       v-if="WidgetComponent"
       :is="WidgetComponent"
       v-bind="parsed"
-      @change="(value) => dispatch({ id, value })"
+      @change="(value) => dispatch({ id: props.id, value })"
     />
     <span v-else style="color: red">
       Unknown widget "{{ parsed.type }}"
@@ -70,7 +70,7 @@ const dispatch = (detail: any) => {
   })
   
   // Find the custom element and bubble up to find the closest widget container
-  const customElement = document.querySelector(`markdown-ui-widget[id="${id}"]`)
+  const customElement = document.querySelector(`markdown-ui-widget[id="${props.id}"]`)
   if (customElement) {
     const container = customElement.closest('.widget-container')
     if (container) {

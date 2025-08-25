@@ -6,8 +6,7 @@ import { markedUiExtension } from '@markdown-ui/marked-ext';
 const marked = new Marked();
 marked.use(markedUiExtension);
 
-export default function ReactDemo() {
-  const exampleMarkdown = `# React Implementation
+const exampleMarkdown = `# React Implementation
 
 This demo runs using **@markdown-ui/react**:
 
@@ -23,7 +22,9 @@ select react-version [16 17 18 19] 18
 slider react-components 1 50 1 12
 \`\`\``;
 
-  const renderedHtml = marked.parse(exampleMarkdown);
+const renderedHtml = marked.parse(exampleMarkdown);
+
+export default function ReactDemo() {
 
   return (
     <div className="flex flex-col min-h-[400px]">
