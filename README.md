@@ -23,17 +23,21 @@ That's it. Real dropdown, real events, zero setup.
 ## Get started in 30 seconds
 
 ```bash
-npm install @markdown-ui/svelte @markdown-ui/marked-ext
+npm install @markdown-ui/react @markdown-ui/marked-ext
 ```
 
 ```javascript
-import { MarkdownUI } from '@markdown-ui/svelte';
+import { MarkdownUI } from '@markdown-ui/react';
+import { Marked } from 'marked';
 import { markedUiExtension } from '@markdown-ui/marked-ext';
 
-// Your markdown with widgets → live UI
+const marked = new Marked().use(markedUiExtension);
+const html = marked.parse('```markdown-ui-widget\nselect env [dev prod]\n```');
+
+<MarkdownUI html={html} />
 ```
 
-React or Vue? Use `@markdown-ui/react` or `@markdown-ui/vue` instead. Same API, same magic.
+Prefer Svelte or Vue? Use [`@markdown-ui/svelte`](https://www.npmjs.com/package/@markdown-ui/svelte) or [`@markdown-ui/vue`](https://www.npmjs.com/package/@markdown-ui/vue) instead. Same API, same magic.
 
 ## What you can build
 
@@ -70,16 +74,18 @@ form deploy "Launch"
 
 Works with any Markdown parser + any UI framework. Zero lock-in.
 
+📚 **[View Full Documentation & Spec →](https://markdown-ui.com/spec)**
+
 ## Available packages
 
 **Parsers** ✅
-- `@markdown-ui/mdui-lang` - DSL parser
-- `@markdown-ui/marked-ext` - Marked.js extension
+- [`@markdown-ui/mdui-lang`](https://www.npmjs.com/package/@markdown-ui/mdui-lang) - DSL parser
+- [`@markdown-ui/marked-ext`](https://www.npmjs.com/package/@markdown-ui/marked-ext) - Marked.js extension
 
 **Renderers** ✅  
-- `@markdown-ui/svelte` - Svelte components
-- `@markdown-ui/react` - React components
-- `@markdown-ui/vue` - Vue components
+- [`@markdown-ui/svelte`](https://www.npmjs.com/package/@markdown-ui/svelte) - Svelte components
+- [`@markdown-ui/react`](https://www.npmjs.com/package/@markdown-ui/react) - React components
+- [`@markdown-ui/vue`](https://www.npmjs.com/package/@markdown-ui/vue) - Vue components
 
 
 ## Copyable System Prompt For LLMs
@@ -148,8 +154,15 @@ form deployment "Deploy Now"
 
 ## Contributing
 
-- **New widgets**: Open issue with use case
-- **Parser/renderer ports**: PRs welcome
-- **Spec changes**: Discuss in issues first
+- **New widgets**: [Open issue](https://github.com/BlueprintDesignLab/markdown-ui/issues/new) with use case
+- **Parser/renderer ports**: [PRs welcome](https://github.com/BlueprintDesignLab/markdown-ui/pulls)
+- **Spec changes**: [Discuss in issues](https://github.com/BlueprintDesignLab/markdown-ui/issues) first
+
+## Resources
+
+- 🌐 **[Live Demo](https://markdown-ui.com/)** - Try all widgets interactively
+- 📖 **[Technical Specification](https://markdown-ui.com/spec)** - Complete spec documentation
+- 📦 **[npm Packages](https://www.npmjs.com/search?q=%40markdown-ui)** - All available packages
+- 🐙 **[GitHub Repository](https://github.com/BlueprintDesignLab/markdown-ui)** - Source code & issues
 
 MIT © 2025
