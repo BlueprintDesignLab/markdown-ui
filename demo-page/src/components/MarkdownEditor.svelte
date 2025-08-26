@@ -95,7 +95,7 @@
 						<p class="m-1 text-sm">Interact with widgets to see events logged here.</p>
 					</div>
 				{:else}
-					{#each events as event (event.id + event.timestamp)}
+					{#each events as event}
 						<div class="mb-3 p-3 bg-white border border-neutral-200 rounded-md text-sm shadow-sm">
 							<div class="flex justify-between items-center mb-2">
 								<span class="font-semibold text-blue-600">{event.id}</span>
