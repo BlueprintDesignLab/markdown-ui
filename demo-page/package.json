@@ -1,5 +1,5 @@
 {
-  "name": "astro-demo",
+  "name": "markdown-ui-demo",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -20,6 +20,7 @@
     "@markdown-ui/mdui-lang": "^0.2.10",
     "@markdown-ui/react": "^0.1.12",
     "@markdown-ui/svelte": "^0.1.12",
+    "@markdown-ui/vue": "^0.1.12",
     "@tailwindcss/vite": "^4.1.12",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
