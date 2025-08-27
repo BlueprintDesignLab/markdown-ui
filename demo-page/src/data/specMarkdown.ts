@@ -1,0 +1,380 @@
+export const spec = `# Markdown UI Technical Specification
+**Version:** 0.2
+**Status:** Alpha  
+**Date:** 10 August 2025
+
+## Overview
+
+Markdown UI is a specification for embedding interactive widgets within Markdown content using fenced code blocks with a standardized JSON payload. The specification defines a two-stage processing pipeline that separates parsing from rendering to enable maximum flexibility across different platforms and frameworks.
+
+## Architecture
+
+### 2.1 Processing Pipeline
+
+The Markdown UI specification defines a two-stage processing pipeline:
+
+1. **Parser Stage**: Converts \`markdown-ui-widget\` fenced code blocks into standardized XML tags
+2. **Renderer Stage**: Transforms XML tags into framework-specific interactive components
+
+### 2.2 Design Principles
+
+- **Framework Agnostic**: Any Markdown parser can be combined with any UI renderer
+- **Progressive Enhancement**: Graceful fallback to code blocks when rendering is unavailable
+- **Security First**: JSON-only payloads prevent code injection attacks
+- **Event Standardization**: Consistent event interface across all widget types
+
+## Specification Format
+
+### 3.1 Input Format
+
+Widgets are declared using fenced code blocks with the language identifier \`markdown-ui-widget\`:
+
+\`\`\`\`markdown
+\`\`\`markdown-ui-widget
+{ "type": "widgetType", "id": "uniqueId", ...properties }
+\`\`\`
+\`\`\`\`
+
+**DSL Alternative**: The extension also supports a concise DSL syntax:
+
+\`\`\`\`markdown
+\`\`\`markdown-ui-widget
+widget-type id [parameters...]
+\`\`\`
+\`\`\`\`
+
+### 3.2 JSON Schema Requirements
+
+All widget declarations MUST:
+- Be valid JSON (RFC 7159)
+- Include a \`type\` property specifying the widget type
+- Include an \`id\` property for event identification (optional, auto-generated if omitted)
+- Use double quotes for all strings
+- Not include trailing commas or comments
+
+### 3.3 Intermediate XML Format
+
+Parsers MUST transform widget declarations into the following XML format:
+
+\`\`\`xml
+<markdown-ui-widget id="generated_id" content="base64_encoded_json_payload"></markdown-ui-widget>
+\`\`\`
+
+**Attributes:**
+- \`id\`: Unique identifier (generated if not provided in JSON)
+- \`content\`: Base64-encoded original JSON payload
+
+### 3.4 DSL Syntax Reference
+
+The DSL provides a more concise syntax for widget definitions:
+
+**Atomic Widgets (single line):**
+\`\`\`
+text-input id [label] [placeholder] [default]
+button-group id [choice1 choice2 ...] [default]
+select id [choice1 choice2 ...] [default]  
+select-multi id [choice1 choice2 ...] [default]
+slider id min max step [default]
+\`\`\`
+
+**Form Widget (multi-line with indentation):**
+\`\`\`
+form id [submitLabel]
+  text-input id [label] [placeholder] [default]
+  select id [choice1 choice2 ...] [default]
+  ...
+\`\`\`
+
+**DSL Rules:**
+- **Tokens**: Separated by one or more spaces
+- **Arrays**: Wrapped in \`[]\`, items separated by spaces
+- **Quotes**: Use double quotes \`"..."\` for strings with spaces or brackets
+  - **Required for**: Labels, placeholders, and array items containing spaces
+  - **Examples**: \`"User Name"\`, \`["New York" Chicago "Los Angeles"]\`
+- **Mixed quoting**: Arrays can mix quoted and unquoted items: \`[simple "Complex Item" another]\`
+- **Indentation**: Form fields indented exactly 2 spaces
+- **Positioning**: Parameters after \`id\` are positional and optional
+
+**Examples:**
+\`\`\`
+text-input username "Username" "Enter username" "john"
+button-group env ["Development" "Staging" "Production"] "Development"
+select region ["US East 1" "US West 2"] "US East 1"
+select-multi services [Docker "Redis Cache" "PostgreSQL DB"] [Docker]
+slider cpu 1 32 1 4
+
+form server-config "Deploy"
+  text-input name "Server Name" 
+  select env ["Development" "Production"] "Development"
+  slider replicas 1 10 1 3
+\`\`\`
+
+## Widget Event Interface
+
+### 4.1 Event Structure
+
+All widget interactions MUST emit events conforming to this interface:
+
+\`\`\`typescript
+interface WidgetEvent {
+  id: string;       // Widget identifier
+  value: unknown;   // Current widget value
+}
+\`\`\`
+
+### 4.2 Event Emission
+
+- In browser environments, events MUST be emitted as a CustomEvent named \`widgetevent\` with \`detail\` set to \`{ id, value }\`
+- On mobile (native) environments, the recommended equivalent is a platform-native event/notification carrying the same payload shape:
+  - iOS: NSNotification (or Combine publisher) with userInfo = { id: String, value: Any }
+  - Android: LiveData/Flow/Callback or LocalBroadcast with extras = { id: String, value: Any }
+- Events MUST be dispatched on user interaction
+- Event values MUST reflect the current widget state
+- Events SHOULD be emitted immediately upon value change
+
+## Standard Widget Types
+
+### 5.1 text-input
+
+**Purpose**: Single-line text input
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "text-input";
+  id?: string;
+  label?: string;
+  placeholder?: string;
+  default?: string;
+}
+\`\`\`
+
+**Event Value**: \`string\`
+
+**Example**:
+\`\`\`json
+{ "type": "text-input", "id": "username", "label": "Username", "placeholder": "Enter username", "default": "" }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+text-input username "Username" "Enter username" ""
+\`\`\`
+
+### 5.2 button-group
+
+**Purpose**: Single selection from predefined options
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "button-group";
+  id?: string;
+  label?: string;
+  choices: string[];
+  default?: string; // Must be one of choices
+}
+\`\`\`
+
+**Event Value**: \`string\`
+
+**Example**:
+\`\`\`json
+{ "type": "button-group", "id": "env", "label": "Environment", "choices": ["Development", "Staging", "Production"], "default": "Development" }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+button-group env ["Development" "Staging" "Production"] "Development"
+\`\`\`
+
+### 5.3 select
+
+**Purpose**: Dropdown selection
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "select";
+  id?: string;
+  label?: string;
+  choices: string[];
+  default?: string; // Must be one of choices
+}
+\`\`\`
+
+**Event Value**: \`string\`
+
+**Example**:
+\`\`\`json
+{ "type": "select", "id": "region", "label": "AWS Region", "choices": ["US East 1", "US West 2", "EU West 1"], "default": "US East 1" }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+select region ["US East 1" "US West 2" "EU West 1"] "US East 1"
+\`\`\`
+
+### 5.4 select-multi
+
+**Purpose**: Multiple selection from predefined options
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "select-multi";
+  id?: string;
+  label?: string;
+  choices: string[];
+  default?: string | string[]; // Must be subset of choices
+}
+\`\`\`
+
+**Event Value**: \`string[]\`
+
+**Example**:
+\`\`\`json
+{ "type": "select-multi", "id": "services", "label": "Services", "choices": ["Redis", "PostgreSQL DB", "Nginx"], "default": ["Redis"] }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+select-multi services [Redis "PostgreSQL DB" Nginx] [Redis]
+\`\`\`
+
+### 5.5 slider
+
+**Purpose**: Numeric input with range constraints
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "slider";
+  id?: string;
+  label?: string;
+  min: number;
+  max: number;
+  step?: number; // Default: 1
+  default?: number; // Must be within [min, max]
+}
+\`\`\`
+
+**Event Value**: \`number\`
+
+**Example**:
+\`\`\`json
+{ "type": "slider", "id": "cpu", "label": "CPU Cores", "min": 1, "max": 32, "step": 1, "default": 4 }
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+slider cpu 1 32 1 4
+\`\`\`
+
+### 5.6 form
+
+**Purpose**: Composite widget containing multiple fields
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "form";
+  id?: string;
+  submitLabel?: string;
+  fields: Widget[]; // Array of other widget definitions
+}
+\`\`\`
+
+**Event Value**: \`Record<string, unknown>\` (object with field IDs as keys)
+
+**Example**:
+\`\`\`json
+{
+  "type": "form",
+  "id": "server-config",
+  "submitLabel": "Deploy",
+  "fields": [
+    { "type": "select", "id": "env", "choices": ["dev", "prod"] },
+    { "type": "slider", "id": "replicas", "min": 1, "max": 10, "default": 3 }
+  ]
+}
+\`\`\`
+
+## Implementation Guidelines
+
+### 6.1 Parser Requirements
+
+Parsers MUST:
+- Detect \`markdown-ui-widget\` fenced code blocks
+- Validate JSON syntax
+- Generate unique IDs when not provided
+- Encode payloads in Base64
+- Convert to standardized XML format
+
+### 6.2 Renderer Requirements
+
+Renderers MUST:
+- Parse Base64-encoded JSON payloads
+- Implement all standard widget types
+- Emit events conforming to the WidgetEvent interface
+- Handle malformed payloads gracefully
+- Provide fallback rendering for unsupported widget types
+
+### 6.3 Error Handling
+
+- Invalid JSON SHOULD be rendered as code blocks
+- Unsupported widget types SHOULD be rendered as code blocks
+- Missing required properties SHOULD be handled with sensible defaults
+
+## Extension Points
+
+### 7.1 Custom Widget Types
+
+Implementations MAY support additional widget types by:
+- Defining custom type strings (prefixed with implementation name recommended)
+- Implementing renderer support
+- Maintaining consistent event interface
+
+### 7.2 Custom Properties
+
+Standard widgets MAY accept implementation-specific properties that:
+- Do not conflict with standard properties
+- Are ignored by other implementations
+- Maintain backward compatibility
+
+## Security Considerations
+
+- JSON payloads prevent code injection
+- Base64 encoding ensures safe transport
+- No executable code in widget definitions
+- Event values should be sanitized by consuming applications
+
+## Conformance
+
+### 9.1 Parser Conformance
+
+A conformant parser MUST:
+- Support all standard widget types
+- Generate valid XML output
+- Handle edge cases gracefully
+
+### 9.2 Renderer Conformance
+
+A conformant renderer MUST:
+- Implement all standard widget types
+- Emit standard event format
+- Provide graceful fallbacks
+
+## Examples
+
+See the [Home page](/) for interactive examples of all widget types.
+
+## Reference Implementations
+
+- **Parser**: [@markdown-ui/marked-ext](https://www.npmjs.com/package/@markdown-ui/marked-ext)
+- **Svelte Renderer**: [@markdown-ui/svelte](https://www.npmjs.com/package/@markdown-ui/svelte)  
+- **React Renderer**: [@markdown-ui/react](https://www.npmjs.com/package/@markdown-ui/react)
+
+---
+
+*This specification is maintained at [github.com/BlueprintDesignLab/markdown-ui](https://github.com/BlueprintDesignLab/markdown-ui)*`
