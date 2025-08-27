@@ -61,9 +61,9 @@
 	});
 </script>
 
-<div class="min-h-0 flex flex-col h-screen">
-	<div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_320px] h-screen overflow-hidden overflow-x-hidden">
-		<div class="flex flex-col min-h-0 border-b xl:border-b-0 xl:border-r border-neutral-200 overflow-x-hidden overflow-y-auto">
+<div class="min-h-0 flex flex-col h-full">
+	<div class="flex flex-col md:flex-row overflow-hidden overflow-x-hidden">
+		<div class="flex flex-col min-h-0 border-b xl:border-b-0 xl:border-r border-neutral-200 h-1/3 md:h-full w-full md:w-1/3 overflow-x-hidden overflow-y-auto">
 			<div class="flex items-center justify-between px-4 py-3 bg-white border-b border-neutral-200">
 				<h3 class="m-0 text-[15px] font-medium text-neutral-800">Markdown Editor</h3>
 				<div class="text-xs text-neutral-500">{charCount} characters</div>
@@ -73,7 +73,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col min-h-0 border-b xl:border-b-0 xl:border-r border-neutral-200 overflow-x-hidden overflow-y-auto">
+		<div class="flex flex-col min-h-0 border-b xl:border-b-0 xl:border-r border-neutral-200 h-1/3 md:h-full w-full md:w-1/3 overflow-x-hidden overflow-y-auto">
 			<div class="flex items-center justify-between px-4 py-3 bg-white border-b border-neutral-200">
 				<h3 class="m-0 text-[15px] font-medium text-neutral-800">Live Preview</h3>
 				<div class="text-xs text-neutral-500">Real-time rendering</div>
@@ -83,7 +83,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col min-h-0 bg-white overflow-y-auto">
+		<div class="flex flex-col min-h-0 bg-white h-1/3 md:h-full w-full md:w-1/3 overflow-y-auto">
 			<div class="flex items-center justify-between px-4 py-3 border-b border-neutral-200">
 				<h3 class="m-0 text-[15px] font-medium text-neutral-800">Widget Events</h3>
 				<div class="px-2 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-medium">{events.length}</div>
