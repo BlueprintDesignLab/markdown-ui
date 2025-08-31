@@ -29,6 +29,7 @@
     "codemirror": "^6.0.1",
     "marked": "^16.1.2",
     "openai": "^5.15.0",
+    "paneforge": "^1.0.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "svelte": "^5.38.1",
