@@ -23,6 +23,11 @@ export class DSLParser {
           return this.parseSlider(tokens);
         case 'form':
           return this.parseForm(tokens, input);
+        case 'chart-line':
+        case 'chart-bar':
+        case 'chart-pie':
+        case 'chart-scatter':
+          return this.parseChart(tokens, input, widgetType as any);
         default:
           return { success: false, error: `Unknown widget type: ${widgetType}` };
       }
@@ -267,6 +272,91 @@ export class DSLParser {
         if (fieldResult.success && fieldResult.widget) {
           widget.fields.push(fieldResult.widget);
         }
+      }
+    }
+
+    return { success: true, widget };
+  }
+
+  private parseChart(tokens: string[], fullInput: string, chartType: "chart-line" | "chart-bar" | "chart-pie" | "chart-scatter"): ParseResult {
+    if (tokens.length < 2) {
+      return { success: false, error: "chart requires at least an id" };
+    }
+
+    const lines = fullInput.split('\n');
+    const firstLine = lines[0];
+    const firstTokens = this.tokenize(firstLine);
+
+    if (lines.length < 3) {
+      return { success: false, error: "chart requires CSV data (header + at least one data row)" };
+    }
+
+    const widget: any = {
+      type: chartType,
+      id: firstTokens[1],
+      labels: [],
+      datasets: []
+    };
+
+    // Parse title if provided
+    if (firstTokens.length > 2) {
+      widget.title = firstTokens[2];
+    }
+
+    // Parse options if provided (JSON format)
+    if (firstTokens.length > 3) {
+      try {
+        widget.options = JSON.parse(firstTokens[3]);
+      } catch (error) {
+        return { success: false, error: "Invalid options JSON format" };
+      }
+    }
+
+    // Parse CSV data starting from line 1
+    const csvLines = lines.slice(1);
+    if (csvLines.length === 0) {
+      return { success: false, error: "No CSV data provided" };
+    }
+
+    // Parse header row
+    const headerLine = csvLines[0].trim();
+    if (!headerLine) {
+      return { success: false, error: "Empty CSV header" };
+    }
+
+    const headers = headerLine.split(',').map(h => h.trim());
+    if (headers.length < 2) {
+      return { success: false, error: "CSV must have at least 2 columns" };
+    }
+
+    // Initialize datasets for each data column (skip first column which is labels)
+    for (let i = 1; i < headers.length; i++) {
+      widget.datasets.push({
+        label: headers[i],
+        data: []
+      });
+    }
+
+    // Parse data rows
+    for (let i = 1; i < csvLines.length; i++) {
+      const dataLine = csvLines[i].trim();
+      if (!dataLine) continue; // Skip empty lines
+
+      const values = dataLine.split(',').map(v => v.trim());
+      if (values.length !== headers.length) {
+        return { success: false, error: `Row ${i + 1} has ${values.length} columns, expected ${headers.length}` };
+      }
+
+      // First column is the label
+      widget.labels.push(values[0]);
+
+      // Remaining columns are data points
+      for (let j = 1; j < values.length; j++) {
+        const numValue = parseFloat(values[j]);
+        if (isNaN(numValue)) {
+          return { success: false, error: `Invalid number "${values[j]}" in row ${i + 1}, column ${j + 1}` };
+        }
+        widget.datasets[j - 1].data.push(numValue);
       }
     }
 

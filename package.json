@@ -1,0 +1,20 @@
+{
+  "name": "markdown-ui-workspace",
+  "private": true,
+  "workspaces": [
+    "packages/@markdown-ui/*",
+    "demo-page"
+  ],
+  "scripts": {
+    "build:all": "npm run build --workspaces --if-present",
+    "dev:demo": "npm run dev --workspace=demo-page",
+    "setup:dev": "node scripts/setup-dev.js dev && npm install && npm run build:all",
+    "setup:prod": "node scripts/setup-dev.js prod",
+    "publish:all": "npm run setup:prod && npm run build:all && npm publish --workspaces --access public",
+    "version:patch": "npm version patch --workspaces",
+    "version:minor": "npm version minor --workspaces"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

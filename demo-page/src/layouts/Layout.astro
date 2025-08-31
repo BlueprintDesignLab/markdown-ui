@@ -34,6 +34,7 @@ const isActive = (path: string) => Astro.url.pathname === path;
           <li><a href="/streaming" class:list={[isActive('/streaming') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Streaming</a></li>
           <li><a href="/implementations" class:list={[isActive('/implementations') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Implementations</a></li>
           <li><a href="/spec" class:list={[isActive('/spec') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Specification</a></li>
+          <li><a href="/changelog" class:list={[isActive('/changelog') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Changelog</a></li>
           <li><a href="https://github.com/BlueprintDesignLab/markdown-ui" target="_blank" rel="noopener noreferrer" class:list={[isActive('/spec') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Github</a></li>
 
         </ul>
@@ -46,6 +47,7 @@ const isActive = (path: string) => Astro.url.pathname === path;
             <li><a href="/streaming" class:list={[isActive('/streaming') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Streaming</a></li>
             <li><a href="/implementations" class:list={[isActive('/implementations') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Implementations</a></li>
             <li><a href="/spec" class:list={[isActive('/spec') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Specification</a></li>
+            <li><a href="/changelog" class:list={[isActive('/changelog') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Changelog</a></li>
             <li><a href="https://github.com/BlueprintDesignLab/markdown-ui" target="_blank" rel="noopener noreferrer" class:list={[isActive('/spec') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Github</a></li>
           </ul>
         </div>
