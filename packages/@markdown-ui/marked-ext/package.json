@@ -1,5 +1,5 @@
 {
-  "version": "1.1.11",
+  "version": "1.2.0",
   "description": "Marked extension for markdown-ui widgets",
   "name": "@markdown-ui/marked-ext",
   "type": "module",
@@ -28,7 +28,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@markdown-ui/mdui-lang": "file:../mdui-lang",
+    "@markdown-ui/mdui-lang": "^0.2.10",
     "nanoid": "^5.1.5"
   },
   "devDependencies": {
