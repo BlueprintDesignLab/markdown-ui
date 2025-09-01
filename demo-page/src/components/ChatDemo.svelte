@@ -28,10 +28,8 @@
     const initSystemMessage = `
 Always use exactly one markdown-ui widget in your response.
 
-Start with one simple, non text-input widgets.
-On the second turn, show a simple form widget.
-
-Then after the form, give the actual result.
+Start with interactive charts to showcase the new chart capabilities.
+Then show simple widgets and forms.
 Your interaction style is always concise. 
 Max 3 sentences.
 
@@ -39,44 +37,77 @@ You can embed interactive UI widgets in Markdown using fenced code blocks with l
 
 **DSL Format Examples:**
 
-1. text-input
+1. Interactive Charts (NEW!)
 \`\`\`markdown-ui-widget
-text-input username "Username" "Enter username" "john"
+chart-line
+id: crypto_trends
+title: Bitcoin vs Ethereum (Last 6 Months)
+height: 320
+Month,Bitcoin,Ethereum
+Jul,65000,3200
+Aug,62000,3100
+Sep,66000,3400
+Oct,69000,3600
+Nov,71000,3800
+Dec,74000,4000
 \`\`\`
 
-2. button-group
 \`\`\`markdown-ui-widget
-button-group env [dev staging prod] dev
+chart-bar
+id: startup_growth
+title: Startup User Growth (Exponential!)
+height: 300
+Month,Users,Revenue
+Jan,1000,5000
+Feb,2500,12000
+Mar,6000,28000
+Apr,15000,65000
+May,35000,140000
+Jun,80000,320000
 \`\`\`
 
-3. select
 \`\`\`markdown-ui-widget
-select region [us-east-1 us-west-2] us-east-1
+chart-pie
+id: mars_mission
+title: Mars Mission Budget Allocation
+height: 280
+Category,Budget
+Rocket Development,45
+Life Support,25
+Communication,15
+Scientific Equipment,10
+Emergency Fund,5
 \`\`\`
 
-4. select-multi
+2. Other Interactive Widgets
 \`\`\`markdown-ui-widget
-select-multi services [redis postgres nginx] [redis]
+text-input spaceship_name "Spaceship Name" "Enter your Mars vessel name" "Starship Alpha"
 \`\`\`
 
-5. slider
 \`\`\`markdown-ui-widget
-slider cpu 1 32 1 4
+button-group coffee_size [Small Medium Large XL] Medium
 \`\`\`
 
-6. form
 \`\`\`markdown-ui-widget
-form config "Deploy"
-  select env [dev prod]
-  slider replicas 1 10 1
+select launch_site ["Cape Canaveral" Vandenberg "Boca Chica" "Kennedy Space Center"] Boca_Chica
 \`\`\`
 
+\`\`\`markdown-ui-widget
+slider warp_speed 1 10 1 7
+\`\`\`
+
+\`\`\`markdown-ui-widget
+form mission_config "Launch Mission"
+  select destination [Mars Jupiter Europa Titan]
+  slider crew_size 3 12 1
+  text-input mission_name "Mission Name" "Operation Red Planet"
+\`\`\`
 
 Output rules:
 - Use one widget per fenced code block. 
 - Only one widget per response.
 - Keep all surrounding content as normal Markdown prose outside the widget code fences.
-- Only use the widget types listed above; do not invent new types.
+- Prioritize showing chart examples first to demonstrate the new capabilities.
 `
 
 	let messages = $state<ChatMessage[]>([
@@ -343,24 +374,30 @@ Output rules:
 					
 					<!-- Suggestion Buttons -->
 					{#if showSuggestions}
-						<div class="flex flex-wrap gap-3 justify-center max-w-md mx-auto">
+						<div class="flex flex-wrap gap-3 justify-center max-w-lg mx-auto">
 							<button 
-								onclick={() => handleSuggestionClick("Who is the cutest cat?")}
+								onclick={() => handleSuggestionClick("Show me Bitcoin vs Ethereum price trends")}
 								class="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-full text-sm font-medium transition-colors"
 							>
-								Ask about cats 🐱
+								📊 Crypto Trends
 							</button>
 							<button 
-								onclick={() => handleSuggestionClick("Show me coding tips")}
+								onclick={() => handleSuggestionClick("Create a startup growth dashboard")}
 								class="px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-full text-sm font-medium transition-colors"
 							>
-								Coding tips 💻
+								📈 Growth Dashboard
 							</button>
 							<button 
-								onclick={() => handleSuggestionClick("Recommend me some music")}
-								class="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-full text-sm font-medium transition-colors"
+								onclick={() => handleSuggestionClick("Design a coffee shop menu configurator")}
+								class="px-4 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-full text-sm font-medium transition-colors"
 							>
-								Music rec 🎵
+								☕ Menu Builder
+							</button>
+							<button 
+								onclick={() => handleSuggestionClick("Build a Mars mission control panel")}
+								class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-full text-sm font-medium transition-colors"
+							>
+								🚀 Mission Control
 							</button>
 						</div>
 					{/if}
@@ -410,7 +447,7 @@ Output rules:
 	</div>
 
 	<!-- Input Area -->
-	<!-- <div class="flex-shrink-0 bg-white border-t border-gray-100 px-4 sm:px-6 py-4 safe-area-inset-bottom">
+	<div class="flex-shrink-0 bg-white border-t border-gray-100 px-4 sm:px-6 py-4 safe-area-inset-bottom">
 		<div class="max-w-3xl mx-auto">
 			<div class="flex gap-2 sm:gap-3 items-end">
 				<div class="flex-1 relative">
@@ -438,5 +475,5 @@ Output rules:
 				</button>
 			</div>
 		</div>
-	</div> -->
+	</div>
 </div>

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import GitHubStarCount from '../components/GitHubStarCount.astro'
 
 export interface Props {
   title: string;
@@ -56,15 +57,15 @@ const isActive = (path: string) => Astro.url.pathname === path;
         </button>
         <ul id="site-menu" class="hidden md:flex items-center gap-1">
           <li><a href="/" class:list={[isActive('/') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Home</a></li>
+          <li><a href="/chat" class:list={[isActive('/chat') && 'text-blue-600 bg-blue-50']} class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">Chat Demo</a></li>
           
           <li class="relative group">
             <button class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 flex items-center gap-1">
-              Demos
+              More Demos
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <div class="absolute left-0 top-full mt-1 w-40 bg-white border border-neutral-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              <a href="/chat" class:list={[isActive('/chat') && 'text-blue-600 bg-blue-50']} class="block px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-50 first:rounded-t-md">Chat Demo</a>
-              <a href="/streaming" class:list={[isActive('/streaming') && 'text-blue-600 bg-blue-50']} class="block px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-50 last:rounded-b-md">Streaming Demo</a>
+            <div class="absolute left-0 top-full mt-1 w-44 bg-white border border-neutral-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <a href="/streaming" class:list={[isActive('/streaming') && 'text-blue-600 bg-blue-50']} class="block px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-50 rounded-md">Streaming Demo</a>
             </div>
           </li>
           
@@ -80,21 +81,27 @@ const isActive = (path: string) => Astro.url.pathname === path;
             </div>
           </li>
           
-          <li><a href="https://github.com/BlueprintDesignLab/markdown-ui" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 block">GitHub</a></li>
+          <li><a href="https://github.com/BlueprintDesignLab/markdown-ui" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-md text-sm text-neutral-700 hover:bg-neutral-100 flex items-center gap-2">
+            GitHub
+            <GitHubStarCount />
+          </a></li>
         </ul>
       </div>
       <div id="mobile-menu" class="md:hidden hidden border-t border-neutral-200 bg-white/95">
         <div class="max-w-6xl mx-auto px-4 py-2">
           <ul class="flex flex-col py-2">
             <li><a href="/" class:list={[isActive('/') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Home</a></li>
-            <li class="text-xs font-semibold text-neutral-500 px-3 py-1 uppercase tracking-wide">Demos</li>
-            <li><a href="/chat" class:list={[isActive('/chat') && 'text-blue-600 bg-blue-50']} class="px-6 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Chat Demo</a></li>
+            <li><a href="/chat" class:list={[isActive('/chat') && 'text-blue-600 bg-blue-50']} class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Chat Demo</a></li>
+            <li class="text-xs font-semibold text-neutral-500 px-3 py-1 uppercase tracking-wide">More Demos</li>
             <li><a href="/streaming" class:list={[isActive('/streaming') && 'text-blue-600 bg-blue-50']} class="px-6 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Streaming Demo</a></li>
             <li class="text-xs font-semibold text-neutral-500 px-3 py-1 uppercase tracking-wide mt-2">Documentation</li>
             <li><a href="/spec" class:list={[isActive('/spec') && 'text-blue-600 bg-blue-50']} class="px-6 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Specification</a></li>
             <li><a href="/implementations" class:list={[isActive('/implementations') && 'text-blue-600 bg-blue-50']} class="px-6 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Implementations</a></li>
             <li><a href="/changelog" class:list={[isActive('/changelog') && 'text-blue-600 bg-blue-50']} class="px-6 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">Changelog</a></li>
-            <li><a href="https://github.com/BlueprintDesignLab/markdown-ui" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 block">GitHub</a></li>
+            <li><a href="https://github.com/BlueprintDesignLab/markdown-ui" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-md text-sm text-neutral-800 hover:bg-neutral-100 flex items-center justify-between">
+              GitHub
+              <GitHubStarCount />
+            </a></li>
           </ul>
         </div>
       </div>
