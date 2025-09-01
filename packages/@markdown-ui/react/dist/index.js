@@ -748,11 +748,11 @@ function Us(i) {
   const t = new Set(i);
   return t.size === i.length ? i : Array.from(t);
 }
-const Ks = function() {
+const Ks = (function() {
   return typeof window > "u" ? function(i) {
     return i();
   } : window.requestAnimationFrame;
-}();
+})();
 function qs(i, t) {
   let e = [], s = !1;
   return function(...n) {
@@ -1734,7 +1734,7 @@ function Ni(i, t, e) {
   const r = i.canvas;
   return r.style && (e || !r.style.height && !r.style.width) && (r.style.height = `${i.height}px`, r.style.width = `${i.width}px`), i.currentDevicePixelRatio !== s || r.height !== n || r.width !== o ? (i.currentDevicePixelRatio = s, r.height = n, r.width = o, i.ctx.setTransform(s, 0, 0, s, 0, 0), !0) : !1;
 }
-const fr = function() {
+const fr = (function() {
   let i = !1;
   try {
     const t = {
@@ -1746,7 +1746,7 @@ const fr = function() {
   } catch {
   }
   return i;
-}();
+})();
 function Vi(i, t) {
   const e = ar(i, t), s = e && e.match(/^(\d+)(\.\d+)?px$/);
   return s ? +s[1] : void 0;

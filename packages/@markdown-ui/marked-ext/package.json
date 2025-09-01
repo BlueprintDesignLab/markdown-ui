@@ -28,13 +28,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@markdown-ui/mdui-lang": "^0.2.10",
+    "@markdown-ui/mdui-lang": "workspace:^0.3.0",
     "nanoid": "^5.1.5"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
-    "marked": "^16.2.0",
-    "typescript": "^5.9.2"
+    "marked": "^16.2.0"
   },
   "publishConfig": {
     "access": "public"

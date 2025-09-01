@@ -1,10 +1,6 @@
 {
   "name": "markdown-ui-workspace",
   "private": true,
-  "workspaces": [
-    "packages/@markdown-ui/*",
-    "demo-page"
-  ],
   "scripts": {
     "build:all": "npm run build --workspaces --if-present",
     "dev:demo": "npm run dev --workspace=demo-page",
@@ -15,6 +11,8 @@
     "version:minor": "npm version minor --workspaces"
   },
   "devDependencies": {
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "chart.js": "^4.5.0"
   }
 }

@@ -1,0 +1,3 @@
+packages:
+  - 'packages/@markdown-ui/*'
+  - 'demo-page'
