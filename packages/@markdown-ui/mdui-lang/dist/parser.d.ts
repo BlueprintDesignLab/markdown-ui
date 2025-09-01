@@ -9,5 +9,6 @@ export declare class DSLParser {
     private parseSelectMulti;
     private parseSlider;
     private parseForm;
+    private parseChart;
 }
 export declare function parseDSL(input: string): ParseResult;

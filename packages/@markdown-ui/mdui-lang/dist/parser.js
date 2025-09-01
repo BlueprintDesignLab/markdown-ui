@@ -19,6 +19,11 @@ export class DSLParser {
                     return this.parseSlider(tokens);
                 case 'form':
                     return this.parseForm(tokens, input);
+                case 'chart-line':
+                case 'chart-bar':
+                case 'chart-pie':
+                case 'chart-scatter':
+                    return this.parseChart(tokens, input, widgetType);
                 default:
                     return { success: false, error: `Unknown widget type: ${widgetType}` };
             }
@@ -52,7 +57,7 @@ export class DSLParser {
                 i++;
                 continue;
             }
-            if (char === ' ' && !inQuotes && !inArray) {
+            if ((char === ' ' || char === '\n') && !inQuotes && !inArray) {
                 if (current.trim()) {
                     tokens.push(current.trim());
                     current = '';
@@ -230,6 +235,115 @@ export class DSLParser {
                 if (fieldResult.success && fieldResult.widget) {
                     widget.fields.push(fieldResult.widget);
                 }
+            }
+        }
+        return { success: true, widget };
+    }
+    parseChart(tokens, fullInput, chartType) {
+        const lines = fullInput.split('\n');
+        if (lines.length < 2) {
+            return { success: false, error: "chart requires CSV data" };
+        }
+        const widget = {
+            type: chartType,
+            labels: [],
+            datasets: []
+        };
+        // Check if using old token-based format or new key-value format
+        // Old format has multiple tokens on the first line: "chart-line id title"
+        // New format has only widget type on first line: "chart-line"
+        const firstLineTokens = this.tokenize(lines[0]);
+        const isOldFormat = firstLineTokens.length > 1; // Old format: chart-line id title
+        let csvStartIndex = 1;
+        if (isOldFormat) {
+            // Old format: chart-line chart_id "Chart Title"
+            widget.id = firstLineTokens[1];
+            if (firstLineTokens.length > 2) {
+                widget.title = firstLineTokens[2];
+            }
+            // CSV starts at line 1
+            csvStartIndex = 1;
+        }
+        else {
+            // New format: key-value parameters before CSV
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line)
+                    continue;
+                // Check if this line contains a key:value parameter
+                if (line.includes(':')) {
+                    const colonIndex = line.indexOf(':');
+                    const key = line.substring(0, colonIndex).trim().toLowerCase();
+                    if (['id', 'title', 'height'].includes(key)) {
+                        const value = line.substring(colonIndex + 1).trim();
+                        switch (key) {
+                            case 'id':
+                                widget.id = value;
+                                break;
+                            case 'title':
+                                widget.title = value;
+                                break;
+                            case 'height':
+                                const height = parseInt(value);
+                                if (!isNaN(height)) {
+                                    widget.height = height;
+                                }
+                                break;
+                        }
+                        csvStartIndex = i + 1;
+                    }
+                    else {
+                        // This line has a colon but isn't a known parameter, treat as CSV data
+                        csvStartIndex = i;
+                        break;
+                    }
+                }
+                else {
+                    // This line doesn't contain a colon, start CSV parsing here
+                    csvStartIndex = i;
+                    break;
+                }
+            }
+        }
+        // Parse CSV data starting from csvStartIndex
+        const csvLines = lines.slice(csvStartIndex);
+        if (csvLines.length === 0) {
+            return { success: false, error: "No CSV data provided" };
+        }
+        // Parse header row
+        const headerLine = csvLines[0].trim();
+        if (!headerLine) {
+            return { success: false, error: "Empty CSV header" };
+        }
+        const headers = headerLine.split(',').map(h => h.trim());
+        if (headers.length < 2) {
+            return { success: false, error: "CSV must have at least 2 columns" };
+        }
+        // Initialize datasets for each data column (skip first column which is labels)
+        for (let i = 1; i < headers.length; i++) {
+            widget.datasets.push({
+                label: headers[i],
+                data: []
+            });
+        }
+        // Parse data rows
+        for (let i = 1; i < csvLines.length; i++) {
+            const dataLine = csvLines[i].trim();
+            if (!dataLine)
+                continue; // Skip empty lines
+            const values = dataLine.split(',').map(v => v.trim());
+            if (values.length !== headers.length) {
+                return { success: false, error: `Row ${i + 1} has ${values.length} columns, expected ${headers.length}` };
+            }
+            // First column is the label
+            widget.labels.push(values[0]);
+            // Remaining columns are data points
+            for (let j = 1; j < values.length; j++) {
+                const numValue = parseFloat(values[j]);
+                if (isNaN(numValue)) {
+                    return { success: false, error: `Invalid number "${values[j]}" in row ${i + 1}, column ${j + 1}` };
+                }
+                widget.datasets[j - 1].data.push(numValue);
             }
         }
         return { success: true, widget };

@@ -27,6 +27,8 @@ export const markedUiExtension: MarkedExtension = {
                         return false;
                     }
                 }
+
+                console.log(finalPayload);
                 
                 const payload = btoa(finalPayload);
                 const id = payloadJson.id || nanoid();

@@ -11,6 +11,8 @@
 
 This demo runs using **@markdown-ui/svelte**:
 
+## Interactive Widgets
+
 \`\`\`markdown-ui-widget
 button-group svelte-choice [Components Stores Actions] Components
 \`\`\`
@@ -23,7 +25,37 @@ select svelte-version [4 5] 5
 slider svelte-reactivity 1 10 1 8
 \`\`\`
 
-The widgets above emit events when you interact with them, demonstrating Svelte's reactive state management.`;
+## Interactive Charts
+
+\`\`\`markdown-ui-widget
+chart-line sales_chart "Monthly Sales Growth"
+Month,Sales,Target
+Jan,120,100
+Feb,150,140
+Mar,180,160
+Apr,220,200
+May,280,250
+\`\`\`
+
+\`\`\`markdown-ui-widget
+chart-bar revenue_chart "Quarterly Revenue"
+Quarter,Revenue
+Q1,125000
+Q2,150000
+Q3,175000
+Q4,200000
+\`\`\`
+
+\`\`\`markdown-ui-widget
+chart-pie market_share "Market Share"
+Product,Share
+Product A,35
+Product B,28
+Product C,22
+Product D,15
+\`\`\`
+
+The widgets and charts above emit events when you interact with them, demonstrating Svelte's reactive state management and Chart.js integration.`;
 
   const renderedHtml = marked.parse(exampleMarkdown);
 </script>

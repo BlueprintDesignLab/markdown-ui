@@ -10,6 +10,8 @@
 	import { Marked } from 'marked';
 	import { markedUiExtension } from '@markdown-ui/marked-ext';
 
+	import { Pane, PaneGroup, PaneResizer } from 'paneforge';
+
 	// Setup marked with the markdown-ui extension
 	const marked = new Marked();
 	marked.use(markedUiExtension);
@@ -61,19 +63,33 @@
 	});
 </script>
 
+<style>
+	:global(.cm-editor) {
+		height: 100% !important;
+		font-size: 14px !important;
+	}
+	:global(.cm-scroller) {
+		overflow: auto !important;
+		font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+		font-size: 14px !important;
+	}
+</style>
+
 <div class="min-h-0 flex flex-col h-full">
-	<div class="flex flex-col md:flex-row overflow-hidden overflow-x-hidden">
-		<div class="flex flex-col min-h-0 border-b xl:border-b-0 xl:border-r border-neutral-200 h-1/3 md:h-full w-full md:w-1/3 overflow-x-hidden overflow-y-auto">
+	<PaneGroup direction="horizontal" class="h-full">
+		<Pane defaultSize={40} minSize={20} class="flex flex-col min-h-0 border-r border-neutral-200">
 			<div class="flex items-center justify-between px-4 py-3 bg-white border-b border-neutral-200">
 				<h3 class="m-0 text-[15px] font-medium text-neutral-800">Markdown Editor</h3>
 				<div class="text-xs text-neutral-500">{charCount} characters</div>
 			</div>
-			<div class="flex-1 min-h-0">
-				<div bind:this={editorContainer} class="h-full font-mono"></div>
+			<div class="flex-1 min-h-0 overflow-hidden">
+				<div bind:this={editorContainer} class="h-full w-full"></div>
 			</div>
-		</div>
+		</Pane>
 
-		<div class="flex flex-col min-h-0 border-b xl:border-b-0 xl:border-r border-neutral-200 h-1/3 md:h-full w-full md:w-1/3 overflow-x-hidden overflow-y-auto">
+		<PaneResizer class="w-2 bg-neutral-100 hover:bg-neutral-200 transition-colors" />
+
+		<Pane defaultSize={40} minSize={20} class="flex flex-col min-h-0 border-r border-neutral-200">
 			<div class="flex items-center justify-between px-4 py-3 bg-white border-b border-neutral-200">
 				<h3 class="m-0 text-[15px] font-medium text-neutral-800">Live Preview</h3>
 				<div class="text-xs text-neutral-500">Real-time rendering</div>
@@ -81,9 +97,11 @@
 			<div class="flex-1 overflow-y-auto p-4 bg-white prose">
 				<MarkdownUI html={renderedHtml} onwidgetevent={handleWidgetEvent} />
 			</div>
-		</div>
+		</Pane>
 
-		<div class="flex flex-col min-h-0 bg-white h-1/3 md:h-full w-full md:w-1/3 overflow-y-auto">
+		<PaneResizer class="w-2 bg-neutral-100 hover:bg-neutral-200 transition-colors" />
+
+		<Pane defaultSize={20} minSize={10} class="flex flex-col min-h-0 bg-white">
 			<div class="flex items-center justify-between px-4 py-3 border-b border-neutral-200">
 				<h3 class="m-0 text-[15px] font-medium text-neutral-800">Widget Events</h3>
 				<div class="px-2 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-medium">{events.length}</div>
@@ -108,7 +126,7 @@
 					{/each}
 				{/if}
 			</div>
-		</div>
-	</div>
+		</Pane>
+	</PaneGroup>
 </div>
 

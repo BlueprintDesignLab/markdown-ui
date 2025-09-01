@@ -34,7 +34,67 @@ form quick-form "Save"
   select mood [Chill Focused Energized] Focused
 \`\`\`
 
-## Why it’s powerful
+## Interactive Charts & Data Visualization
+
+Charts make data come alive. Click on any data point to see events!
+
+### Monthly Progress
+
+\`\`\`markdown-ui-widget
+chart-line
+title: Monthly Progress
+height: 300
+Month,Tasks,Goals
+Jan,85,80
+Feb,92,85
+Mar,78,90
+Apr,94,95
+May,105,100
+\`\`\`
+
+### Revenue by Quarter (Tall Chart)
+
+\`\`\`markdown-ui-widget
+chart-bar
+title: Quarterly Revenue
+height: 400
+Quarter,Revenue
+Q1,125000
+Q2,150000
+Q3,175000
+Q4,200000
+\`\`\`
+
+### Project Distribution (Compact)
+
+\`\`\`markdown-ui-widget
+chart-pie
+title: Project Time Distribution
+height: 250
+Category,Hours
+Development,45
+Design,25
+Research,15
+Documentation,15
+\`\`\`
+
+### Sales Performance (Custom Height)
+
+\`\`\`markdown-ui-widget
+chart-line
+title: Sales vs Target
+height: 350
+id: sales_performance
+Month,Sales,Target
+Jan,45000,50000
+Feb,52000,50000
+Mar,48000,55000
+Apr,61000,60000
+May,58000,60000
+Jun,67000,65000
+\`\`\`
+
+## Why it's powerful
 - Copy-paste from into an LLM system prompt and use instantly
 - Great for forms, surveys, guides, onboarding, or automating tasks
 - LLMs generate UI for you, just describe your need

@@ -28,7 +28,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@markdown-ui/mdui-lang": "^0.2.9",
+    "@markdown-ui/mdui-lang": "file:../mdui-lang",
     "nanoid": "^5.1.5"
   },
   "devDependencies": {

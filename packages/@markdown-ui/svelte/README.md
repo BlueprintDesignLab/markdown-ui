@@ -55,6 +55,17 @@ form deploy "Launch"
   select env [dev prod] dev
 ```
 
+**Interactive charts**
+```svelte
+chart-line
+title: Monthly Revenue
+height: 300
+Month,Sales,Target
+Jan,45000,50000
+Feb,52000,50000
+Mar,48000,55000
+```
+
 **Events made simple**
 ```svelte
 function handleWidgetEvent(event) {

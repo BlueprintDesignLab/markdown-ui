@@ -43,6 +43,11 @@ select region [us-east-1 us-west-2] us-east-1
 form config "Submit"
   text-input name "Name" 
   select env [dev prod]
+chart-line
+title: Revenue Growth
+Month,Sales
+Jan,100
+Feb,150
 ```
 
 **JSON** 📝

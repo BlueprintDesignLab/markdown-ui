@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Changelog">
+	<main class="p-8 max-w-4xl mx-auto">
+		<div class="prose prose-zinc dark:prose-invert max-w-none">
+			<h1>Changelog</h1>
+			<p>All notable changes to markdown-ui will be documented here.</p>
+			
+			<h2>v0.2.1 - Chart Height Control <span class="text-sm font-normal text-zinc-500">September 1, 2025</span></h2>
+			
+			<h3>✨ New Features</h3>
+			<ul>
+				<li><strong>Chart Height Control</strong> - Optional `height` parameter for customizing chart dimensions</li>
+				<li><strong>Safe Height Bounds</strong> - Automatic clamping between 200px-800px with 400px default</li>
+				<li><strong>Enhanced DSL Syntax</strong> - Key-value parameter support (e.g., `height: 600`)</li>
+			</ul>
+
+			<h3>📝 Updated Syntax</h3>
+			<p>Charts now support optional height parameter:</p>
+			
+			<pre><code>```markdown-ui-widget
+chart-line
+title: Custom Height Chart
+height: 600
+Q1,Q2,Q3,Q4
+Revenue,15000,18000,22000,25000
+```</code></pre>
+
+			<h2>v0.2.0 - Interactive Charts Release <span class="text-sm font-normal text-zinc-500">August 31, 2025</span></h2>
+			
+			<h3>🎉 Major Features</h3>
+			<ul>
+				<li><strong>Interactive Chart Widgets</strong> - Full Chart.js integration supporting multiple visualization types</li>
+				<li><strong>CSV Data Format</strong> - LLM-friendly data input using simple CSV syntax in code blocks</li>
+				<li><strong>Click Interactions</strong> - Charts respond to user clicks with data callbacks</li>
+				<li><strong>Responsive Design</strong> - Charts automatically adapt to container sizes</li>
+			</ul>
+
+			<h3>📊 Supported Chart Types</h3>
+			<ul>
+				<li><code>chart-line</code> - Line charts for trends and time series</li>
+				<li><code>chart-bar</code> - Bar charts for comparisons</li>
+				<li><code>chart-pie</code> - Pie charts for proportional data</li>
+				<li><code>chart-scatter</code> - Scatter plots for correlation analysis</li>
+			</ul>
+
+			<h3>🔧 Technical Improvements</h3>
+			<ul>
+				<li>Enhanced DSL parser with CSV parsing capabilities</li>
+				<li>Added TypeScript definitions for chart widgets</li>
+				<li>Established monorepo workspace structure</li>
+				<li>Proper Chart.js controller registration</li>
+				<li>Automatic color theming with default palette</li>
+			</ul>
+
+			<h3>📝 Example Usage</h3>
+			<p>Charts can now be embedded using simple CSV syntax:</p>
+			
+			<pre><code>```markdown-ui-widget
+chart-line
+title: Sales Performance
+Q1,Q2,Q3,Q4
+Revenue,15000,18000,22000,25000
+Profit,3000,4500,6000,7500
+```</code></pre>
+
+			<div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mt-6">
+				<h4 class="text-blue-800 dark:text-blue-200 font-semibold mb-2">Perfect for LLMs</h4>
+				<p class="text-blue-700 dark:text-blue-300 text-sm">
+					The CSV format makes it easy for language models to generate charts from data analysis, 
+					reports, and conversations without complex JSON formatting.
+				</p>
+			</div>
+
+			<h2>v0.1.0 - Initial Release</h2>
+			<ul>
+				<li>Core markdown-ui widget system</li>
+				<li>Basic DSL parser functionality</li>
+				<li>Svelte, React, and Vue component libraries</li>
+				<li>Initial demo page setup</li>
+			</ul>
+
+			<div class="mt-8 p-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg">
+				<p class="text-sm text-zinc-600 dark:text-zinc-400">
+					Want to see the charts in action? Check out the <a href="/" class="text-blue-600 dark:text-blue-400 hover:underline">demo examples</a> 
+					or explore the <a href="/implementations" class="text-blue-600 dark:text-blue-400 hover:underline">implementation details</a>.
+				</p>
+			</div>
+		</div>
+	</main>
+</Layout>

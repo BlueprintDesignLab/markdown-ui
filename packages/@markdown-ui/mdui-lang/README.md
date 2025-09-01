@@ -45,6 +45,17 @@ form deploy "Launch"
   slider replicas 1 10 1 3
 ```
 
+**Interactive charts**
+```
+chart-line
+title: Monthly Sales
+height: 300
+Month,Sales,Target
+Jan,100,120
+Feb,150,140
+Mar,200,180
+```
+
 All parameters after `id` are optional and positional.
 
 ## Simple rules

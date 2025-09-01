@@ -41,7 +41,19 @@ export interface FormWidget {
     submitLabel?: string;
     fields: Widget[];
 }
-export type Widget = TextInputWidget | ButtonGroupWidget | SelectWidget | SelectMultiWidget | SliderWidget | FormWidget;
+export interface ChartWidget {
+    type: "chart-line" | "chart-bar" | "chart-pie" | "chart-scatter";
+    id?: string;
+    title?: string;
+    height?: number;
+    labels: string[];
+    datasets: Array<{
+        label: string;
+        data: number[];
+    }>;
+    options?: Record<string, any>;
+}
+export type Widget = TextInputWidget | ButtonGroupWidget | SelectWidget | SelectMultiWidget | SliderWidget | FormWidget | ChartWidget;
 export interface ParseResult {
     success: boolean;
     widget?: Widget;

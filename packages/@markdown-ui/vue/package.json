@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@tsconfig/node22": "^22.0.2",
-    "@vue/tsconfig": "^0.8.1"
+    "@vue/tsconfig": "^0.8.1",
+    "chart.js": "^4.5.0"
   }
 }
