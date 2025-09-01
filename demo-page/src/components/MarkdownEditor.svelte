@@ -22,7 +22,7 @@
 	
 	let events = $state<Array<{id: string, value: unknown, timestamp: string}>>([]);
 	let charCount = $state(0);
-	let activeTab = $state<'editor' | 'preview' | 'events'>('editor');
+	let activeTab = $state<'editor' | 'preview' | 'events'>('preview');
 
 	import { demoMarkdown } from '../data/demoMarkdown';
 
