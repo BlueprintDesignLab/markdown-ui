@@ -11,8 +11,6 @@ select env [dev prod]
 ```
 ````
 
-That's it. Real dropdown, real events, zero setup.
-
 ## Why it's powerful
 
 - **AI-ready**: LLMs generate interactive flows and gather feedback, all in Markdown
