@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "npm run build:packages && astro build",
-    "build:packages": "cd .. && npm run build:all",
+    "build:packages": "cd .. && npm run build --workspace=packages/@markdown-ui/marked-ext --workspace=packages/@markdown-ui/mdui-lang --workspace=packages/@markdown-ui/react --workspace=packages/@markdown-ui/svelte --workspace=packages/@markdown-ui/vue",
     "build:prod": "astro build",
     "preview": "astro preview",
     "deploy": "npm run build && wrangler pages deploy dist",
