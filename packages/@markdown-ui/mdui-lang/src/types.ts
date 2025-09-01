@@ -51,6 +51,7 @@ export interface ChartWidget {
   type: "chart-line" | "chart-bar" | "chart-pie" | "chart-scatter";
   id?: string;
   title?: string;
+  height?: number;
   labels: string[];
   datasets: Array<{
     label: string;

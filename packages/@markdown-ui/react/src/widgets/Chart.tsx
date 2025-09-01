@@ -1,61 +1,59 @@
-<script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import {
-    Chart,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    LineController,
-    BarController,
-    PieController,
-    ScatterController
-  } from 'chart.js';
+import { useEffect, useRef } from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  LineController,
+  BarController,
+  PieController,
+  ScatterController
+} from 'chart.js';
 
-  // Register Chart.js components
-  Chart.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    LineController,
-    BarController,
-    PieController,
-    ScatterController
-  );
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  LineController,
+  BarController,
+  PieController,
+  ScatterController
+);
 
-  interface Dataset {
-    label: string;
-    data: number[];
-  }
+interface Dataset {
+  label: string;
+  data: number[];
+}
 
-  interface Props {
-    type: "chart-line" | "chart-bar" | "chart-pie" | "chart-scatter";
-    title?: string;
-    height?: number;
-    labels: string[];
-    datasets: Dataset[];
-    options?: Record<string, any>;
-    onchange: (data: any) => void;
-  }
+interface ChartProps {
+  type: "chart-line" | "chart-bar" | "chart-pie" | "chart-scatter";
+  title?: string;
+  height?: number;
+  labels: string[];
+  datasets: Dataset[];
+  options?: Record<string, any>;
+  onchange: (data: any) => void;
+}
 
-  let { type, title, height, labels, datasets, options = {}, onchange }: Props = $props();
+export function Chart({ type, title, height, labels, datasets, options = {}, onchange }: ChartProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const chartRef = useRef<ChartJS | null>(null);
 
   // Clamp height to safe bounds: 200px min, 800px max, 400px default
   const safeHeight = Math.max(200, Math.min(800, height || 400));
-
-  let canvas: HTMLCanvasElement;
-  let chart: Chart | null = null;
 
   const getChartType = (widgetType: string) => {
     switch (widgetType) {
@@ -101,8 +99,13 @@
     });
   };
 
-  onMount(() => {
-    if (!canvas) return;
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    // Destroy existing chart
+    if (chartRef.current) {
+      chartRef.current.destroy();
+    }
 
     const chartType = getChartType(type);
     const preparedDatasets = prepareDatasets(datasets, chartType);
@@ -138,7 +141,7 @@
 
     const mergedOptions = { ...defaultOptions, ...options };
 
-    chart = new Chart(canvas, {
+    chartRef.current = new ChartJS(canvasRef.current, {
       type: chartType as any,
       data: {
         labels,
@@ -146,28 +149,19 @@
       },
       options: mergedOptions
     });
-  });
 
-  onDestroy(() => {
-    if (chart) {
-      chart.destroy();
-      chart = null;
-    }
-  });
-</script>
+    // Cleanup function
+    return () => {
+      if (chartRef.current) {
+        chartRef.current.destroy();
+        chartRef.current = null;
+      }
+    };
+  }, [type, title, height, labels, datasets, options, onchange]);
 
-<div class="widget-chart" style="height: {safeHeight}px;">
-  <canvas bind:this={canvas}></canvas>
-</div>
-
-<style>
-  .widget-chart {
-    position: relative;
-    width: 100%;
-  }
-  
-  canvas {
-    max-width: 100%;
-    height: 100%;
-  }
-</style>
+  return (
+    <div className="widget-chart" style={{ height: `${safeHeight}px`, position: 'relative', width: '100%' }}>
+      <canvas ref={canvasRef} style={{ maxWidth: '100%', height: '100%' }}></canvas>
+    </div>
+  );
+}

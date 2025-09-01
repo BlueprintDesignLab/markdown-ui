@@ -1,4 +1,5 @@
 export { default as ButtonGroup } from './ButtonGroup.vue'
+export { default as Chart } from './Chart.vue'
 export { default as Form } from './Form.vue'
 export { default as Incomplete } from './Incomplete.vue'
 export { default as Select } from './Select.vue'

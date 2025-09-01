@@ -11,6 +11,10 @@ type WidgetType = keyof typeof widgets;
 // Map camelCase JSON types to PascalCase component names
 const typeMapping: Record<string, WidgetType> = {
   'button-group': 'ButtonGroup',
+  'chart-line': 'Chart',
+  'chart-bar': 'Chart',
+  'chart-pie': 'Chart',
+  'chart-scatter': 'Chart',
   'form': 'Form',
   'incomplete': 'Incomplete',
   'select': 'Select',

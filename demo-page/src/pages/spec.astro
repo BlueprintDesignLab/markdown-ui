@@ -79,6 +79,22 @@ button-group id [choice1 choice2 ...] [default]
 select id [choice1 choice2 ...] [default]  
 select-multi id [choice1 choice2 ...] [default]
 slider id min max step [default]
+chart-line [title] [height]
+chart-bar [title] [height]
+chart-pie [title] [height]
+chart-scatter [title] [height]
+\`\`\`
+
+**Chart Widgets (multi-line with key-value parameters and CSV data):**
+\`\`\`
+chart-line
+id: chart_id
+title: Chart Title  
+height: 400
+Month,Sales,Target
+Jan,100,120
+Feb,150,140
+Mar,200,180
 \`\`\`
 
 **Form Widget (multi-line with indentation):**
@@ -304,6 +320,110 @@ slider cpu 1 32 1 4
 }
 \`\`\`
 
+### 5.7 chart-line
+
+**Purpose**: Line chart for displaying trends and time series data
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "chart-line";
+  id?: string;
+  title?: string;
+  height?: number; // Default: 400, Min: 200, Max: 800
+  labels: string[];
+  datasets: Array<{
+    label: string;
+    data: number[];
+  }>;
+}
+\`\`\`
+
+**Event Value**: \`{ label: string, value: number, datasetLabel: string, dataIndex: number, datasetIndex: number }\` (emitted on data point click)
+
+**Example**:
+\`\`\`json
+{
+  "type": "chart-line",
+  "id": "sales_chart",
+  "title": "Monthly Sales",
+  "height": 300,
+  "labels": ["Jan", "Feb", "Mar"],
+  "datasets": [
+    { "label": "Sales", "data": [100, 150, 200] },
+    { "label": "Target", "data": [120, 140, 180] }
+  ]
+}
+\`\`\`
+
+**DSL Example**:
+\`\`\`
+chart-line
+title: Monthly Sales
+height: 300
+Month,Sales,Target
+Jan,100,120
+Feb,150,140
+Mar,200,180
+\`\`\`
+
+### 5.8 chart-bar
+
+**Purpose**: Bar chart for comparing values across categories
+
+**Schema**: Same as chart-line but with \`type: "chart-bar"\`
+
+**Event Value**: Same as chart-line
+
+**DSL Example**:
+\`\`\`
+chart-bar
+title: Quarterly Revenue
+height: 400
+Quarter,Revenue
+Q1,125000
+Q2,150000
+Q3,175000
+Q4,200000
+\`\`\`
+
+### 5.9 chart-pie
+
+**Purpose**: Pie chart for showing proportional data
+
+**Schema**: Same as chart-line but with \`type: "chart-pie"\`
+
+**Event Value**: Same as chart-line
+
+**DSL Example**:
+\`\`\`
+chart-pie
+title: Market Share
+Category,Percentage
+Company A,45
+Company B,30
+Company C,25
+\`\`\`
+
+### 5.10 chart-scatter
+
+**Purpose**: Scatter plot for showing correlation between two variables
+
+**Schema**: Same as chart-line but with \`type: "chart-scatter"\`
+
+**Event Value**: Same as chart-line
+
+**DSL Example**:
+\`\`\`
+chart-scatter
+title: Price vs Performance
+height: 350
+Price,Performance,Competition
+100,85,78
+150,92,85
+200,105,95
+\`\`\`
+
 ## Implementation Guidelines
 
 ### 6.1 Parser Requirements
@@ -375,9 +495,16 @@ See the [Home page](/) for interactive examples of all widget types.
 
 ## Reference Implementations
 
-- **Parser**: [@markdown-ui/marked-ext](https://www.npmjs.com/package/@markdown-ui/marked-ext)
+**Parsers:**
+- **DSL Parser**: [@markdown-ui/mdui-lang](https://www.npmjs.com/package/@markdown-ui/mdui-lang) - Core DSL parser
+- **Marked Extension**: [@markdown-ui/marked-ext](https://www.npmjs.com/package/@markdown-ui/marked-ext) - Marked.js integration
+
+**Renderers:**
 - **Svelte Renderer**: [@markdown-ui/svelte](https://www.npmjs.com/package/@markdown-ui/svelte)  
 - **React Renderer**: [@markdown-ui/react](https://www.npmjs.com/package/@markdown-ui/react)
+- **Vue Renderer**: [@markdown-ui/vue](https://www.npmjs.com/package/@markdown-ui/vue)
+
+📦 **[View all packages and live demos →](/implementations)**
 
 ---
 

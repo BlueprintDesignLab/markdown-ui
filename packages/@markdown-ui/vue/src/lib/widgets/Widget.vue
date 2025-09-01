@@ -15,6 +15,7 @@
 <script setup lang="ts">
 import { computed, defineProps } from 'vue'
 import ButtonGroup from './ButtonGroup.vue'
+import Chart from './Chart.vue'
 import Form from './Form.vue'
 import Incomplete from './Incomplete.vue'
 import Select from './Select.vue'
@@ -31,6 +32,7 @@ const props = defineProps<WidgetProps>()
 
 const widgets = {
   'ButtonGroup': ButtonGroup,
+  'Chart': Chart,
   'Form': Form,
   'Incomplete': Incomplete,
   'Select': Select,
@@ -41,6 +43,10 @@ const widgets = {
 
 const typeMapping: Record<string, keyof typeof widgets> = {
   'button-group': 'ButtonGroup',
+  'chart-line': 'Chart',
+  'chart-bar': 'Chart',
+  'chart-pie': 'Chart',
+  'chart-scatter': 'Chart',
   'form': 'Form',
   'incomplete': 'Incomplete',
   'select': 'Select',

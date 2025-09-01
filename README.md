@@ -65,6 +65,16 @@ form deploy "Launch"
   slider replicas 1 10 1 3
 ```
 
+**Interactive charts**
+```markdown
+chart-line
+title: Monthly Sales
+Month,Sales,Target
+Jan,100,120
+Feb,150,140
+Mar,200,180
+```
+
 ## How it works
 
 1. **Write** widgets in Markdown using simple DSL syntax
@@ -79,13 +89,13 @@ Works with any Markdown parser + any UI framework. Zero lock-in.
 ## Available packages
 
 **Parsers** ✅
-- [`@markdown-ui/mdui-lang`](https://www.npmjs.com/package/@markdown-ui/mdui-lang) - DSL parser
-- [`@markdown-ui/marked-ext`](https://www.npmjs.com/package/@markdown-ui/marked-ext) - Marked.js extension
+- [`@markdown-ui/mdui-lang`](https://www.npmjs.com/package/@markdown-ui/mdui-lang) - Core DSL parser for converting widget syntax to JSON
+- [`@markdown-ui/marked-ext`](https://www.npmjs.com/package/@markdown-ui/marked-ext) - Marked.js extension with integrated parser
 
 **Renderers** ✅  
-- [`@markdown-ui/svelte`](https://www.npmjs.com/package/@markdown-ui/svelte) - Svelte components
-- [`@markdown-ui/react`](https://www.npmjs.com/package/@markdown-ui/react) - React components
-- [`@markdown-ui/vue`](https://www.npmjs.com/package/@markdown-ui/vue) - Vue components
+- [`@markdown-ui/svelte`](https://www.npmjs.com/package/@markdown-ui/svelte) - Svelte components with full chart support
+- [`@markdown-ui/react`](https://www.npmjs.com/package/@markdown-ui/react) - React components with full chart support
+- [`@markdown-ui/vue`](https://www.npmjs.com/package/@markdown-ui/vue) - Vue components with full chart support
 
 
 ## Copyable System Prompt For LLMs
@@ -102,6 +112,7 @@ You can embed interactive UI widgets in Markdown using fenced code blocks with l
 - select-multi id ["Item 1" "Item 2" ...] ["default1" "default2"]
 - slider id min max step default
 - form id "Submit Label" (multi-line with 2-space indented fields)
+- chart-line, chart-bar, chart-pie, chart-scatter (multi-line with CSV data)
 
 **Quoting Rules:**
 - Use quotes for ANY text containing spaces: "User Name", "New York"
@@ -144,12 +155,24 @@ form deployment "Deploy Now"
   slider replicas 1 10 1 3
 ```
 
+Charts:
+```markdown-ui-widget
+chart-line
+title: Monthly Revenue
+height: 300
+Month,Sales,Target
+Jan,45000,50000
+Feb,52000,50000
+Mar,48000,55000
+```
+
 **Output Rules:**
 - One widget per code block
 - Use quotes for any text with spaces
 - Parameters after ID are positional and optional
 - Form fields must be indented exactly 2 spaces
-- Only use the 6 widget types above
+- Chart data follows CSV format with headers
+- Only use the 10 widget types above (including 4 chart types)
 ````
 
 ## Contributing

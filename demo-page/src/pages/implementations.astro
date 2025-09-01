@@ -8,8 +8,16 @@ import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown
 
 <Layout title="Implementations">
   <div class="max-w-6xl mx-auto px-4 py-10">
-    <h1 class="text-[28px] font-semibold tracking-tight text-neutral-900 mb-1">Framework Implementations</h1>
-    <p class="text-[15px] text-neutral-600 mb-4">Basic live demos for React, Svelte, and Vue. Toggle to view the source for each example.</p>
+    <h1 class="text-[28px] font-semibold tracking-tight text-neutral-900 mb-1">Packages & Implementations</h1>
+    <p class="text-[15px] text-neutral-600 mb-4">All available parsers and renderers, plus live framework demos. Toggle to view source for each example.</p>
+    
+    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+      <h2 class="font-medium text-blue-900 mb-2">Architecture Overview</h2>
+      <p class="text-sm text-blue-800">
+        Markdown UI uses a two-stage approach: <strong>Parsers</strong> convert widget syntax to JSON, then <strong>Renderers</strong> 
+        display interactive components in your framework. Choose one parser + one renderer for your stack.
+      </p>
+    </div>
     
     <!-- Framework Selector -->
     <div class="bg-white border border-neutral-200 rounded-xl shadow-sm p-4 mb-6">
@@ -104,6 +112,8 @@ import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown
       </div>
     </section>
 
+    
+
     <!-- Universal Events Panel -->
     <section class="bg-white border border-neutral-200 rounded-xl shadow-sm p-4 sm:p-5 mb-6">
       <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-neutral-200/70">
@@ -125,33 +135,106 @@ import { reactExample, svelteExample, vueExample } from "../data/exampleMarkdown
     </section>
 
     <div class="mt-10 pt-4 border-t border-neutral-200">
-      <h2 class="text-lg font-semibold text-neutral-900 mb-3">Package links</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/svelte" target="_blank" rel="noreferrer">
-          <div class="flex items-center gap-2">
-            <img src="/Svelte.svg" alt="Svelte" class="w-4 h-4" />
-            <span class="text-neutral-900">@markdown-ui/svelte</span>
+      <h2 class="text-lg font-semibold text-neutral-900 mb-3">All Packages</h2>
+      
+      <div class="mb-6">
+        <h3 class="text-md font-medium text-neutral-700 mb-3">Parsers</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/mdui-lang" target="_blank" rel="noreferrer">
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 bg-purple-500 rounded flex items-center justify-center">
+                <span class="text-white text-xs font-bold">P</span>
+              </div>
+              <span class="text-neutral-900">@markdown-ui/mdui-lang</span>
+            </div>
+            <span class="text-neutral-600 text-sm">DSL parser</span>
+          </a>
+          <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/marked-ext" target="_blank" rel="noreferrer">
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 bg-blue-500 rounded flex items-center justify-center">
+                <span class="text-white text-xs font-bold">M</span>
+              </div>
+              <span class="text-neutral-900">@markdown-ui/marked-ext</span>
+            </div>
+            <span class="text-neutral-600 text-sm">Marked extension</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Parser Documentation -->
+    <section class="bg-white border border-neutral-200 rounded-xl shadow-sm p-4 sm:p-5 mb-6">
+      <h2 class="text-lg font-semibold text-neutral-900 mb-4">Parser Packages</h2>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-purple-500 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-white text-xs font-bold">P</span>
+            </div>
+            <div>
+              <h3 class="font-medium text-neutral-900 mb-1">@markdown-ui/mdui-lang</h3>
+              <p class="text-sm text-neutral-600 mb-2">
+                Core DSL parser for converting widget syntax to JSON. Use this if you're building custom Markdown parsers or need standalone widget parsing.
+              </p>
+              <pre class="text-xs font-mono bg-neutral-100 p-2 rounded text-neutral-700 whitespace-pre-wrap">import &#123; parseDSL &#125; from '@markdown-ui/mdui-lang';
+const result = parseDSL('button-group plan [Basic Pro] Basic');</pre>
+            </div>
           </div>
-          <span class="text-neutral-600 text-sm">Svelte renderer</span>
-        </a>
-        <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/react" target="_blank" rel="noreferrer">
-          <div class="flex items-center gap-2">
-            <img src="/React.svg" alt="React" class="w-4 h-4" />
-            <span class="text-neutral-900">@markdown-ui/react</span>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-blue-500 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-white text-xs font-bold">M</span>
+            </div>
+            <div>
+              <h3 class="font-medium text-neutral-900 mb-1">@markdown-ui/marked-ext</h3>
+              <p class="text-sm text-neutral-600 mb-2">
+                Marked.js extension that integrates mdui-lang parser. Use this if you're using Marked.js as your primary Markdown parser.
+              </p>
+              <pre class="text-xs font-mono bg-neutral-100 p-2 rounded text-neutral-700 whitespace-pre-wrap">import &#123; markedUiExtension &#125; from '@markdown-ui/marked-ext';
+marked.use(markedUiExtension);</pre>
+            </div>
           </div>
-          <span class="text-neutral-600 text-sm">React renderer</span>
-        </a>
-        <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/vue" target="_blank" rel="noreferrer">
-          <div class="flex items-center gap-2">
-            <img src="/Vue.js.svg" alt="Vue" class="w-4 h-4" />
-            <span class="text-neutral-900">@markdown-ui/vue</span>
-          </div>
-          <span class="text-neutral-600 text-sm">Vue renderer</span>
-        </a>
-        <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/marked-ext" target="_blank" rel="noreferrer">
-          <span class="text-neutral-900">@markdown-ui/marked-ext</span>
-          <span class="text-neutral-600 text-sm">Marked extension</span>
-        </a>
+        </div>
+      </div>
+    </section>
+
+      <div>
+        <h3 class="text-md font-medium text-neutral-700 mb-3">Renderers</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/svelte" target="_blank" rel="noreferrer">
+            <div class="flex items-center gap-2">
+              <img src="/Svelte.svg" alt="Svelte" class="w-4 h-4" />
+              <span class="text-neutral-900">@markdown-ui/svelte</span>
+            </div>
+            <span class="text-neutral-600 text-sm">Svelte renderer</span>
+          </a>
+          <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/react" target="_blank" rel="noreferrer">
+            <div class="flex items-center gap-2">
+              <img src="/React.svg" alt="React" class="w-4 h-4" />
+              <span class="text-neutral-900">@markdown-ui/react</span>
+            </div>
+            <span class="text-neutral-600 text-sm">React renderer</span>
+          </a>
+          <a class="flex items-center justify-between border border-neutral-200 rounded-xl p-3.5 bg-white shadow-sm hover:bg-neutral-50" href="https://www.npmjs.com/package/@markdown-ui/vue" target="_blank" rel="noreferrer">
+            <div class="flex items-center gap-2">
+              <img src="/Vue.js.svg" alt="Vue" class="w-4 h-4" />
+              <span class="text-neutral-900">@markdown-ui/vue</span>
+            </div>
+            <span class="text-neutral-600 text-sm">Vue renderer</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+        <h4 class="font-medium text-blue-900 mb-2">Usage Pattern</h4>
+        <p class="text-sm text-blue-800 mb-2">
+          Choose one <strong>parser</strong> + one <strong>renderer</strong> for your framework:
+        </p>
+        <div class="text-sm text-blue-700 font-mono bg-blue-100 p-2 rounded">
+          npm install @markdown-ui/marked-ext @markdown-ui/react
+        </div>
       </div>
     </div>
   </div>

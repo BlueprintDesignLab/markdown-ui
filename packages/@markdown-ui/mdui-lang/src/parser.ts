@@ -66,7 +66,7 @@ export class DSLParser {
         continue;
       }
 
-      if (char === ' ' && !inQuotes && !inArray) {
+      if ((char === ' ' || char === '\n') && !inQuotes && !inArray) {
         if (current.trim()) {
           tokens.push(current.trim());
           current = '';
@@ -279,41 +279,77 @@ export class DSLParser {
   }
 
   private parseChart(tokens: string[], fullInput: string, chartType: "chart-line" | "chart-bar" | "chart-pie" | "chart-scatter"): ParseResult {
-    if (tokens.length < 2) {
-      return { success: false, error: "chart requires at least an id" };
-    }
-
     const lines = fullInput.split('\n');
-    const firstLine = lines[0];
-    const firstTokens = this.tokenize(firstLine);
-
-    if (lines.length < 3) {
-      return { success: false, error: "chart requires CSV data (header + at least one data row)" };
+    
+    if (lines.length < 2) {
+      return { success: false, error: "chart requires CSV data" };
     }
 
     const widget: any = {
       type: chartType,
-      id: firstTokens[1],
       labels: [],
       datasets: []
     };
 
-    // Parse title if provided
-    if (firstTokens.length > 2) {
-      widget.title = firstTokens[2];
-    }
-
-    // Parse options if provided (JSON format)
-    if (firstTokens.length > 3) {
-      try {
-        widget.options = JSON.parse(firstTokens[3]);
-      } catch (error) {
-        return { success: false, error: "Invalid options JSON format" };
+    // Check if using old token-based format or new key-value format
+    // Old format has multiple tokens on the first line: "chart-line id title"
+    // New format has only widget type on first line: "chart-line"
+    const firstLineTokens = this.tokenize(lines[0]);
+    const isOldFormat = firstLineTokens.length > 1; // Old format: chart-line id title
+    let csvStartIndex = 1;
+    
+    if (isOldFormat) {
+      // Old format: chart-line chart_id "Chart Title"
+      widget.id = firstLineTokens[1];
+      if (firstLineTokens.length > 2) {
+        widget.title = firstLineTokens[2];
+      }
+      // CSV starts at line 1
+      csvStartIndex = 1;
+    } else {
+      // New format: key-value parameters before CSV
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        
+        // Check if this line contains a key:value parameter
+        if (line.includes(':')) {
+          const colonIndex = line.indexOf(':');
+          const key = line.substring(0, colonIndex).trim().toLowerCase();
+          
+          if (['id', 'title', 'height'].includes(key)) {
+            const value = line.substring(colonIndex + 1).trim();
+            
+            switch (key) {
+              case 'id':
+                widget.id = value;
+                break;
+              case 'title':
+                widget.title = value;
+                break;
+              case 'height':
+                const height = parseInt(value);
+                if (!isNaN(height)) {
+                  widget.height = height;
+                }
+                break;
+            }
+            csvStartIndex = i + 1;
+          } else {
+            // This line has a colon but isn't a known parameter, treat as CSV data
+            csvStartIndex = i;
+            break;
+          }
+        } else {
+          // This line doesn't contain a colon, start CSV parsing here
+          csvStartIndex = i;
+          break;
+        }
       }
     }
 
-    // Parse CSV data starting from line 1
-    const csvLines = lines.slice(1);
+    // Parse CSV data starting from csvStartIndex
+    const csvLines = lines.slice(csvStartIndex);
     if (csvLines.length === 0) {
       return { success: false, error: "No CSV data provided" };
     }

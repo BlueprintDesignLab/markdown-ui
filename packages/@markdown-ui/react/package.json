@@ -43,5 +43,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.0"
   }
 }
