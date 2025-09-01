@@ -42,6 +42,7 @@ Charts make data come alive. Click on any data point to see events!
 
 \`\`\`markdown-ui-widget
 chart-line
+id: progress
 title: Monthly Progress
 height: 300
 Month,Tasks,Goals
@@ -56,6 +57,7 @@ May,105,100
 
 \`\`\`markdown-ui-widget
 chart-bar
+id: revenue
 title: Quarterly Revenue
 height: 400
 Quarter,Revenue
@@ -69,6 +71,7 @@ Q4,200000
 
 \`\`\`markdown-ui-widget
 chart-pie
+id: time-distribution
 title: Project Time Distribution
 height: 250
 Category,Hours
@@ -82,6 +85,7 @@ Documentation,15
 
 \`\`\`markdown-ui-widget
 chart-line
+id: sales
 title: Sales vs Target
 height: 350
 id: sales_performance
