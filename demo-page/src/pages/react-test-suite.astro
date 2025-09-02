@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ReactTestSuite from '../components/ReactTestSuite.tsx';
+---
+
+<Layout title="React Widget Demo Suite - Markdown UI">
+  <ReactTestSuite client:only="react" />
+</Layout>
+
+<style>
+  :global(main) { padding: 0; }
+</style>

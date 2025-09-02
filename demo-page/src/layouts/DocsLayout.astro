@@ -1,0 +1,145 @@
+---
+import '../styles/global.css'
+import GitHubStarCount from '../components/GitHubStarCount.astro'
+
+export interface Props {
+  title: string;
+  description?: string;
+  currentPath?: string;
+}
+
+const { title, description = "Markdown UI Documentation", currentPath = "" } = Astro.props;
+const isActive = (path: string) => currentPath === path || Astro.url.pathname === path;
+
+const docSections = [
+  {
+    title: "Getting Started",
+    items: [
+      { path: "/docs/getting-started", label: "Quick Start" },
+    ]
+  },
+  {
+    title: "Framework Guides", 
+    items: [
+      { path: "/docs/react", label: "React Guide" },
+      { path: "/docs/svelte", label: "Svelte Guide" },
+      { path: "/docs/vue", label: "Vue Guide" },
+    ]
+  },
+  {
+    title: "Reference",
+    items: [
+      { path: "/docs/widget-guide", label: "Widget Reference" },
+      { path: "/docs/api", label: "API Reference" },
+      { path: "/spec", label: "Technical Spec" },
+    ]
+  }
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{title}</title>
+  </head>
+  <body class="antialiased bg-neutral-50 text-neutral-900">
+    <!-- Top Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-neutral-200">
+      <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
+        <a href="/" class="font-semibold tracking-[-0.01em] text-[17px] flex items-center gap-2">
+          <img src="/favicon.png" alt="Markdown UI logo" class="w-6 h-6" />
+          Markdown UI
+        </a>
+        <div class="flex items-center gap-4">
+          <a href="/" class="text-sm text-neutral-700 hover:text-neutral-900">Demo</a>
+          <a href="/docs/getting-started" class="text-sm text-blue-600 font-medium">Docs</a>
+          <a href="https://github.com/BlueprintDesignLab/markdown-ui" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm text-neutral-700 hover:text-neutral-900">
+            GitHub
+            <GitHubStarCount />
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-6">
+      <div class="flex gap-8">
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0">
+          <nav class="sticky top-24">
+            {docSections.map((section) => (
+              <div class="mb-6">
+                <h3 class="font-semibold text-sm text-neutral-900 mb-2 px-3">{section.title}</h3>
+                <ul class="space-y-1">
+                  {section.items.map((item) => (
+                    <li>
+                      <a 
+                        href={item.path}
+                        class:list={[
+                          "block px-3 py-2 text-sm rounded-md transition-colors",
+                          isActive(item.path) 
+                            ? "bg-blue-100 text-blue-700 font-medium" 
+                            : "text-neutral-700 hover:bg-neutral-100"
+                        ]}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 min-w-0">
+          <div class="prose prose-neutral max-w-none">
+            <slot />
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, sans-serif; }
+  
+  /* Enhanced prose styles for docs */
+  .prose {
+    @apply text-neutral-800 leading-7;
+  }
+  
+  .prose h1 {
+    @apply text-3xl font-bold text-neutral-900 mt-0 mb-6 pb-3 border-b border-neutral-200;
+  }
+  
+  .prose h2 {
+    @apply text-2xl font-semibold text-neutral-900 mt-8 mb-4;
+  }
+  
+  .prose h3 {
+    @apply text-xl font-medium text-neutral-800 mt-6 mb-3;
+  }
+  
+  .prose p {
+    @apply mb-4;
+  }
+  
+  .prose code {
+    @apply bg-neutral-100 text-neutral-800 px-1.5 py-0.5 rounded text-sm;
+  }
+  
+  .prose pre {
+    @apply bg-neutral-900 text-neutral-100 p-4 rounded-lg overflow-x-auto;
+  }
+  
+  .prose pre code {
+    @apply bg-transparent text-neutral-100 p-0;
+  }
+</style>

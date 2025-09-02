@@ -76,15 +76,25 @@
     'rgb(255, 159, 64)'
   ];
 
-  const prepareDatasets = (datasets: Dataset[], chartType: string) => {
+  const prepareDatasets = (datasets: Dataset[], chartType: string, chartLabels: string[]) => {
     const colors = getDefaultColors();
     
     return datasets.map((dataset, index) => {
       const color = colors[index % colors.length];
+      let processedData: any = dataset.data;
+      
+      // For scatter plots, convert data to {x, y} format
+      if (chartType === 'scatter') {
+        processedData = dataset.data.map((value, dataIndex) => ({
+          x: dataIndex,
+          y: value
+        }));
+      }
       
       if (chartType === 'pie') {
         return {
           ...dataset,
+          data: processedData,
           backgroundColor: colors.slice(0, dataset.data.length),
           borderColor: colors.slice(0, dataset.data.length),
           borderWidth: 1
@@ -92,6 +102,7 @@
       } else {
         return {
           ...dataset,
+          data: processedData,
           borderColor: color,
           backgroundColor: chartType === 'line' ? color + '20' : color,
           borderWidth: 2,
@@ -105,7 +116,7 @@
     if (!canvas) return;
 
     const chartType = getChartType(type);
-    const preparedDatasets = prepareDatasets(datasets, chartType);
+    const preparedDatasets = prepareDatasets(datasets, chartType, labels);
 
     const defaultOptions = {
       responsive: true,
@@ -138,12 +149,13 @@
 
     const mergedOptions = { ...defaultOptions, ...options };
 
+    const chartData = chartType === 'scatter' 
+      ? { datasets: preparedDatasets }
+      : { labels, datasets: preparedDatasets };
+
     chart = new Chart(canvas, {
       type: chartType as any,
-      data: {
-        labels,
-        datasets: preparedDatasets
-      },
+      data: chartData,
       options: mergedOptions
     });
   });

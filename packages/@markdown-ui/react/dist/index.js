@@ -7848,19 +7848,25 @@ function cc({ type: i, title: t, height: e, labels: s, datasets: n, options: o =
     "rgb(255, 206, 86)",
     "rgb(153, 102, 255)",
     "rgb(255, 159, 64)"
-  ], u = (f, p) => {
-    const g = d();
-    return f.map((m, b) => {
-      const x = g[b % g.length];
-      return p === "pie" ? {
-        ...m,
-        backgroundColor: g.slice(0, m.data.length),
-        borderColor: g.slice(0, m.data.length),
+  ], u = (f, p, g) => {
+    const m = d();
+    return f.map((b, x) => {
+      const v = m[x % m.length];
+      let y = b.data;
+      return p === "scatter" && (y = b.data.map((_, M) => ({
+        x: M,
+        y: _
+      }))), p === "pie" ? {
+        ...b,
+        data: y,
+        backgroundColor: m.slice(0, b.data.length),
+        borderColor: m.slice(0, b.data.length),
         borderWidth: 1
       } : {
-        ...m,
-        borderColor: x,
-        backgroundColor: p === "line" ? x + "20" : x,
+        ...b,
+        data: y,
+        borderColor: v,
+        backgroundColor: p === "line" ? v + "20" : v,
         borderWidth: 2,
         fill: p !== "line"
       };
@@ -7881,25 +7887,22 @@ function cc({ type: i, title: t, height: e, labels: s, datasets: n, options: o =
           display: n.length > 1 || f === "pie"
         }
       },
-      onClick: (b, x) => {
-        if (x.length > 0) {
-          const v = x[0], y = v.index, _ = v.datasetIndex;
+      onClick: (x, v) => {
+        if (v.length > 0) {
+          const y = v[0], _ = y.index, M = y.datasetIndex;
           r({
-            label: s[y],
-            value: n[_]?.data[y],
-            datasetLabel: n[_]?.label,
-            dataIndex: y,
-            datasetIndex: _
+            label: s[_],
+            value: n[M]?.data[_],
+            datasetLabel: n[M]?.label,
+            dataIndex: _,
+            datasetIndex: M
           });
         }
       }
-    }, ...o };
+    }, ...o }, b = f === "scatter" ? { datasets: p } : { labels: s, datasets: p };
     return l.current = new Mi(a.current, {
       type: f,
-      data: {
-        labels: s,
-        datasets: p
-      },
+      data: b,
       options: m
     }), () => {
       l.current && (l.current.destroy(), l.current = null);

@@ -1,0 +1,228 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodePlayground from '../../components/CodePlayground.tsx';
+---
+
+<DocsLayout title="Getting Started - Markdown UI" currentPath="/docs/getting-started">
+  <h1>Getting Started</h1>
+  
+  <p class="text-xl text-gray-600 mb-8">
+    Transform static Markdown into interactive experiences in under 2 minutes. 
+    Works with React, Svelte, Vue, and any Markdown parser.
+  </p>
+
+  ## What is Markdown UI?
+
+  Markdown UI lets you embed interactive widgets directly in Markdown using a simple, readable syntax. Write once, render anywhere.
+
+  <CodePlayground 
+    client:only="react"
+    defaultCode="button-group plan [Basic Pro Enterprise] Basic"
+    title="Your First Widget"
+    description="Try editing the widget above and see it update in real-time!"
+  />
+
+  ## Quick Installation
+
+  Choose your framework and get started in 30 seconds:
+
+  ### React
+
+  ```bash
+  npm install @markdown-ui/react @markdown-ui/marked-ext
+  ```
+
+  ```javascript
+  import { MarkdownUI } from '@markdown-ui/react';
+  import '@markdown-ui/react/widgets.css';
+  import { Marked } from 'marked';
+  import { markedUiExtension } from '@markdown-ui/marked-ext';
+
+  const marked = new Marked();
+  marked.use(markedUiExtension);
+
+  const markdown = `
+  # Choose Your Plan
+  \`\`\`markdown-ui-widget
+  select plan [Basic Pro Enterprise] Pro
+  \`\`\`
+  `;
+
+  function App() {
+    const html = marked.parse(markdown);
+    return <MarkdownUI html={html} />;
+  }
+  ```
+
+  ### Svelte
+
+  ```bash
+  npm install @markdown-ui/svelte @markdown-ui/marked-ext
+  ```
+
+  ```svelte
+  <script>
+    import { MarkdownUI } from '@markdown-ui/svelte';
+    import '@markdown-ui/svelte/widgets.css';
+    import { Marked } from 'marked';
+    import { markedUiExtension } from '@markdown-ui/marked-ext';
+
+    const marked = new Marked();
+    marked.use(markedUiExtension);
+
+    const markdown = `
+  # Choose Your Plan
+  \`\`\`markdown-ui-widget
+  select plan [Basic Pro Enterprise] Pro
+  \`\`\`
+    `;
+
+    const html = marked.parse(markdown);
+  </script>
+
+  <MarkdownUI {html} />
+  ```
+
+  ### Vue
+
+  ```bash
+  npm install @markdown-ui/vue @markdown-ui/marked-ext
+  ```
+
+  ```vue
+  <script setup>
+  import { MarkdownUI } from '@markdown-ui/vue';
+  import '@markdown-ui/vue/widgets.css';
+  import { Marked } from 'marked';
+  import { markedUiExtension } from '@markdown-ui/marked-ext';
+
+  const marked = new Marked();
+  marked.use(markedUiExtension);
+
+  const markdown = `
+  # Choose Your Plan
+  \`\`\`markdown-ui-widget
+  select plan [Basic Pro Enterprise] Pro
+  \`\`\`
+  `;
+
+  const html = marked.parse(markdown);
+  </script>
+
+  <template>
+    <MarkdownUI :html="html" />
+  </template>
+  ```
+
+  ## Core Widget Types
+
+  Markdown UI includes 8 essential widget types. Try each one:
+
+  ### Text Input
+
+  <CodePlayground 
+    client:only="react"
+    defaultCode='text-input username "Username" "Enter your username"'
+    title="Text Input"
+    description="Capture text input from users"
+    showFrameworkTabs={false}
+  />
+
+  ### Button Groups & Selections
+
+  <CodePlayground 
+    client:only="react"
+    defaultCode='button-group size [Small Medium Large] Medium'
+    title="Button Group"
+    description="Single choice selection with buttons"
+    showFrameworkTabs={false}
+  />
+
+  <CodePlayground 
+    client:only="react"
+    defaultCode='select region ["US East" "US West" "EU Central"] "US East"'
+    title="Dropdown Select"
+    description="Dropdown selection for longer lists"
+    showFrameworkTabs={false}
+  />
+
+  ### Multi-Selection
+
+  <CodePlayground 
+    client:only="react"
+    defaultCode='select-multi tools [Docker Redis PostgreSQL MongoDB] [Docker PostgreSQL]'
+    title="Multi-Select"
+    description="Allow multiple selections with checkboxes"
+    showFrameworkTabs={false}
+  />
+
+  ### Sliders
+
+  <CodePlayground 
+    client:only="react"
+    defaultCode='slider cpu 1 16 1 4'
+    title="Slider"
+    description="Numeric input with min, max, step, and default values"
+    showFrameworkTabs={false}
+  />
+
+  ### Data Visualization
+
+  <CodePlayground 
+    client:only="react"
+    defaultCode={`chart-line
+id: sales
+title: Monthly Sales
+height: 300
+Month,Revenue,Target
+Jan,45000,50000
+Feb,52000,50000
+Mar,48000,55000`}
+    title="Interactive Charts"
+    description="Line, bar, pie, and scatter plots with CSV data"
+    showFrameworkTabs={false}
+  />
+
+  ### Forms
+
+  <CodePlayground 
+    client:only="react"
+    defaultCode={`form contact "Submit"
+  text-input name "Full Name" "Enter your name"
+  select department [Sales Support Technical] Sales
+  slider priority 1 5 1 3`}
+    title="Combined Forms"
+    description="Combine multiple widgets into forms"
+    showFrameworkTabs={false}
+  />
+
+  ## Event Handling
+
+  All widgets emit standardized events when users interact with them:
+
+  ```javascript
+  // Listen for widget events
+  document.addEventListener('widget-event', (event) => {
+    console.log('Widget changed:', {
+      id: event.detail.id,
+      value: event.detail.value
+    });
+  });
+  ```
+
+  ## Next Steps
+
+  🎯 **[Widget Reference](/docs/widget-guide)** - Complete guide to all widget types  
+  🚀 **[Examples](/docs/examples)** - Real-world usage patterns  
+  ⚡ **[API Reference](/docs/api)** - Advanced configuration options  
+
+  ## Why Developers Love It
+
+  - ✅ **AI-Ready**: Perfect for LLM-generated interactive content
+  - ✅ **Zero Lock-in**: Pure specification, works anywhere  
+  - ✅ **Framework Agnostic**: Same code works in React, Vue, Svelte
+  - ✅ **Progressive Enhancement**: Fallback to readable Markdown
+  - ✅ **Type Safe**: Full TypeScript support across all packages
+
+  Ready to build something amazing? Check out our [live examples](/docs/examples) or dive into the [complete widget reference](/docs/widget-guide).
+</DocsLayout>

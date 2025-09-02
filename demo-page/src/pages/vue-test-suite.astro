@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import VueTestSuite from '../components/VueTestSuite.vue';
+---
+
+<Layout title="Vue Widget Demo Suite - Markdown UI">
+  <VueTestSuite client:only="vue" />
+</Layout>
+
+<style>
+  :global(main) { padding: 0; }
+</style>

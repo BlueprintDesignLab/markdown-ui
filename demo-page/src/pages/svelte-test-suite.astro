@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SvelteTestSuite from '../components/SvelteTestSuite.svelte';
+---
+
+<Layout title="Svelte Widget Demo Suite - Markdown UI">
+  <SvelteTestSuite client:only="svelte" />
+</Layout>
+
+<style>
+  :global(main) { padding: 0; }
+</style>
