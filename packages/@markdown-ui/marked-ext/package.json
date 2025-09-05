@@ -28,7 +28,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@markdown-ui/mdui-lang": "workspace:^0.3.0",
+    "@markdown-ui/mdui-lang": "workspace:*",
     "nanoid": "^5.1.5"
   },
   "devDependencies": {
