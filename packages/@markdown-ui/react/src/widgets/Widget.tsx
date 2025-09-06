@@ -18,6 +18,7 @@ const typeMapping: Record<string, WidgetType> = {
   'form': 'Form',
   'incomplete': 'Incomplete',
   'multiple-choice-question': 'MultipleChoiceQuestion',
+  'quiz': 'Quiz',
   'select': 'Select',
   'select-multi': 'SelectMulti',
   'short-answer-question': 'ShortAnswerQuestion',

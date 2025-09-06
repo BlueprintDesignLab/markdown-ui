@@ -161,6 +161,22 @@ Custom placeholder for collecting detailed responses - no right or wrong answers
 \`\`\`markdown-ui-widget
 short-answer-question q5 "Describe your favorite programming concept" "Type your thoughts here..."
 \`\`\`
+
+## Quiz Component
+
+### JavaScript Fundamentals Quiz - Full Featured
+Complete quiz with scoring, progress tracking, and mixed question types.
+\`\`\`markdown-ui-widget
+quiz js-fundamentals "JavaScript Fundamentals Quiz"
+showScore: true
+showProgress: true  
+passingScore: 70
+
+mcq q1 "What is JavaScript?" 10 ["Programming language" "Markup language" "Database"] "Programming language"
+short-answer q2 "Name a JavaScript framework" 15 "Enter framework name" ["React" "Vue" "Angular" "Svelte"]
+mcq q3 "JavaScript is typed as?" 5 ["Static" "Dynamic" "Both"] "Dynamic"
+short-answer q4 "What does 'DOM' stand for?" 20 "Enter your answer" ["Document Object Model"]
+\`\`\`
 `;
 
 const renderedHtml = marked.parse(comprehensiveTestMarkdown);

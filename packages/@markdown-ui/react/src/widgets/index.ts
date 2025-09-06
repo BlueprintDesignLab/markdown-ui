@@ -3,6 +3,7 @@ export { Chart } from './Chart';
 export { Form } from './Form';
 export { Incomplete } from './Incomplete';
 export { MultipleChoiceQuestion } from './MultipleChoiceQuestion';
+export { Quiz } from './Quiz';
 export { Select } from './Select';
 export { SelectMulti } from './SelectMulti';
 export { ShortAnswerQuestion } from './ShortAnswerQuestion';

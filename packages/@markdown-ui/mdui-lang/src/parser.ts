@@ -32,6 +32,8 @@ export class DSLParser {
           return this.parseMultipleChoiceQuestion(tokens);
         case 'short-answer-question':
           return this.parseShortAnswerQuestion(tokens);
+        case 'quiz':
+          return this.parseQuiz(tokens, input);
         default:
           return { success: false, error: `Unknown widget type: ${widgetType}` };
       }
@@ -440,6 +442,154 @@ export class DSLParser {
     if (tokens.length > 3) widget.placeholder = tokens[3];
     if (tokens.length > 4) widget.correctAnswer = tokens[4];
     if (tokens.length > 5) widget.showFeedback = tokens[5].toLowerCase() === 'true';
+
+    return { success: true, widget };
+  }
+
+  private parseQuiz(tokens: string[], fullInput: string): ParseResult {
+    if (tokens.length < 3) {
+      return { success: false, error: "quiz requires id and title" };
+    }
+
+    const lines = fullInput.split('\n');
+    const firstLine = lines[0];
+    const firstTokens = this.tokenize(firstLine);
+
+    const widget: any = {
+      type: "quiz",
+      id: firstTokens[1],
+      title: firstTokens[2],
+      questions: [],
+      showScore: true,
+      showProgress: true
+    };
+
+    let i = 1;
+    
+    // Parse configuration lines (key: value format)
+    while (i < lines.length) {
+      const line = lines[i].trim();
+      if (!line) {
+        i++;
+        continue;
+      }
+      
+      // Check if this is a configuration line (contains colon)
+      if (line.includes(':')) {
+        const colonIndex = line.indexOf(':');
+        const key = line.substring(0, colonIndex).trim().toLowerCase();
+        const value = line.substring(colonIndex + 1).trim();
+        
+        switch (key) {
+          case 'showscore':
+            widget.showScore = value.toLowerCase() === 'true';
+            break;
+          case 'showprogress':
+            widget.showProgress = value.toLowerCase() === 'true';
+            break;
+          case 'passingscore':
+            const score = parseInt(value);
+            if (!isNaN(score)) {
+              widget.passingScore = score;
+            }
+            break;
+          default:
+            // Not a known config, might be start of questions
+            break;
+        }
+        i++;
+      } else {
+        // This line doesn't contain a colon, start parsing questions
+        break;
+      }
+    }
+
+    // Parse questions
+    while (i < lines.length) {
+      const line = lines[i].trim();
+      if (!line) {
+        i++;
+        continue;
+      }
+
+      const questionTokens = this.tokenize(line);
+      if (questionTokens.length === 0) {
+        i++;
+        continue;
+      }
+
+      const questionType = questionTokens[0];
+      let question: any = {};
+
+      if (questionType === 'mcq') {
+        // mcq questionId "Question text" points ["choice1" "choice2"] "correctAnswer"
+        if (questionTokens.length < 5) {
+          return { success: false, error: `MCQ question on line ${i + 1} requires: id, question, points, and choices` };
+        }
+
+        const points = parseInt(questionTokens[3]);
+        if (isNaN(points)) {
+          return { success: false, error: `Invalid points value "${questionTokens[3]}" on line ${i + 1}` };
+        }
+
+        try {
+          const choices = this.parseArray(questionTokens[4]);
+          question = {
+            id: questionTokens[1],
+            type: "mcq",
+            question: questionTokens[2],
+            points: points,
+            choices: choices
+          };
+
+          if (questionTokens.length > 5) {
+            question.correctAnswer = questionTokens[5];
+          }
+        } catch (error) {
+          return { success: false, error: `Invalid choices array on line ${i + 1}: ${error}` };
+        }
+
+      } else if (questionType === 'short-answer') {
+        // short-answer questionId "Question text" points "placeholder" ["answer1" "answer2"]
+        if (questionTokens.length < 4) {
+          return { success: false, error: `Short answer question on line ${i + 1} requires: id, question, and points` };
+        }
+
+        const points = parseInt(questionTokens[3]);
+        if (isNaN(points)) {
+          return { success: false, error: `Invalid points value "${questionTokens[3]}" on line ${i + 1}` };
+        }
+
+        question = {
+          id: questionTokens[1],
+          type: "short-answer",
+          question: questionTokens[2],
+          points: points
+        };
+
+        if (questionTokens.length > 4) {
+          question.placeholder = questionTokens[4];
+        }
+
+        if (questionTokens.length > 5) {
+          try {
+            question.correctAnswers = this.parseArray(questionTokens[5]);
+          } catch (error) {
+            return { success: false, error: `Invalid answers array on line ${i + 1}: ${error}` };
+          }
+        }
+
+      } else {
+        return { success: false, error: `Unknown question type "${questionType}" on line ${i + 1}` };
+      }
+
+      widget.questions.push(question);
+      i++;
+    }
+
+    if (widget.questions.length === 0) {
+      return { success: false, error: "Quiz must contain at least one question" };
+    }
 
     return { success: true, widget };
   }

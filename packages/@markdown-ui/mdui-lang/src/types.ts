@@ -78,6 +78,29 @@ export interface ShortAnswerQuestionWidget {
   showFeedback?: boolean;
 }
 
+export interface QuizQuestion {
+  id: string;
+  type: "mcq" | "short-answer";
+  question: string;
+  points: number;
+  // MCQ specific
+  choices?: string[];
+  correctAnswer?: string;
+  // Short answer specific  
+  placeholder?: string;
+  correctAnswers?: string[]; // Multiple acceptable answers
+}
+
+export interface QuizWidget {
+  type: "quiz";
+  id?: string;
+  title: string;
+  questions: QuizQuestion[];
+  showScore?: boolean;
+  showProgress?: boolean;
+  passingScore?: number;
+}
+
 export type Widget = 
   | TextInputWidget 
   | ButtonGroupWidget 
@@ -87,7 +110,8 @@ export type Widget =
   | FormWidget
   | ChartWidget
   | MultipleChoiceQuestionWidget
-  | ShortAnswerQuestionWidget;
+  | ShortAnswerQuestionWidget
+  | QuizWidget;
 
 export interface ParseResult {
   success: boolean;
