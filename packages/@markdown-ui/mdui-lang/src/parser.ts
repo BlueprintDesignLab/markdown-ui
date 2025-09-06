@@ -28,6 +28,10 @@ export class DSLParser {
         case 'chart-pie':
         case 'chart-scatter':
           return this.parseChart(tokens, input, widgetType as any);
+        case 'multiple-choice-question':
+          return this.parseMultipleChoiceQuestion(tokens);
+        case 'short-answer-question':
+          return this.parseShortAnswerQuestion(tokens);
         default:
           return { success: false, error: `Unknown widget type: ${widgetType}` };
       }
@@ -395,6 +399,47 @@ export class DSLParser {
         widget.datasets[j - 1].data.push(numValue);
       }
     }
+
+    return { success: true, widget };
+  }
+
+  private parseMultipleChoiceQuestion(tokens: string[]): ParseResult {
+    if (tokens.length < 4) {
+      return { success: false, error: "multiple-choice-question requires id, question, and choices array" };
+    }
+
+    try {
+      const choices = this.parseArray(tokens[3]);
+      const widget: Widget = {
+        type: "multiple-choice-question",
+        id: tokens[1],
+        question: tokens[2],
+        choices
+      };
+
+      if (tokens.length > 4) widget.correctAnswer = tokens[4];
+      if (tokens.length > 5) widget.showFeedback = tokens[5].toLowerCase() === 'true';
+
+      return { success: true, widget };
+    } catch (error) {
+      return { success: false, error: `Invalid choices array: ${error}` };
+    }
+  }
+
+  private parseShortAnswerQuestion(tokens: string[]): ParseResult {
+    if (tokens.length < 3) {
+      return { success: false, error: "short-answer-question requires id and question" };
+    }
+
+    const widget: Widget = {
+      type: "short-answer-question",
+      id: tokens[1],
+      question: tokens[2]
+    };
+
+    if (tokens.length > 3) widget.placeholder = tokens[3];
+    if (tokens.length > 4) widget.correctAnswer = tokens[4];
+    if (tokens.length > 5) widget.showFeedback = tokens[5].toLowerCase() === 'true';
 
     return { success: true, widget };
   }

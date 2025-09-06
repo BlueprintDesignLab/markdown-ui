@@ -17,8 +17,10 @@ const typeMapping: Record<string, WidgetType> = {
   'chart-scatter': 'Chart',
   'form': 'Form',
   'incomplete': 'Incomplete',
+  'multiple-choice-question': 'MultipleChoiceQuestion',
   'select': 'Select',
   'select-multi': 'SelectMulti',
+  'short-answer-question': 'ShortAnswerQuestion',
   'slider': 'Slider',
   'text-input': 'TextInput'
 };

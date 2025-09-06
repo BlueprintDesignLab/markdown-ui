@@ -129,6 +129,38 @@ form quick-form "Save"
   slider time 15 120 15 45
   select mood [Chill Focused Energized] Focused
 \`\`\`
+
+## Quiz Components
+
+### Multiple Choice Question - Basic (No feedback, great for forms/surveys)
+Simple selection without validation - perfect for collecting preferences or opinions.
+\`\`\`markdown-ui-widget
+multiple-choice-question q1 "What is the capital of France?" ["Paris" "London" "Berlin" "Madrid"]
+\`\`\`
+
+### Multiple Choice Question - With Instant Feedback (Perfect for learning/testing)
+Immediate validation with correct answer revealed - ideal for educational content.
+\`\`\`markdown-ui-widget
+multiple-choice-question q2 "Which programming language was created by Brendan Eich?" ["JavaScript" "Python" "Java" "C++"] "JavaScript" true
+\`\`\`
+
+### Short Answer Question - Basic (No validation, great with submit buttons)
+Simple text input without validation - perfect for open-ended responses in forms.
+\`\`\`markdown-ui-widget
+short-answer-question q3 "What does HTML stand for?"
+\`\`\`
+
+### Short Answer Question - With Instant Validation (Perfect for quizzes)
+Immediate feedback with correct answer checking - great for educational assessments.
+\`\`\`markdown-ui-widget
+short-answer-question q4 "What is 2 + 2?" "Enter a number" "4" true
+\`\`\`
+
+### Short Answer Question - Open Response (For surveys/feedback)
+Custom placeholder for collecting detailed responses - no right or wrong answers.
+\`\`\`markdown-ui-widget
+short-answer-question q5 "Describe your favorite programming concept" "Type your thoughts here..."
+\`\`\`
 `;
 
 const renderedHtml = marked.parse(comprehensiveTestMarkdown);
@@ -153,7 +185,12 @@ export default function ReactTestSuite() {
         {/* Content */}
         <div className="p-6">
           <div className="bg-white rounded-lg border border-gray-200 p-8 shadow-sm prose">
-            <MarkdownUI html={renderedHtml} />
+            <MarkdownUI 
+              html={renderedHtml} 
+              onWidgetEvent={(event) => {
+                console.log('Widget event:', event.detail);
+              }}
+            />
           </div>
         </div>
       </div>

@@ -60,6 +60,24 @@ export interface ChartWidget {
   options?: Record<string, any>;
 }
 
+export interface MultipleChoiceQuestionWidget {
+  type: "multiple-choice-question";
+  id?: string;
+  question: string;
+  choices: string[];
+  correctAnswer?: string;
+  showFeedback?: boolean;
+}
+
+export interface ShortAnswerQuestionWidget {
+  type: "short-answer-question";
+  id?: string;
+  question: string;
+  placeholder?: string;
+  correctAnswer?: string;
+  showFeedback?: boolean;
+}
+
 export type Widget = 
   | TextInputWidget 
   | ButtonGroupWidget 
@@ -67,7 +85,9 @@ export type Widget =
   | SelectMultiWidget 
   | SliderWidget 
   | FormWidget
-  | ChartWidget;
+  | ChartWidget
+  | MultipleChoiceQuestionWidget
+  | ShortAnswerQuestionWidget;
 
 export interface ParseResult {
   success: boolean;
