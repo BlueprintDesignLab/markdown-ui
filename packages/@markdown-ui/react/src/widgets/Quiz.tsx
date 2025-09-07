@@ -46,6 +46,7 @@ export const Quiz: React.FC<QuizProps> = ({
   onchange 
 }) => {
   const [answers, setAnswers] = useState<Record<string, QuizAnswer>>({});
+  const [draftInputs, setDraftInputs] = useState<Record<string, string>>({});
 
   const quizState = useMemo<QuizState>(() => {
     const maxScore = questions.reduce((sum, q) => sum + q.points, 0);
@@ -164,11 +165,17 @@ export const Quiz: React.FC<QuizProps> = ({
   const renderShortAnswerQuestion = (question: QuizQuestion) => {
     const answer = answers[question.id];
     const isAnswered = answer?.submitted;
-    const [inputValue, setInputValue] = useState('');
+    const inputValue = draftInputs[question.id] ?? '';
 
     const handleSubmit = () => {
       if (!inputValue.trim() || isAnswered) return;
       handleQuestionAnswer(question.id, inputValue.trim());
+      // Clear draft after submission
+      setDraftInputs(prev => {
+        const next = { ...prev };
+        delete next[question.id];
+        return next;
+      });
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -188,7 +195,12 @@ export const Quiz: React.FC<QuizProps> = ({
           <input
             type="text"
             value={isAnswered ? answer.answer : inputValue}
-            onChange={(e) => !isAnswered && setInputValue(e.target.value)}
+            onChange={(e) => {
+              if (!isAnswered) {
+                const val = e.target.value;
+                setDraftInputs(prev => ({ ...prev, [question.id]: val }));
+              }
+            }}
             onKeyDown={handleKeyDown}
             placeholder={question.placeholder || "Type your answer here..."}
             disabled={isAnswered}

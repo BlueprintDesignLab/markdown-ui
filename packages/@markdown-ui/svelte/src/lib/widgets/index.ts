@@ -9,3 +9,6 @@ export { default as "chart-bar" } from './Chart.svelte';
 export { default as "chart-pie" } from './Chart.svelte';
 export { default as "chart-scatter" } from './Chart.svelte';
 export { default as incomplete } from './Incomplete.svelte';
+export { default as "multiple-choice-question" } from './MultipleChoiceQuestion.svelte';
+export { default as "short-answer-question" } from './ShortAnswerQuestion.svelte';
+export { default as "quiz" } from './Quiz.svelte';

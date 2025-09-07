@@ -22,6 +22,9 @@ import Select from './Select.vue'
 import SelectMulti from './SelectMulti.vue'
 import Slider from './Slider.vue'
 import TextInput from './TextInput.vue'
+import MultipleChoiceQuestion from './MultipleChoiceQuestion.vue'
+import ShortAnswerQuestion from './ShortAnswerQuestion.vue'
+import Quiz from './Quiz.vue'
 
 interface WidgetProps {
   id: string
@@ -35,10 +38,13 @@ const widgets = {
   'Chart': Chart,
   'Form': Form,
   'Incomplete': Incomplete,
+  'MultipleChoiceQuestion': MultipleChoiceQuestion,
   'Select': Select,
   'SelectMulti': SelectMulti,
+  'ShortAnswerQuestion': ShortAnswerQuestion,
   'Slider': Slider,
-  'TextInput': TextInput
+  'TextInput': TextInput,
+  'Quiz': Quiz
 }
 
 const typeMapping: Record<string, keyof typeof widgets> = {
@@ -49,8 +55,11 @@ const typeMapping: Record<string, keyof typeof widgets> = {
   'chart-scatter': 'Chart',
   'form': 'Form',
   'incomplete': 'Incomplete',
+  'multiple-choice-question': 'MultipleChoiceQuestion',
+  'quiz': 'Quiz',
   'select': 'Select',
   'select-multi': 'SelectMulti',
+  'short-answer-question': 'ShortAnswerQuestion',
   'slider': 'Slider',
   'text-input': 'TextInput'
 }

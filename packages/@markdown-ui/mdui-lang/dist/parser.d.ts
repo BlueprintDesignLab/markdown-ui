@@ -10,5 +10,8 @@ export declare class DSLParser {
     private parseSlider;
     private parseForm;
     private parseChart;
+    private parseMultipleChoiceQuestion;
+    private parseShortAnswerQuestion;
+    private parseQuiz;
 }
 export declare function parseDSL(input: string): ParseResult;

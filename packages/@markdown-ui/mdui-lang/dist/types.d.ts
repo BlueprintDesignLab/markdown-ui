@@ -53,7 +53,42 @@ export interface ChartWidget {
     }>;
     options?: Record<string, any>;
 }
-export type Widget = TextInputWidget | ButtonGroupWidget | SelectWidget | SelectMultiWidget | SliderWidget | FormWidget | ChartWidget;
+export interface MultipleChoiceQuestionWidget {
+    type: "multiple-choice-question";
+    id?: string;
+    question: string;
+    choices: string[];
+    correctAnswer?: string;
+    showFeedback?: boolean;
+}
+export interface ShortAnswerQuestionWidget {
+    type: "short-answer-question";
+    id?: string;
+    question: string;
+    placeholder?: string;
+    correctAnswer?: string;
+    showFeedback?: boolean;
+}
+export interface QuizQuestion {
+    id: string;
+    type: "mcq" | "short-answer";
+    question: string;
+    points: number;
+    choices?: string[];
+    correctAnswer?: string;
+    placeholder?: string;
+    correctAnswers?: string[];
+}
+export interface QuizWidget {
+    type: "quiz";
+    id?: string;
+    title: string;
+    questions: QuizQuestion[];
+    showScore?: boolean;
+    showProgress?: boolean;
+    passingScore?: number;
+}
+export type Widget = TextInputWidget | ButtonGroupWidget | SelectWidget | SelectMultiWidget | SliderWidget | FormWidget | ChartWidget | MultipleChoiceQuestionWidget | ShortAnswerQuestionWidget | QuizWidget;
 export interface ParseResult {
     success: boolean;
     widget?: Widget;

@@ -134,7 +134,7 @@ form vue-quick-form "Save"
 form vue-preferences-form "Save Preferences"
   button-group theme ["Light" "Dark" "Auto"] "Auto"
   select-multi notifications [Email Push SMS In-App] [Email Push]
-  slider volume 0 100 10 50
+slider volume 0 100 10 50
 \`\`\`
 
 ---
@@ -144,7 +144,59 @@ form vue-preferences-form "Save Preferences"
 - Verify all widgets render and function correctly
 - Check responsiveness on different screen sizes`;
 
-const renderedHtml = marked.parse(comprehensiveTestMarkdown);
+// Append MCQ, SAQ, and Quiz demos matching the React suite
+const quizAndQA = `
+
+## Quiz Components
+
+### Multiple Choice Question - Basic (No feedback, great for forms/surveys)
+Simple selection without validation - perfect for collecting preferences or opinions.
+\`\`\`markdown-ui-widget
+multiple-choice-question q1 "What is the capital of France?" ["Paris" "London" "Berlin" "Madrid"]
+\`\`\`
+
+### Multiple Choice Question - With Instant Feedback (Perfect for learning/testing)
+Immediate validation with correct answer revealed - ideal for educational content.
+\`\`\`markdown-ui-widget
+multiple-choice-question q2 "Which programming language was created by Brendan Eich?" ["JavaScript" "Python" "Java" "C++"] "JavaScript" true
+\`\`\`
+
+### Short Answer Question - Basic (No validation, great with submit buttons)
+Simple text input without validation - perfect for open-ended responses in forms.
+\`\`\`markdown-ui-widget
+short-answer-question q3 "What does HTML stand for?"
+\`\`\`
+
+### Short Answer Question - With Instant Validation (Perfect for quizzes)
+Immediate feedback with correct answer checking - great for educational assessments.
+\`\`\`markdown-ui-widget
+short-answer-question q4 "What is 2 + 2?" "Enter a number" "4" true
+\`\`\`
+
+### Short Answer Question - Open Response (For surveys/feedback)
+Custom placeholder for collecting detailed responses - no right or wrong answers.
+\`\`\`markdown-ui-widget
+short-answer-question q5 "Describe your favorite programming concept" "Type your thoughts here..."
+\`\`\`
+
+## Quiz Component
+
+### JavaScript Fundamentals Quiz - Full Featured
+Complete quiz with scoring, progress tracking, and mixed question types.
+\`\`\`markdown-ui-widget
+quiz js-fundamentals "JavaScript Fundamentals Quiz"
+showScore: true
+showProgress: true  
+passingScore: 70
+
+mcq q1 "What is JavaScript?" 10 ["Programming language" "Markup language" "Database"] "Programming language"
+short-answer q2 "Name a JavaScript framework" 15 "Enter framework name" ["React" "Vue" "Angular" "Svelte"]
+mcq q3 "JavaScript is typed as?" 5 ["Static" "Dynamic" "Both"] "Dynamic"
+short-answer q4 "What does 'DOM' stand for?" 20 "Enter your answer" ["Document Object Model"]
+\`\`\`
+`;
+
+const renderedHtml = marked.parse(comprehensiveTestMarkdown + quizAndQA);
 </script>
 
 <template>
