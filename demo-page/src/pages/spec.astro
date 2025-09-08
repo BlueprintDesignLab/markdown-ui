@@ -3,9 +3,9 @@ import Layout from '../layouts/Layout.astro';
 import SpecRenderer from '../components/SpecRenderer.svelte';
 
 const specContent = `# Markdown UI Technical Specification
-**Version:** 0.2
+**Version:** 0.3
 **Status:** Alpha  
-**Date:** 10 August 2025
+**Date:** 8 September 2025
 
 ## Overview
 
@@ -83,6 +83,9 @@ chart-line [title] [height]
 chart-bar [title] [height]
 chart-pie [title] [height]
 chart-scatter [title] [height]
+multiple-choice-question id "Question" ["A" "B" ...] "Correct"? [showFeedback]
+short-answer-question id "Question" "Placeholder"? ("Answer" | ["A1" "A2" ...])? [showFeedback]
+quiz id "Title" (multi-line)
 \`\`\`
 
 **Chart Widgets (multi-line with key-value parameters and CSV data):**
@@ -127,6 +130,18 @@ form server-config "Deploy"
   text-input name "Server Name" 
   select env ["Development" "Production"] "Development"
   slider replicas 1 10 1 3
+\`\`\`
+
+Multiple Choice Question:
+
+\`\`\`
+multiple-choice-question q1 "Which planet is known as the Red Planet?" [Mars Venus Jupiter Mercury]
+\`\`\`
+
+Short Answer Question (single or multiple accepted answers):
+
+\`\`\`
+short-answer-question q2 "What does 'DOM' stand for?" "Type here" ["Document Object Model" DOM]
 \`\`\`
 
 ## Widget Event Interface
@@ -422,6 +437,100 @@ Price,Performance,Competition
 100,85,78
 150,92,85
 200,105,95
+\`\`\`
+
+### 5.11 multiple-choice-question
+
+**Purpose**: Single-select question with optional feedback
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "multiple-choice-question";
+  id?: string;
+  question: string;
+  choices: string[];
+  correctAnswer?: string;   // if omitted, shows neutral feedback
+  showFeedback?: boolean;   // default: false
+}
+\`\`\`
+
+**Event Value**: \`{ answer: string, isCorrect?: boolean }\`
+
+**DSL Example**:
+\`\`\`
+multiple-choice-question q1 "Capital of France?" [Paris Berlin Rome Madrid] Paris true
+\`\`\`
+
+### 5.12 short-answer-question
+
+**Purpose**: Free-text question supporting single or multiple accepted answers
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "short-answer-question";
+  id?: string;
+  question: string;
+  placeholder?: string;
+  correctAnswer?: string;     // single accepted answer
+  correctAnswers?: string[];  // multiple accepted answers
+  showFeedback?: boolean;     // default: false
+}
+\`\`\`
+
+Matching is case-insensitive and trimmed. If neither \`correctAnswer\` nor \`correctAnswers\` is provided, feedback is neutral (“Your answer: …”).
+
+**Event Value**: \`{ answer: string, isCorrect?: boolean }\`
+
+**DSL Examples**:
+\`\`\`
+short-answer-question q2 "What does 'DOM' stand for?" "Type here" "Document Object Model" true
+short-answer-question q3 "Name a JS framework" "Type here" [React Vue Angular Svelte] true
+\`\`\`
+
+### 5.13 quiz
+
+**Purpose**: Container for a series of questions with scoring, progress, and pass/fail
+
+**Schema**:
+\`\`\`typescript
+{
+  type: "quiz";
+  id?: string;
+  title: string;
+  questions: Array<{
+    id: string;
+    type: "mcq" | "short-answer";
+    question: string;
+    points: number;
+    // mcq
+    choices?: string[];
+    correctAnswer?: string;
+    // short-answer
+    placeholder?: string;
+    correctAnswers?: string[];
+  }>;
+  showScore?: boolean;    // default: true
+  showProgress?: boolean; // default: true
+  passingScore?: number;  // 0–100 (optional)
+}
+\`\`\`
+
+If a question omits correct answers, feedback is neutral and no points are awarded.
+
+**Event Value**: \`{ answers: Record<string, {answer, isCorrect, points, submitted}>, totalScore, maxScore, questionsAnswered, isCompleted }\`
+
+**DSL Example**:
+\`\`\`
+quiz js-fundamentals "JavaScript Fundamentals Quiz"
+showScore: true
+showProgress: true
+passingScore: 70
+mcq q1 "What is JavaScript?" 10 ["Programming language" "Markup language" "Database"] "Programming language"
+short-answer q2 "Name a JavaScript framework" 15 "Enter framework name" [React Vue Angular Svelte]
+mcq q3 "JavaScript is typed as?" 5 [Static Dynamic Both] Dynamic
+short-answer q4 "What does 'DOM' stand for?" 20 "Enter your answer" ["Document Object Model" DOM]
 \`\`\`
 
 ## Implementation Guidelines

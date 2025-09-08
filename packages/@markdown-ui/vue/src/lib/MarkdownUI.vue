@@ -31,7 +31,7 @@ if (typeof HTMLElement !== 'undefined') {
     connectedCallback() {
       const id = this.getAttribute('id') || ''
       const content = this.getAttribute('content') || ''
-      
+
       this.innerHTML = ''
       const div = document.createElement('div')
       this.appendChild(div)

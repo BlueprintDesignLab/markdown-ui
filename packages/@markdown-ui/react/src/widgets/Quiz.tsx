@@ -116,6 +116,7 @@ export const Quiz: React.FC<QuizProps> = ({
   const renderMCQQuestion = (question: QuizQuestion) => {
     const answer = answers[question.id];
     const isAnswered = answer?.submitted;
+    const hasCorrect = typeof question.correctAnswer !== 'undefined';
 
     return (
       <div key={question.id} className="quiz-question">
@@ -128,7 +129,7 @@ export const Quiz: React.FC<QuizProps> = ({
           {question.choices?.map((choice, index) => {
             let choiceClass = 'quiz-choice';
             
-            if (isAnswered) {
+            if (isAnswered && hasCorrect) {
               if (choice === question.correctAnswer) {
                 choiceClass += ' quiz-choice-correct';
               } else if (choice === answer.answer && choice !== question.correctAnswer) {
@@ -152,11 +153,17 @@ export const Quiz: React.FC<QuizProps> = ({
         </div>
 
         {isAnswered && (
-          <div className={`quiz-feedback ${answer.isCorrect ? 'correct' : 'incorrect'}`}>
-            {answer.isCorrect 
-              ? `✓ Correct! (+${answer.points} pts)` 
-              : `✗ Incorrect. The correct answer is: ${question.correctAnswer}`}
-          </div>
+          hasCorrect ? (
+            <div className={`quiz-feedback ${answer.isCorrect ? 'correct' : 'incorrect'}`}>
+              {answer.isCorrect 
+                ? `✓ Correct! (+${answer.points} pts)` 
+                : `✗ Incorrect. The correct answer is: ${question.correctAnswer}`}
+            </div>
+          ) : (
+            <div className="quiz-feedback">
+              {`You selected: ${answer.answer}`}
+            </div>
+          )
         )}
       </div>
     );
@@ -165,6 +172,7 @@ export const Quiz: React.FC<QuizProps> = ({
   const renderShortAnswerQuestion = (question: QuizQuestion) => {
     const answer = answers[question.id];
     const isAnswered = answer?.submitted;
+    const hasAnswers = (question.correctAnswers && question.correctAnswers.length > 0) || false;
     const inputValue = draftInputs[question.id] ?? '';
 
     const handleSubmit = () => {
@@ -205,8 +213,10 @@ export const Quiz: React.FC<QuizProps> = ({
             placeholder={question.placeholder || "Type your answer here..."}
             disabled={isAnswered}
             className={`quiz-input ${
-              isAnswered 
-                ? answer.isCorrect ? 'quiz-input-correct' : 'quiz-input-incorrect'
+              isAnswered
+                ? hasAnswers
+                  ? (answer.isCorrect ? 'quiz-input-correct' : 'quiz-input-incorrect')
+                  : ''
                 : ''
             }`}
           />
@@ -222,11 +232,17 @@ export const Quiz: React.FC<QuizProps> = ({
         </div>
 
         {isAnswered && (
-          <div className={`quiz-feedback ${answer.isCorrect ? 'correct' : 'incorrect'}`}>
-            {answer.isCorrect 
-              ? `✓ Correct! (+${answer.points} pts)` 
-              : `✗ Incorrect. Accepted answers: ${question.correctAnswers?.join(', ') || 'N/A'}`}
-          </div>
+          hasAnswers ? (
+            <div className={`quiz-feedback ${answer.isCorrect ? 'correct' : 'incorrect'}`}>
+              {answer.isCorrect 
+                ? `✓ Correct! (+${answer.points} pts)` 
+                : `✗ Incorrect. Accepted answers: ${question.correctAnswers?.join(', ') || 'N/A'}`}
+            </div>
+          ) : (
+            <div className="quiz-feedback">
+              {`Your answer: ${answer.answer}`}
+            </div>
+          )
         )}
       </div>
     );

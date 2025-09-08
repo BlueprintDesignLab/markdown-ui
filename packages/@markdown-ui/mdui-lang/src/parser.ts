@@ -440,7 +440,17 @@ export class DSLParser {
     };
 
     if (tokens.length > 3) widget.placeholder = tokens[3];
-    if (tokens.length > 4) widget.correctAnswer = tokens[4];
+    if (tokens.length > 4) {
+      try {
+        if (tokens[4].startsWith('[')) {
+          widget.correctAnswers = this.parseArray(tokens[4]);
+        } else {
+          widget.correctAnswer = tokens[4];
+        }
+      } catch (error) {
+        return { success: false, error: `Invalid answers value: ${error}` };
+      }
+    }
     if (tokens.length > 5) widget.showFeedback = tokens[5].toLowerCase() === 'true';
 
     return { success: true, widget };
@@ -573,9 +583,13 @@ export class DSLParser {
 
         if (questionTokens.length > 5) {
           try {
-            question.correctAnswers = this.parseArray(questionTokens[5]);
+            if (questionTokens[5].startsWith('[')) {
+              question.correctAnswers = this.parseArray(questionTokens[5]);
+            } else {
+              question.correctAnswers = [questionTokens[5]];
+            }
           } catch (error) {
-            return { success: false, error: `Invalid answers array on line ${i + 1}: ${error}` };
+            return { success: false, error: `Invalid answers value on line ${i + 1}: ${error}` };
           }
         }
 

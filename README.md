@@ -119,7 +119,7 @@ You can embed interactive UI widgets in Markdown using fenced code blocks with l
 - form id "Submit Label" (multi-line with 2-space indented fields)
 - chart-line, chart-bar, chart-pie, chart-scatter (multi-line with CSV data)
  - multiple-choice-question id "Question text" ["Choice A" "Choice B" ...] "CorrectChoice"? showFeedback?
- - short-answer-question id "Question text" "Placeholder"? "CorrectAnswer"? showFeedback?
+ - short-answer-question id "Question text" "Placeholder"? ("CorrectAnswer" | ["Answer1" "Answer2" ...])? showFeedback?
  - quiz id "Title" (multi-line)
    - Optional config lines (before questions):
      - showScore: true|false
@@ -127,7 +127,7 @@ You can embed interactive UI widgets in Markdown using fenced code blocks with l
      - passingScore: 0-100
    - Question lines (one per line):
      - mcq qId "Question text" points ["A" "B" ...] "CorrectChoice"?
-     - short-answer qId "Question text" points "Placeholder"? ["Answer1" "Answer2"]?
+     - short-answer qId "Question text" points "Placeholder"? ("Answer" | ["Answer1" "Answer2"])?
 
 **Quoting Rules:**
 - Use quotes for ANY text containing spaces: "User Name", "New York"
@@ -199,6 +199,11 @@ short-answer-question q3 "What does HTML stand for?"
 Short Answer Question (with validation):
 ```markdown-ui-widget
 short-answer-question q4 "What is 2 + 2?" "Enter a number" "4" true
+```
+
+Short Answer Question (with multiple accepted answers):
+```markdown-ui-widget
+short-answer-question q5 "Name a JS framework" "Enter a name" [React Vue Angular Svelte] true
 ```
 
 Quiz (mixed questions with scoring):

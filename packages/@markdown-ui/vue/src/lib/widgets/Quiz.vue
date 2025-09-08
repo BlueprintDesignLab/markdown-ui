@@ -37,8 +37,13 @@
               {{ choice }}
             </button>
           </div>
-          <div v-if="answers[q.id]?.submitted" :class="['quiz-feedback', answers[q.id].isCorrect ? 'correct' : 'incorrect']">
-            {{ answers[q.id].isCorrect ? `✓ Correct! (+${answers[q.id].points} pts)` : `✗ Incorrect. The correct answer is: ${q.correctAnswer}` }}
+          <div v-if="answers[q.id]?.submitted">
+            <div v-if="typeof q.correctAnswer !== 'undefined'" :class="['quiz-feedback', answers[q.id].isCorrect ? 'correct' : 'incorrect']">
+              {{ answers[q.id].isCorrect ? `✓ Correct! (+${answers[q.id].points} pts)` : `✗ Incorrect. The correct answer is: ${q.correctAnswer}` }}
+            </div>
+            <div v-else class="quiz-feedback">
+              You selected: {{ answers[q.id].answer }}
+            </div>
           </div>
         </div>
 
@@ -53,7 +58,7 @@
               :value="answers[q.id]?.submitted ? answers[q.id].answer : (draftInputs[q.id] || '')"
               :placeholder="q.placeholder || 'Type your answer here...'"
               :disabled="answers[q.id]?.submitted"
-              :class="['quiz-input', answers[q.id]?.submitted ? (answers[q.id].isCorrect ? 'quiz-input-correct' : 'quiz-input-incorrect') : '']"
+              :class="['quiz-input', answers[q.id]?.submitted ? ((q.correctAnswers && q.correctAnswers.length) ? (answers[q.id].isCorrect ? 'quiz-input-correct' : 'quiz-input-incorrect') : '') : '']"
               @input="(e: any) => !answers[q.id]?.submitted && (draftInputs[q.id] = e.target.value)"
               @keydown.enter.prevent="!answers[q.id]?.submitted && submitShort(q)"
             />
@@ -66,8 +71,13 @@
               Submit
             </button>
           </div>
-          <div v-if="answers[q.id]?.submitted" :class="['quiz-feedback', answers[q.id].isCorrect ? 'correct' : 'incorrect']">
-            {{ answers[q.id].isCorrect ? `✓ Correct! (+${answers[q.id].points} pts)` : `✗ Incorrect. Accepted answers: ${(q.correctAnswers || []).join(', ') || 'N/A'}` }}
+          <div v-if="answers[q.id]?.submitted">
+            <div v-if="q.correctAnswers && q.correctAnswers.length" :class="['quiz-feedback', answers[q.id].isCorrect ? 'correct' : 'incorrect']">
+              {{ answers[q.id].isCorrect ? `✓ Correct! (+${answers[q.id].points} pts)` : `✗ Incorrect. Accepted answers: ${(q.correctAnswers || []).join(', ') || 'N/A'}` }}
+            </div>
+            <div v-else class="quiz-feedback">
+              Your answer: {{ answers[q.id].answer }}
+            </div>
           </div>
         </div>
       </div>
@@ -186,11 +196,10 @@ function submitShort(q: QuizQuestion) {
 function mcqChoiceClass(q: QuizQuestion, choice: string) {
   const ans = answers[q.id]
   let cls = 'quiz-choice'
-  if (ans?.submitted) {
+  if (ans?.submitted && typeof q.correctAnswer !== 'undefined') {
     if (choice === q.correctAnswer) cls += ' quiz-choice-correct'
     else if (choice === ans.answer && choice !== q.correctAnswer) cls += ' quiz-choice-incorrect'
   }
   return cls
 }
 </script>
-

@@ -4,6 +4,7 @@ export interface ShortAnswerQuestionProps {
   question: string;
   placeholder?: string;
   correctAnswer?: string;
+  correctAnswers?: string[];
   showFeedback?: boolean;
   onchange: (value: { answer: string; isCorrect?: boolean }) => void;
 }
@@ -12,6 +13,7 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
   question, 
   placeholder = "Type your answer here...",
   correctAnswer,
+  correctAnswers,
   showFeedback = false,
   onchange 
 }) => {
@@ -24,8 +26,12 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
     
     setHasAnswered(true);
     
-    const correct = correctAnswer 
-      ? answer.trim().toLowerCase() === correctAnswer.toLowerCase()
+    const normalized = (correctAnswers && correctAnswers.length > 0)
+      ? correctAnswers
+      : (typeof correctAnswer === 'string' ? [correctAnswer] : undefined);
+
+    const correct = normalized
+      ? normalized.some(a => a.toLowerCase() === answer.trim().toLowerCase())
       : undefined;
     
     setIsCorrect(correct);
@@ -41,13 +47,17 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
   const getFeedbackMessage = () => {
     if (!hasAnswered || !showFeedback) return null;
     
-    if (correctAnswer === undefined) {
+    const hasAnswers = (correctAnswers && correctAnswers.length > 0) || typeof correctAnswer !== 'undefined';
+    if (!hasAnswers) {
       return `Your answer: ${answer.trim()}`;
     }
     
-    return isCorrect 
-      ? '✓ Correct!' 
-      : `✗ Incorrect. The correct answer is: ${correctAnswer}`;
+    if (correctAnswers && correctAnswers.length > 0) {
+      return isCorrect 
+        ? '✓ Correct!'
+        : `✗ Incorrect. Accepted answers: ${correctAnswers.join(', ')}`;
+    }
+    return isCorrect ? '✓ Correct!' : `✗ Incorrect. The correct answer is: ${correctAnswer}`;
   };
 
   return (

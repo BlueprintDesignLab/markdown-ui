@@ -87,7 +87,7 @@
   function mcqChoiceClass(q: QuizQuestion, choice: string) {
     const ans = answers[q.id];
     let cls = 'quiz-choice';
-    if (ans?.submitted) {
+    if (ans?.submitted && typeof q.correctAnswer !== 'undefined') {
       if (choice === q.correctAnswer) cls += ' quiz-choice-correct';
       else if (choice === ans.answer && choice !== q.correctAnswer) cls += ' quiz-choice-incorrect';
     }
@@ -129,9 +129,13 @@
             {/each}
           </div>
           {#if answers[q.id]?.submitted}
-            <div class={`quiz-feedback ${answers[q.id].isCorrect ? 'correct' : 'incorrect'}`}>
-              {answers[q.id].isCorrect ? `✓ Correct! (+${answers[q.id].points} pts)` : `✗ Incorrect. The correct answer is: ${q.correctAnswer}`}
-            </div>
+            {#if typeof q.correctAnswer !== 'undefined'}
+              <div class={`quiz-feedback ${answers[q.id].isCorrect ? 'correct' : 'incorrect'}`}>
+                {answers[q.id].isCorrect ? `✓ Correct! (+${answers[q.id].points} pts)` : `✗ Incorrect. The correct answer is: ${q.correctAnswer}`}
+              </div>
+            {:else}
+              <div class="quiz-feedback">You selected: {answers[q.id].answer}</div>
+            {/if}
           {/if}
         </div>
       {:else}
@@ -148,16 +152,20 @@
               onkeydown={(e) => { if (e.key === 'Enter' && !answers[q.id]?.submitted) submitShort(q); }}
               placeholder={q.placeholder || 'Type your answer here...'}
               disabled={answers[q.id]?.submitted}
-              class={`quiz-input ${answers[q.id]?.submitted ? (answers[q.id].isCorrect ? 'quiz-input-correct' : 'quiz-input-incorrect') : ''}`}
+              class={`quiz-input ${answers[q.id]?.submitted ? ((q.correctAnswers && q.correctAnswers.length > 0) ? (answers[q.id].isCorrect ? 'quiz-input-correct' : 'quiz-input-incorrect') : '') : ''}`}
             />
             {#if !answers[q.id]?.submitted}
               <button class="quiz-submit" onclick={() => submitShort(q)} disabled={!((draftInputs[q.id] || '').trim())}>Submit</button>
             {/if}
           </div>
           {#if answers[q.id]?.submitted}
-            <div class={`quiz-feedback ${answers[q.id].isCorrect ? 'correct' : 'incorrect'}`}>
-              {answers[q.id].isCorrect ? `✓ Correct! (+${answers[q.id].points} pts)` : `✗ Incorrect. Accepted answers: ${(q.correctAnswers || []).join(', ') || 'N/A'}`}
-            </div>
+            {#if (q.correctAnswers && q.correctAnswers.length > 0)}
+              <div class={`quiz-feedback ${answers[q.id].isCorrect ? 'correct' : 'incorrect'}`}>
+                {answers[q.id].isCorrect ? `✓ Correct! (+${answers[q.id].points} pts)` : `✗ Incorrect. Accepted answers: ${(q.correctAnswers || []).join(', ') || 'N/A'}`}
+              </div>
+            {:else}
+              <div class="quiz-feedback">Your answer: {answers[q.id].answer}</div>
+            {/if}
           {/if}
         </div>
       {/if}
@@ -176,4 +184,3 @@
     </div>
   {/if}
 </div>
-

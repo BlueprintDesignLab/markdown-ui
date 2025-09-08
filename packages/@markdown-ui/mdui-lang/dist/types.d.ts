@@ -67,6 +67,7 @@ export interface ShortAnswerQuestionWidget {
     question: string;
     placeholder?: string;
     correctAnswer?: string;
+    correctAnswers?: string[];
     showFeedback?: boolean;
 }
 export interface QuizQuestion {

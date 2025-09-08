@@ -98,6 +98,33 @@ May,58000,60000
 Jun,67000,65000
 \`\`\`
 
+## Knowledge checks
+
+Standalone multiple choice:
+
+\`\`\`markdown-ui-widget
+multiple-choice-question q1 "Which planet is known as the Red Planet?" ["Mars" "Venus" "Jupiter" "Mercury"]
+\`\`\`
+
+Standalone short answer (multiple accepted answers):
+
+\`\`\`markdown-ui-widget
+short-answer-question q2 "What does 'DOM' stand for?" "Type here" ["Document Object Model" DOM]
+\`\`\`
+
+Mini quiz with scoring and progress:
+
+\`\`\`markdown-ui-widget
+quiz js-fundamentals "JavaScript Fundamentals Quiz"
+showScore: true
+showProgress: true
+passingScore: 70
+mcq q1 "What is JavaScript?" 10 ["Programming language" "Markup language" "Database"] "Programming language"
+short-answer q2 "Name a JavaScript framework" 15 "Enter framework name" [React Vue Angular Svelte]
+mcq q3 "JavaScript is typed as?" 5 [Static Dynamic Both] Dynamic
+short-answer q4 "What does 'DOM' stand for?" 20 "Enter your answer" ["Document Object Model" DOM]
+\`\`\`
+
 ## Why it's powerful
 - Copy-paste from into an LLM system prompt and use instantly
 - Great for forms, surveys, guides, onboarding, or automating tasks

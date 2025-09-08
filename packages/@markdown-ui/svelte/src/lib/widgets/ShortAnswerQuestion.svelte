@@ -3,10 +3,11 @@
     question: string;
     placeholder?: string;
     correctAnswer?: string;
+    correctAnswers?: string[];
     showFeedback?: boolean;
     onchange: (value: { answer: string; isCorrect?: boolean }) => void;
   }
-  let { question, placeholder = 'Type your answer here...', correctAnswer = undefined, showFeedback = false, onchange }: Props = $props();
+  let { question, placeholder = 'Type your answer here...', correctAnswer = undefined, correctAnswers = undefined, showFeedback = false, onchange }: Props = $props();
   let answer = $state('');
   let hasAnswered = $state(false);
   let isCorrect: boolean | undefined = $state(undefined);
@@ -15,14 +16,19 @@
     const val = answer.trim();
     if (!val) return;
     hasAnswered = true;
-    const correct = correctAnswer ? val.toLowerCase() === correctAnswer.toLowerCase() : undefined;
+    const normalized = (correctAnswers && correctAnswers.length > 0) ? correctAnswers : (correctAnswer !== undefined ? [correctAnswer] : undefined);
+    const correct = normalized ? normalized.some(a => a.toLowerCase() === val.toLowerCase()) : undefined;
     isCorrect = correct;
     onchange({ answer: val, isCorrect: correct });
   }
 
   function feedbackMessage() {
     if (!hasAnswered || !showFeedback) return '';
-    if (correctAnswer === undefined) return `Your answer: ${answer.trim()}`;
+    const hasAnswers = (correctAnswers && correctAnswers.length > 0) || (correctAnswer !== undefined);
+    if (!hasAnswers) return `Your answer: ${answer.trim()}`;
+    if (correctAnswers && correctAnswers.length > 0) {
+      return isCorrect ? '✓ Correct!' : `✗ Incorrect. Accepted answers: ${(correctAnswers || []).join(', ')}`;
+    }
     return isCorrect ? '✓ Correct!' : `✗ Incorrect. The correct answer is: ${correctAnswer}`;
   }
 </script>
@@ -46,4 +52,3 @@
     <div class={`saq-feedback ${isCorrect ? 'correct' : 'incorrect'}`}>{feedbackMessage()}</div>
   {/if}
 </div>
-

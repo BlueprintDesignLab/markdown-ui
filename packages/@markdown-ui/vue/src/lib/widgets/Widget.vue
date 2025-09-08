@@ -38,13 +38,17 @@ const widgets = {
   'Chart': Chart,
   'Form': Form,
   'Incomplete': Incomplete,
+  // Support both PascalCase and DSL type strings for robustness
   'MultipleChoiceQuestion': MultipleChoiceQuestion,
+  'multiple-choice-question': MultipleChoiceQuestion,
   'Select': Select,
   'SelectMulti': SelectMulti,
   'ShortAnswerQuestion': ShortAnswerQuestion,
+  'short-answer-question': ShortAnswerQuestion,
   'Slider': Slider,
   'TextInput': TextInput,
-  'Quiz': Quiz
+  'Quiz': Quiz,
+  'quiz': Quiz
 }
 
 const typeMapping: Record<string, keyof typeof widgets> = {
@@ -73,8 +77,20 @@ try {
 }
 
 const WidgetComponent = computed(() => {
-  const componentType = typeMapping[parsed.type] || parsed.type
-  return widgets[componentType as keyof typeof widgets]
+  const rawType = parsed.type as string
+  const mapped = typeMapping[rawType] || rawType
+  let component = widgets[mapped as keyof typeof widgets]
+
+  // Fallback: try PascalCase from hyphen/underscore types
+  if (!component && typeof mapped === 'string') {
+    const pascal = mapped
+      .split(/[-_]/)
+      .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+      .join('')
+    component = widgets[pascal as keyof typeof widgets]
+  }
+
+  return component
 })
 
 const dispatch = (detail: any) => {

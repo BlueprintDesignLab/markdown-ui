@@ -7,6 +7,34 @@ import Layout from '../layouts/Layout.astro';
 		<div class="prose prose-zinc dark:prose-invert max-w-none">
 			<h1>Changelog</h1>
 			<p>All notable changes to markdown-ui will be documented here.</p>
+
+			<h2>v0.3.0 - Quiz & Question Widgets <span class="text-sm font-normal text-zinc-500">September 8, 2025</span></h2>
+
+			<h3>🎯 New Widgets</h3>
+			<ul>
+				<li><strong>Quiz</strong> container with scoring, progress, and pass/fail summary</li>
+				<li><strong>Multiple Choice Question</strong> (<code>multiple-choice-question</code>) with optional feedback</li>
+				<li><strong>Short Answer Question</strong> (<code>short-answer-question</code>) supporting one or many accepted answers</li>
+			</ul>
+
+			<h3>🧠 DSL Additions</h3>
+			<ul>
+				<li><code>quiz id "Title"</code> with optional config lines: <code>showScore:</code>, <code>showProgress:</code>, <code>passingScore:</code></li>
+				<li>Quiz questions use compact lines: <code>mcq</code> and <code>short-answer</code> with <code>points</code></li>
+				<li>Standalone <code>short-answer-question</code> now accepts either a single <code>"CorrectAnswer"</code> or an array <code>["A1" "A2"]</code></li>
+			</ul>
+
+			<h3>✔️ Behavior Improvements</h3>
+			<ul>
+				<li><strong>Neutral feedback</strong> when correct answers aren’t provided (no incorrect styling, shows the user’s selection/answer)</li>
+				<li>Unified case-insensitive matching for short answers across standalone and quiz</li>
+			</ul>
+
+			<h3>📚 Docs & Demos</h3>
+			<ul>
+				<li>Home page demo now includes quiz and question examples</li>
+				<li>Spec updated to version 0.3 with full schemas and DSL examples</li>
+			</ul>
 			
 			<h2>v0.2.1 - Chart Height Control <span class="text-sm font-normal text-zinc-500">September 1, 2025</span></h2>
 			

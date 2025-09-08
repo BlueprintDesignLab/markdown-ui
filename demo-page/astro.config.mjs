@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+// Note: In a pnpm workspace, aliases are not required if packages build to dist during dev.
 import react from '@astrojs/react';
 import svelte from '@astrojs/svelte';
 import vue from '@astrojs/vue';

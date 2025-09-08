@@ -35,6 +35,7 @@ interface Props {
   question: string
   placeholder?: string
   correctAnswer?: string
+  correctAnswers?: string[]
   showFeedback?: boolean
 }
 
@@ -56,8 +57,11 @@ const isCorrect = ref<boolean | undefined>(undefined)
 function submit() {
   if (!answer.value.trim()) return
   hasAnswered.value = true
-  const correct = props.correctAnswer
-    ? answer.value.trim().toLowerCase() === props.correctAnswer.toLowerCase()
+  const normalized = (props.correctAnswers && props.correctAnswers.length > 0)
+    ? props.correctAnswers
+    : (typeof props.correctAnswer === 'string' ? [props.correctAnswer] : undefined)
+  const correct = normalized
+    ? normalized.some(a => a.toLowerCase() === answer.value.trim().toLowerCase())
     : undefined
   isCorrect.value = correct
   emit('change', { answer: answer.value.trim(), isCorrect: correct })
@@ -65,8 +69,11 @@ function submit() {
 
 const feedbackMessage = computed(() => {
   if (!hasAnswered.value || !props.showFeedback) return ''
-  if (props.correctAnswer === undefined) return `Your answer: ${answer.value.trim()}`
+  const hasAnswers = (props.correctAnswers && props.correctAnswers.length > 0) || typeof props.correctAnswer !== 'undefined'
+  if (!hasAnswers) return `Your answer: ${answer.value.trim()}`
+  if (props.correctAnswers && props.correctAnswers.length > 0) {
+    return isCorrect.value ? '✓ Correct!' : `✗ Incorrect. Accepted answers: ${(props.correctAnswers || []).join(', ')}`
+  }
   return isCorrect.value ? '✓ Correct!' : `✗ Incorrect. The correct answer is: ${props.correctAnswer}`
 })
 </script>
-

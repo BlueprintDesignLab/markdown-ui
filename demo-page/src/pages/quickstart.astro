@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SpecRenderer from '../components/SpecRenderer.svelte';
+
+const quickstartMarkdown = `# Quickstart Guide
+
+> 📝 **Note**: This quickstart page was created using Markdown UI itself! This demonstrates the power of embedding interactive widgets directly in documentation.
+
+Get up and running with Markdown UI in minutes. Choose your preferred framework below.
+
+## React
+
+### Installation
+\`\`\`bash
+npm install @markdown-ui/react
+\`\`\`
+
+### Basic Usage
+\`\`\`\`javascript
+import { MarkdownUI } from '@markdown-ui/react';
+import '@markdown-ui/react/widgets.css';
+import { Marked } from 'marked';
+import { markedUiExtension } from '@markdown-ui/marked-ext';
+
+const marked = new Marked();
+marked.use(markedUiExtension);
+
+function App() {
+  const markdown = \`# Hello World
+
+This is a simple button group widget:
+
+\`\`\`markdown-ui-widget
+{ "type": "button-group", "id": "demo", "choices": ["Hello", "World"], "default": "Hello" }
+\`\`\`;
+
+  const html = marked.parse(markdown);
+
+  return <MarkdownUI html={html} onwidgetevent={(e) => console.log(e.detail)} />;
+}
+\`\`\`\`
+`;
+---
+
+<Layout title="Markdown UI - Quickstart Guide">
+  <div class="max-w-6xl mx-auto px-4 py-10 bg-white min-h-[calc(100vh-3.5rem)]">
+    <div class="prose prose-neutral max-w-none">
+      <SpecRenderer markdown={quickstartMarkdown} client:only="svelte" />
+    </div>
+  </div>
+</Layout>
