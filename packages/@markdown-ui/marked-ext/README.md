@@ -60,7 +60,7 @@ Both work identically—the extension auto-detects the format.
 ## How it works
 
 1. **Detects** `markdown-ui-widget` code blocks in your Markdown
-2. **Encodes** widget config as base64 with unique IDs
+2. **Encodes** widget config as URL-encoded JSON with unique IDs
 3. **Generates** `<markdown-ui-widget>` custom elements
 4. **Renders** with your framework (React, Svelte, Vue)
 

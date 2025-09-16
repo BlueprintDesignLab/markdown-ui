@@ -29,8 +29,8 @@ export const markedUiExtension: MarkedExtension = {
                 }
 
                 // console.log(finalPayload);
-                
-                const payload = btoa(finalPayload);
+
+                const payload = encodeURIComponent(finalPayload);
                 const id = payloadJson.id || nanoid();
 
                 return `<markdown-ui-widget id="${id}" content="${payload}"></markdown-ui-widget>\n`;

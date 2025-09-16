@@ -25,7 +25,7 @@
   let parsed = { type: "incomplete" };
 
   try {
-    parsed = JSON.parse(atob(content));
+    parsed = JSON.parse(decodeURIComponent(content));
   } catch (e) {
     // suppress intermediate states
   }
@@ -33,13 +33,20 @@
   const Cmp    = widgets[parsed.type as keyof typeof widgets];
 
   function dispatch(detail: any) {
-		$host().dispatchEvent(
-      new CustomEvent('widget-event', {
-        detail: detail,
-        bubbles: true,
-        composed: true   // let it cross the shadow-root boundary
-      })
-    );
+    try {
+      const host = $host();
+      if (host) {
+        host.dispatchEvent(
+          new CustomEvent('widget-event', {
+            detail: detail,
+            bubbles: true,
+            composed: true   // let it cross the shadow-root boundary
+          })
+        );
+      }
+    } catch (error) {
+      console.warn('Failed to dispatch widget event:', error);
+    }
 	}
 </script>
 

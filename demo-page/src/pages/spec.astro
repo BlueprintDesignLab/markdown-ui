@@ -61,12 +61,12 @@ All widget declarations MUST:
 Parsers MUST transform widget declarations into the following XML format:
 
 \`\`\`xml
-<markdown-ui-widget id="generated_id" content="base64_encoded_json_payload"></markdown-ui-widget>
+<markdown-ui-widget id="generated_id" content="url_encoded_json_payload"></markdown-ui-widget>
 \`\`\`
 
 **Attributes:**
 - \`id\`: Unique identifier (generated if not provided in JSON)
-- \`content\`: Base64-encoded original JSON payload
+- \`content\`: URL-encoded original JSON payload
 
 ### 3.4 DSL Syntax Reference
 
@@ -541,13 +541,13 @@ Parsers MUST:
 - Detect \`markdown-ui-widget\` fenced code blocks
 - Validate JSON syntax
 - Generate unique IDs when not provided
-- Encode payloads in Base64
+- Encode payloads with URL encoding
 - Convert to standardized XML format
 
 ### 6.2 Renderer Requirements
 
 Renderers MUST:
-- Parse Base64-encoded JSON payloads
+- Parse URL-encoded JSON payloads
 - Implement all standard widget types
 - Emit events conforming to the WidgetEvent interface
 - Handle malformed payloads gracefully
@@ -578,7 +578,7 @@ Standard widgets MAY accept implementation-specific properties that:
 ## Security Considerations
 
 - JSON payloads prevent code injection
-- Base64 encoding ensures safe transport
+- URL encoding ensures safe transport
 - No executable code in widget definitions
 - Event values should be sanitized by consuming applications
 

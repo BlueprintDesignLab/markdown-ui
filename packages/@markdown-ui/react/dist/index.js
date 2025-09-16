@@ -8369,7 +8369,7 @@ const fc = ({
   slider: "Slider",
   "text-input": "TextInput"
 }, xc = ({ id: i, content: t }) => {
-  const e = JSON.parse(atob(t)), s = bc[e.type] || e.type, n = mc[s], o = (r) => {
+  const e = JSON.parse(decodeURIComponent(t)), s = bc[e.type] || e.type, n = mc[s], o = (r) => {
     console.log("🔥 Widget dispatch called", { id: i, detail: r });
     const a = new CustomEvent("widget-event", {
       detail: r,

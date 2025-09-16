@@ -275,6 +275,16 @@ not indented
   });
 
   describe('tokenization edge cases', () => {
+    it('handles Chinese characters in button groups', () => {
+      const result = parseDSL('button-group language [英文 中文 日本語]');
+      expect(result.success).toBe(true);
+      expect(result.widget).toEqual({
+        type: 'button-group',
+        id: 'language',
+        choices: ['英文', '中文', '日本語']
+      });
+    });
+
     it('handles multiple spaces', () => {
       const result = parseDSL('text-input    id     "label"');
       expect(result.success).toBe(true);

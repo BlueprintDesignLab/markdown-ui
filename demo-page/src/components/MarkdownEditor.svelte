@@ -31,7 +31,12 @@
 
 	// Re-render when markdown changes
 	$effect(() => {
-		renderedHtml = marked.parse(currentMarkdown) as string;
+		try {
+			renderedHtml = marked.parse(currentMarkdown) as string;
+		} catch (error) {
+			console.warn('Failed to parse markdown:', error);
+			renderedHtml = '<p>Error parsing markdown</p>';
+		}
 		charCount = currentMarkdown.length;
 	});
 

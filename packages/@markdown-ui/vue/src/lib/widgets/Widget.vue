@@ -71,7 +71,7 @@ const typeMapping: Record<string, keyof typeof widgets> = {
 let parsed = { type: 'incomplete' }
 
 try {
-  parsed = JSON.parse(atob(props.content))
+  parsed = JSON.parse(decodeURIComponent(props.content))
 } catch (e) {
   // suppress intermediate states
 }

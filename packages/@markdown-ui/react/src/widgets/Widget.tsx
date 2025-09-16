@@ -27,7 +27,7 @@ const typeMapping: Record<string, WidgetType> = {
 };
 
 export const Widget: React.FC<WidgetProps> = ({ id, content }) => {
-  const parsed = JSON.parse(atob(content));
+  const parsed = JSON.parse(decodeURIComponent(content));
   const componentType = typeMapping[parsed.type] || parsed.type;
   const WidgetComponent = widgets[componentType as WidgetType];
 
