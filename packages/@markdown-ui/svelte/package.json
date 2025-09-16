@@ -1,5 +1,5 @@
 {
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"description": "svelte renderer for markdown-ui",
 	"name": "@markdown-ui/svelte",
 	"type": "module",

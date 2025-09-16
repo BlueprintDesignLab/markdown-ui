@@ -1,7 +1,7 @@
 {
   "name": "markdown-ui-demo",
   "type": "module",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

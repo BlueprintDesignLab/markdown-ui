@@ -1,6 +1,6 @@
 {
   "name": "@markdown-ui/react",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "React renderer for markdown-ui",
   "type": "module",
   "main": "./dist/index.js",
